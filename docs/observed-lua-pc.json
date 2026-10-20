@@ -1,0 +1,47 @@
+{
+  "observed_at": "2026-10-19T11:32:51.127514+00:00",
+  "execution": "Lua 5.3 protocol with Python socket/TLS adapter",
+  "hub_sdk_executed": false,
+  "appliance_state_written": false,
+  "state": {
+    "unit": "C",
+    "instantaneousPowerRaw": 0.0,
+    "direction": "Off",
+    "fan": 0,
+    "fineDustRaw": 5.0,
+    "power": false,
+    "monitoringRaw": "Off",
+    "autocleanRaw": "Off",
+    "humidity": 63,
+    "mode": "Auto",
+    "energyCounterRaw": "275852400",
+    "cleanLevelRaw": 1.0,
+    "superFineDustRaw": 5.0,
+    "odorRaw": 0.0,
+    "desired": 24.0,
+    "dustRaw": 5.0,
+    "windfreeRaw": "Off",
+    "temperature": 25.0,
+    "filterProgressRaw": "67"
+  },
+  "public_and_secure_identity_match": true,
+  "udp_gets": 2,
+  "tcp_gets": 2,
+  "csm": 1,
+  "tls": {
+    "version": "TLSv1.2",
+    "cipher": "ECDHE-ECDSA-AES128-GCM-SHA256",
+    "server_chain_verified": true,
+    "dns_hostname_verified": false
+  },
+  "phases": [
+    "udp-discovery",
+    "tcp-connect",
+    "tls-wrap",
+    "tls-handshake",
+    "secure-identity",
+    "batch-get"
+  ],
+  "temporary_credentials_removed": true,
+  "open_socket_count": 0
+}

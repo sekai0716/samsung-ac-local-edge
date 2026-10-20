@@ -1,0 +1,82 @@
+{
+  "id": "instantcommon43059.samsungAcLocalReservation",
+  "version": 1,
+  "name": "Samsung AC Local Reservation",
+  "status": "proposed",
+  "attributes": {
+    "onDelay": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "pattern": "^(none|0|[1-9]|[1-3][0-9]|4[0-8])$"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "value"
+        ]
+      },
+      "setter": "setOnDelay",
+      "enumCommands": []
+    },
+    "offDelay": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "pattern": "^(none|0|[1-9]|[1-3][0-9]|4[0-8])$"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "value"
+        ]
+      },
+      "setter": "setOffDelay",
+      "enumCommands": []
+    }
+  },
+  "commands": {
+    "cancelOn": {
+      "name": "cancelOn",
+      "arguments": [],
+      "sensitive": false
+    },
+    "cancelOff": {
+      "name": "cancelOff",
+      "arguments": [],
+      "sensitive": false
+    },
+    "setOnDelay": {
+      "name": "setOnDelay",
+      "arguments": [
+        {
+          "name": "delay",
+          "optional": false,
+          "schema": {
+            "type": "string",
+            "pattern": "^(none|0|[1-9]|[1-3][0-9]|4[0-8])$"
+          }
+        }
+      ],
+      "sensitive": false
+    },
+    "setOffDelay": {
+      "name": "setOffDelay",
+      "arguments": [
+        {
+          "name": "delay",
+          "optional": false,
+          "schema": {
+            "type": "string",
+            "pattern": "^(none|0|[1-9]|[1-3][0-9]|4[0-8])$"
+          }
+        }
+      ],
+      "sensitive": false
+    }
+  }
+}

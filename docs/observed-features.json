@@ -1,0 +1,106 @@
+{
+  "record_scope": "Historical snapshot for 15:10 driver; not the current implementation. Gear/AI and Auto/purify inferences below were disproven and replaced.",
+  "superseded_by": "observed-controls-v2.json",
+  "verified_at": "2026-10-19T15:12:10.283808+00:00",
+  "timezone": "Asia/Seoul",
+  "driver_version": "2026-10-19T15:10:44.56397864",
+  "installed_version_confirmed": true,
+  "approved_operational_credential_reused": true,
+  "source_profile_and_uploaded_zip_match": true,
+  "external_relay_used": false,
+  "fresh_manual_refresh_checks": {
+    "attempted": 2,
+    "succeeded": 2,
+    "fresh_runtime_outcome_each_request": true,
+    "capability_events_queued_each_request": 14,
+    "health_after_checks": "ONLINE"
+  },
+  "short_runtime_sample": {
+    "last_query_at": "2026-10-19T15:14:06.098870220Z",
+    "queries_succeeded": 6,
+    "queries_failed": 0,
+    "includes_manual_refresh_checks": true,
+    "role_collision_retries_total": 6,
+    "long_term_stability_verified": false
+  },
+  "earlier_feature_version_runtime": {
+    "driver_version": "2026-10-19T15:03:30.535306761",
+    "queries_succeeded": 5,
+    "queries_failed": 1,
+    "failure_at": "2026-10-19T15:05:41.678733767Z",
+    "failure": "TLS role-collision retry limit exhausted; unexpected EOF",
+    "next_scheduled_query_recovered_at": "2026-10-19T15:06:38.769781869Z"
+  },
+  "state_observed_in_fresh_runtime": {
+    "temperature_c": 25,
+    "relative_humidity_percent": 63,
+    "setpoint_c": 24,
+    "power": "off",
+    "mode_raw": "Auto",
+    "mode_capability": "auto",
+    "fan_capability": "auto",
+    "autoclean_setting_raw": "Off",
+    "autoclean_progress_raw": "1",
+    "stop_autoclean_raw": "Idle"
+  },
+  "mode_selection_labels_in_profile_presentation": {
+    "aIComfort": "AI 인공지능 쾌적",
+    "auto": "스마트 쾌적 (자동)",
+    "cool": "냉방",
+    "dry": "제습",
+    "wind": "청정 단독 (송풍)"
+  },
+  "ai_mode_mapping": {
+    "conclusion_status": "disproven_by_actual_Gear_4.00_rejection_and_ComfortAICooling_control",
+    "local_value": "Gear",
+    "capability_value": "aIComfort",
+    "evidence_type": "inference",
+    "confidence": "high",
+    "basis": "The same A20_FAC_BORA_18K model's Samsung OCF and local supported-mode lists have six corresponding values; aIComfort and Gear remain after excluding the non-mode HOMECARE_WIZARD_V2 flag.",
+    "physical_mode_selection_verified": false,
+    "offline_ai_learning_or_weather_implemented": false
+  },
+  "purify": {
+    "separate_switch_component": "purify",
+    "published_setting": "on",
+    "published_setting_basis": "Interpretation of Auto mode using Samsung's documented purification behavior; this is not a separate live purification sensor reading.",
+    "power_independent_setting": true,
+    "cooling_on_off_values": ["CoolClean", "Cool"],
+    "dry_on_off_values": ["DryClean", "Dry"],
+    "auto_ai_wind_off_does_not_change_mode": true,
+    "physical_purification_control_verified": false
+  },
+  "autoclean": {
+    "setting_source": "Autoclean_On/Off only",
+    "current_response": "Autoclean_Off",
+    "missing_setting_defaults_to_off": false,
+    "progress_or_idle_overrides_setting": false,
+    "factory_default_verified": false,
+    "remote_control_display_comparison_verified": false,
+    "physical_setting_control_verified": false
+  },
+  "presentation_checks": {
+    "profile_custom_labels_verified": true,
+    "dashboard_states": 1,
+    "dashboard_actions": 1,
+    "automation_conditions": 9,
+    "automation_actions": 7,
+    "setpoint_range_c": [18, 30],
+    "setpoint_step_c": 1,
+    "device_endpoint_matches_profile_presentation": false,
+    "device_endpoint_custom_labels_verified": false,
+    "smartphone_screen_verified": false
+  },
+  "local_tests": {
+    "lua_tests_passed": 67,
+    "official_capability_schema_events_validated": 41,
+    "python_tests_passed": 17
+  },
+  "agent_appliance_post_commands_sent": false,
+  "notes": [
+    "Autoclean usage setting, progress and stop-channel state are separate. Off is the appliance response, not a chosen UI default.",
+    "The purify switch represents the selected mode's purification setting even while appliance power is Off.",
+    "Generated profile labels are verified. The device-specific presentation endpoint still returned the preceding presentation, so mobile UI adoption is not claimed.",
+    "Earlier transport verification remains in observed-hub.json and is not counted as new feature-version testing."
+  ]
+}

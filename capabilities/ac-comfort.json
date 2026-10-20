@@ -1,0 +1,258 @@
+{
+  "name": "Samsung Ac Local Comfort",
+  "attributes": {
+    "preset": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "enum": [
+              "normal",
+              "speed",
+              "quiet",
+              "sleep",
+              "other"
+            ]
+          }
+        },
+        "required": [
+          "value"
+        ],
+        "additionalProperties": false
+      },
+      "enumCommands": [],
+      "setter": "setPreset"
+    },
+    "windfree": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "enum": [
+              "on",
+              "off"
+            ]
+          }
+        },
+        "required": [
+          "value"
+        ],
+        "additionalProperties": false
+      },
+      "enumCommands": [],
+      "setter": "setWindfree"
+    },
+    "purify": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "enum": [
+              "on",
+              "off"
+            ]
+          }
+        },
+        "required": [
+          "value"
+        ],
+        "additionalProperties": false
+      },
+      "enumCommands": [],
+      "setter": "setPurify"
+    },
+    "outlet": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "enum": [
+              "closed",
+              "upper",
+              "lower",
+              "both"
+            ]
+          }
+        },
+        "required": [
+          "value"
+        ],
+        "additionalProperties": false
+      },
+      "enumCommands": [],
+      "setter": "setOutlet"
+    },
+    "presetEnabled": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "enum": [
+              "enabled",
+              "disabled"
+            ]
+          }
+        },
+        "required": [
+          "value"
+        ],
+        "additionalProperties": false
+      },
+      "enumCommands": []
+    },
+    "windfreeEnabled": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "enum": [
+              "enabled",
+              "disabled"
+            ]
+          }
+        },
+        "required": [
+          "value"
+        ],
+        "additionalProperties": false
+      },
+      "enumCommands": []
+    },
+    "purifyEnabled": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "enum": [
+              "enabled",
+              "disabled"
+            ]
+          }
+        },
+        "required": [
+          "value"
+        ],
+        "additionalProperties": false
+      },
+      "enumCommands": []
+    },
+    "setpointEnabled": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "enum": [
+              "enabled",
+              "disabled"
+            ]
+          }
+        },
+        "required": [
+          "value"
+        ],
+        "additionalProperties": false
+      },
+      "enumCommands": []
+    },
+    "fanEnabled": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "enum": [
+              "enabled",
+              "disabled"
+            ]
+          }
+        },
+        "required": [
+          "value"
+        ],
+        "additionalProperties": false
+      },
+      "enumCommands": []
+    }
+  },
+  "commands": {
+    "setPreset": {
+      "name": "setPreset",
+      "sensitive": false,
+      "arguments": [
+        {
+          "name": "setting",
+          "optional": false,
+          "schema": {
+            "type": "string",
+            "enum": [
+              "normal",
+              "speed",
+              "quiet"
+            ]
+          }
+        }
+      ]
+    },
+    "setWindfree": {
+      "name": "setWindfree",
+      "sensitive": false,
+      "arguments": [
+        {
+          "name": "setting",
+          "optional": false,
+          "schema": {
+            "type": "string",
+            "enum": [
+              "on",
+              "off"
+            ]
+          }
+        }
+      ]
+    },
+    "setPurify": {
+      "name": "setPurify",
+      "sensitive": false,
+      "arguments": [
+        {
+          "name": "setting",
+          "optional": false,
+          "schema": {
+            "type": "string",
+            "enum": [
+              "on",
+              "off"
+            ]
+          }
+        }
+      ]
+    },
+    "setOutlet": {
+      "name": "setOutlet",
+      "sensitive": false,
+      "arguments": [
+        {
+          "name": "setting",
+          "optional": false,
+          "schema": {
+            "type": "string",
+            "enum": [
+              "closed",
+              "upper",
+              "lower",
+              "both"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,270 @@
+{
+  "recorded_at": "2026-10-20T02:25:39.866513+00:00",
+  "timezone": "Asia/Seoul",
+  "scope": "One owned A20_FAC_BORA_18K appliance and V3 hub; no credentials or device identifiers",
+  "deployment": {
+    "driver_version": "2026-10-20T02:25:00.101824993",
+    "exact_version_installed": true,
+    "operational_key_reused": true,
+    "certificate_expires_on": "2126-09-25",
+    "zip_matches_current_driver_sources": true,
+    "health": "ONLINE"
+  },
+  "menu_ui": {
+    "server_detail_rows": 23,
+    "new_capabilities_registered_and_verified": 4,
+    "grouped_controls": ["operation", "comfort", "reservations", "device settings", "care"],
+    "operation_controls": ["mode list", "setpoint slider", "fan list"],
+    "operation_modes": ["aIComfort", "auto", "cool", "dry", "wind"],
+    "operation_setpoint_range_celsius": [18, 30],
+    "legacy_operating_cards_removed_from_detail": true,
+    "standard_operating_capabilities_retained_for_automations": true,
+    "windfree_and_purify_toggle_switches": true,
+    "outlet_single_choice": ["closed", "upper", "lower", "both"],
+    "preset_choices": ["normal", "speed", "quiet"],
+    "reservation_cancel_via_none": true,
+    "visible_conditions_verified_in_profile_presentation": true,
+    "new_menu_events_match_existing_component_events": true,
+    "power_mode_voice_reservations_unchanged_during_update": true,
+    "final_power": "off",
+    "final_mode": "wind",
+    "final_voice": "melody",
+    "final_display": "on",
+    "final_windfree_enabled": "disabled",
+    "final_panel": "closed",
+    "final_on_delay": "none",
+    "final_off_delay": "none",
+    "appliance_write_commands_sent_in_menu_deployment_verification": false,
+    "phone_rendering_verified": false
+  },
+  "voice_display_fix": {
+    "local_raw": "Volume_Melody",
+    "expected": "melody",
+    "previous_cloud_value": "mute",
+    "previous_cloud_timestamp": "2026-10-19T16:21:29.517Z",
+    "event_order_only_change_resolved": false,
+    "explicit_state_change_event_resolved": true,
+    "final_cloud_state": {
+      "value": "melody",
+      "timestamp": "2026-10-19T16:45:18.584Z"
+    },
+    "physical_voice_setting_changed_by_test": false,
+    "initial_hub_cloud_divergence_cause": "Not established",
+    "mobile_screen_after_fix_verified": false
+  },
+  "event_delivery": {
+    "changed_values_only": true,
+    "same_value_resync_seconds": 300,
+    "minimum_interval_seconds": 0.25,
+    "explicit_state_change_capabilities": [
+      "settings",
+      "hub reservation",
+      "panel",
+      "grouped menus"
+    ],
+    "forced_events_every_poll": false,
+    "sdk_main_emit_event_drops_return_value": true,
+    "uses_emit_component_event_return_check": true,
+    "unchanged_read_emitted_events_observed": 0,
+    "historic_5_events_per_second_limit_is_not_current_firmware_proof": true
+  },
+  "native_timer_trial": {
+    "off_one_hour_raw": 2,
+    "off_two_hours_raw": 4,
+    "on_and_off_setting_and_zero_readback_observed": true,
+    "power_on_observed_after_on_cancel": true,
+    "user_confirmed_no_external_power_action": true,
+    "power_off_restored_and_confirmed": true,
+    "firmware_internal_cause": "Not established",
+    "native_timer_writes_removed": true,
+    "native_on_timer_final": 0,
+    "native_off_timer_final": 0
+  },
+  "hub_reservations": {
+    "implementation": "Persisted epoch deadline; one queued power command at expiry",
+    "selectable_delay_minutes": [
+      30,
+      1440
+    ],
+    "step_minutes": 30,
+    "setting_and_cancel_send_appliance_post": false,
+    "restore_future_after_restart": true,
+    "discard_past_after_restart": true,
+    "requires_running_hub": true,
+    "real_hub_checks": [
+      {
+        "command": "setOffDelay",
+        "expected": "2",
+        "observed": true,
+        "power": "off"
+      },
+      {
+        "command": "cancelOff",
+        "expected": "none",
+        "observed": true,
+        "power": "off"
+      },
+      {
+        "command": "setOnDelay",
+        "expected": "2",
+        "observed": true,
+        "power": "off"
+      },
+      {
+        "command": "cancelOn",
+        "expected": "none",
+        "observed": true,
+        "power": "off"
+      },
+      {
+        "command": "cancelOn",
+        "expected": "none",
+        "observed": true,
+        "power": "off"
+      },
+      {
+        "command": "cancelOff",
+        "expected": "none",
+        "observed": true,
+        "power": "off"
+      }
+    ],
+    "final_cancelled": true,
+    "power_remained_off": true,
+    "power_commands_observed_during_set_cancel": false,
+    "expiry_tests": "Mocked clock only; real appliance expiry not tested"
+  },
+  "mappings": {
+    "ai": {
+      "option": "ComfortAICooling_On/Off",
+      "pc_post_get_off_on_confirmed": true,
+      "gear_post_rejected": "4.00",
+      "ai_exit_combined_mode_post_on_hub_verified": false
+    },
+    "modes": {
+      "aIComfort": "인공지능 쾌적",
+      "auto": "스마트쾌적",
+      "cool": "냉방",
+      "dry": "제습",
+      "wind": "청정"
+    },
+    "optional_purify": {
+      "cool": "Cool/CoolClean",
+      "dry": "Dry/DryClean",
+      "separate_switch": true
+    },
+    "windfree": {
+      "requires_observed_power_on": true,
+      "requires_observed_ai_off": true,
+      "guard_checked_on_fresh_get_before_post": true,
+      "allowed_base_modes": [
+        "cool",
+        "dry",
+        "wind"
+      ],
+      "scope": "User-confirmed availability; every mode has not been physically tested"
+    },
+    "doors": {
+      "upper_only_observed": 1,
+      "both_observed": 3,
+      "lower_off_changed_3_to_1_observed": true,
+      "lower_only_2_physical_screen_verified": false
+    },
+    "lighting": {
+      "off": "Light_Off",
+      "low": "Light_Small",
+      "medium": "Light_On",
+      "high": "Light_Huge",
+      "scope": "All four user app selections compared with local GET; driver writes not physically tested"
+    },
+    "voice": {
+      "low": "Volume_33",
+      "medium": "Volume_66",
+      "high": "Volume_100",
+      "melody": "Volume_Melody",
+      "mute": "Volume_Mute",
+      "scope": "All five user selections compared with local GET; current melody cloud synchronization confirmed"
+    },
+    "displayOff": {
+      "on": "Display_On",
+      "off": "Display_Off",
+      "scope": "Both user app settings compared with local GET"
+    },
+    "speed_quiet": {
+      "tokens": [
+        "Comode_Speed",
+        "Comode_Quiet"
+      ],
+      "physical_operation_verified": false,
+      "reason": "User could not run the appliance for the trial"
+    },
+    "air_quality": {
+      "pm10_pm25_pm1_verified_value": 5,
+      "unit": "μg/m³",
+      "odor_raw_0_matches_stage_1": true,
+      "odor_other_stages_compared": false,
+      "clean_level_1_matches_good": true,
+      "other_clean_levels": "unknown"
+    },
+    "humidity_graph": {
+      "current_attribute_and_history_changes_observed": true,
+      "plot_number_aggregation_formula_verified": false,
+      "sensor_accuracy_verified": false
+    },
+    "panel": {
+      "capability": "doorControl",
+      "component": "panel",
+      "label": "바람문(패널) 열림",
+      "raw_open": "Panel_Open",
+      "raw_closed": "Panel_Close",
+      "requires_observed_power_off": true,
+      "operating_outlet_selection_is_separate": true,
+      "unknown_or_missing_is_not_closed": true,
+      "hub_checks": [
+        {
+          "command": "open",
+          "outcome": "CONFIRMED",
+          "cloud_matches": true,
+          "native": {
+            "panelRaw": "Open",
+            "panel": "open",
+            "power": false,
+            "bloomingRaw": "3",
+            "mode": "Wind"
+          }
+        },
+        {
+          "command": "close",
+          "outcome": "CONFIRMED",
+          "cloud_matches": true,
+          "native": {
+            "panelRaw": "Close",
+            "panel": "closed",
+            "power": false,
+            "bloomingRaw": "0",
+            "mode": "Wind"
+          }
+        }
+      ],
+      "final": {
+        "power": "off",
+        "panel": "closed",
+        "voice": "melody"
+      },
+      "generated_profile_presentation_label_confirmed": true,
+      "physical_motion_visually_confirmed": false
+    }
+  },
+  "verification": {
+    "lua_tests_passed": 90,
+    "schema_events_validated": 294,
+    "python_tests_passed": 17,
+    "python_tests_scope": "Passed before this operation-card update; probe and packaging paths unchanged"
+  },
+  "remaining_limits": [
+    "Long-running reliability not established",
+    "Actual reservation expiry on appliance not tested",
+    "Speed/quiet operation and all fan stages not physically tested",
+    "Cumulative energy conversion and other air-quality grades not established"
+  ]
+}

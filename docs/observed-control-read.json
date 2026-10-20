@@ -1,0 +1,73 @@
+{
+  "observed_at": "2026-10-19T11:56:38.825175+00:00",
+  "execution": "Lua 5.3 protocol with Python socket/TLS adapter",
+  "hub_sdk_executed": false,
+  "appliance_state_written": false,
+  "state": {
+    "supportedModes": [
+      "cool",
+      "dry",
+      "wind",
+      "auto",
+      "coolClean",
+      "dryClean"
+    ],
+    "fanMode": "auto",
+    "autoclean": false,
+    "mode": "Auto",
+    "windfree": false,
+    "maximum": 30.0,
+    "energyCounterRaw": "275852400",
+    "humidity": 63,
+    "fineDustRaw": 5.0,
+    "monitoringRaw": "Off",
+    "autocleanRaw": "Off",
+    "sleepRaw": "0",
+    "desiredUnit": "C",
+    "setpointPath": "/temperature/desired/0",
+    "windfreeRaw": "Off",
+    "instantaneousPowerRaw": 0.0,
+    "filterProgressRaw": "67",
+    "supportedFans": [
+      "auto",
+      "low",
+      "medium",
+      "high",
+      "turbo"
+    ],
+    "direction": "Off",
+    "temperature": 25.0,
+    "acMode": "auto",
+    "unit": "C",
+    "dustRaw": 5.0,
+    "cleanLevelRaw": 1.0,
+    "step": 1,
+    "power": false,
+    "superFineDustRaw": 5.0,
+    "desired": 24.0,
+    "odorRaw": 0.0,
+    "fan": 0,
+    "minimum": 18.0,
+    "powerWritable": true
+  },
+  "public_and_secure_identity_match": true,
+  "udp_gets": 2,
+  "tcp_gets": 2,
+  "csm": 1,
+  "tls": {
+    "version": "TLSv1.2",
+    "cipher": "ECDHE-ECDSA-AES128-GCM-SHA256",
+    "server_chain_verified": true,
+    "dns_hostname_verified": false
+  },
+  "phases": [
+    "udp-discovery",
+    "tcp-connect",
+    "tls-wrap",
+    "tls-handshake",
+    "secure-identity",
+    "batch-get"
+  ],
+  "temporary_credentials_removed": true,
+  "open_socket_count": 0
+}

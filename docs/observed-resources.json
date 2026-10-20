@@ -1,0 +1,1653 @@
+{
+  "observed_at": "2026-10-19T10:57:51.976543+00:00",
+  "device": {
+    "internal_model": "A20_FAC_BORA_18K",
+    "platform": "TizenRT2.0",
+    "manufacturer": "Samsung Electronics",
+    "resource_types": [
+      "oic.wk.d",
+      "oic.d.airconditioner"
+    ]
+  },
+  "tcp_tls_port": 43834,
+  "authenticated_read_requested": true,
+  "device_state_written": false,
+  "tls": {
+    "version": "TLSv1.2",
+    "cipher": "ECDHE-ECDSA-AES128-GCM-SHA256",
+    "server_chain_verified": true,
+    "dns_hostname_verified": false,
+    "alpn_offered": false,
+    "peer_certificate_sha256": "0f6c0b0940c2d4f7af266df2d194bb54d99ce9c52c9dcb0affcacd948c1c55ab",
+    "public_and_secure_ocf_identity_match": true
+  },
+  "batch": {
+    "code": "2.05",
+    "payload_bytes": 4861
+  },
+  "resources": {
+    "/airflow/vs/0": {
+      "x.com.samsung.da.speedLevel": "0",
+      "x.com.samsung.da.direction": "Off"
+    },
+    "/airflow/0": {
+      "speed": 0,
+      "direction": "Off"
+    },
+    "/alarms/vs/0": {
+      "x.com.samsung.da.items": [
+        {
+          "x.com.samsung.da.alarmType": "Device",
+          "x.com.samsung.da.code": "ErrorCode_OFF",
+          "x.com.samsung.da.triggeredTime": "2026-10-19T10:57:53",
+          "x.com.samsung.da.state": "Deleted"
+        },
+        {
+          "x.com.samsung.da.alarmType": "Device",
+          "x.com.samsung.da.code": "FilterAlarm_OFF",
+          "x.com.samsung.da.triggeredTime": "2026-10-19T10:57:53",
+          "x.com.samsung.da.state": "Deleted"
+        },
+        {
+          "x.com.samsung.da.alarmType": "Device",
+          "x.com.samsung.da.code": "AC_V_0002_OFF",
+          "x.com.samsung.da.triggeredTime": "2026-10-19T10:57:53",
+          "x.com.samsung.da.state": "Deleted"
+        },
+        {
+          "x.com.samsung.da.alarmType": "Device",
+          "x.com.samsung.da.code": "DA_AC_M_0004",
+          "x.com.samsung.da.triggeredTime": "2026-10-19T10:57:53",
+          "x.com.samsung.da.state": "Created"
+        }
+      ]
+    },
+    "/temperatures/vs/0": {
+      "x.com.samsung.da.items": [
+        {
+          "x.com.samsung.da.desired": "24",
+          "x.com.samsung.da.current": "25",
+          "x.com.samsung.da.maximum": "30",
+          "x.com.samsung.da.minimum": "18",
+          "x.com.samsung.da.unit": "Celsius"
+        }
+      ]
+    },
+    "/temperature/current/0": {
+      "range": [
+        18.0,
+        30.0
+      ],
+      "units": "C",
+      "temperature": 25.0
+    },
+    "/temperature/desired/0": {
+      "range": [
+        18.0,
+        30.0
+      ],
+      "units": "C",
+      "temperature": 24.0
+    },
+    "/diagnosis/vs/0": {
+      "x.com.samsung.da.diagnosisStart": "Ready"
+    },
+    "/energy/consumption/vs/0": {
+      "x.com.samsung.da.cumulativeConsumption": "100.000000",
+      "x.com.samsung.da.instantaneousPower": "0.000000",
+      "x.com.samsung.da.usageThreshold": "0.000000",
+      "x.com.samsung.da.cumulativePower": "275852400"
+    },
+    "/energy/consumption/0": {
+      "energy": 100.0,
+      "power": 0.0
+    },
+    "/mode/vs/0": {
+      "x.com.samsung.da.supportedModes": [
+        "Gear",
+        "Cool",
+        "Dry",
+        "Wind",
+        "Auto",
+        "CoolClean",
+        "DryClean",
+        "HOMECARE_WIZARD_V2"
+      ],
+      "x.com.samsung.da.modes": [
+        "Auto"
+      ],
+      "x.com.samsung.da.options": [
+        "Operation_Family",
+        "Comode_Off",
+        "Blooming_0",
+        "OnTimer_0",
+        "OffTimer_0",
+        "Sleep_0",
+        "AI_Enable",
+        "ArtificialWorking_Off",
+        "ComfortAICooling_Off",
+        "Autoclean_Off",
+        "Panel_Close",
+        "Light_Off",
+        "Smarton_LockOff",
+        "Weather_Off",
+        "Volume_Melody",
+        "VoiceSet_Enable",
+        "AirMonitoring_Off",
+        "AutocleanProgress_1",
+        "StopAutoClean_Idle",
+        "PurifiAI_Off",
+        "DiagnosisAI_Off",
+        "Display_Off",
+        "ProgressDiagnosisAI_0",
+        "ResultDiagnosisAI_Normal",
+        "OptionCode_925",
+        "ExtendOptionCode_0",
+        "UpdateAllow_NotAllowed",
+        "EnergySaveIcon_Off",
+        "Dehumidification_0",
+        "DurationOn_0",
+        "PM1Progress_67",
+        "AirpatrolInterval_0",
+        "WakeupWord_4",
+        "WelcomeCoolingState_Off"
+      ]
+    },
+    "/mode/0": {
+      "supportedModes": [
+        "Gear",
+        "Cool",
+        "Dry",
+        "Wind",
+        "Auto",
+        "CoolClean",
+        "DryClean",
+        "HOMECARE_WIZARD_V2"
+      ],
+      "modes": [
+        "Auto"
+      ]
+    },
+    "/power/vs/0": {
+      "x.com.samsung.da.power": "Off"
+    },
+    "/power/0": {
+      "value": false
+    },
+    "/sensors/vs/0": {
+      "x.com.samsung.da.items": [
+        {
+          "x.com.samsung.da.type": "CleanLevel",
+          "x.com.samsung.da.value": [
+            "1.000000"
+          ]
+        },
+        {
+          "x.com.samsung.da.type": "Odor",
+          "x.com.samsung.da.value": [
+            "0.000000"
+          ]
+        },
+        {
+          "x.com.samsung.da.type": "Dust",
+          "x.com.samsung.da.value": [
+            "5.000000",
+            "0.000000"
+          ]
+        },
+        {
+          "x.com.samsung.da.type": "FineDust",
+          "x.com.samsung.da.value": [
+            "5.000000",
+            "0.000000"
+          ]
+        },
+        {
+          "x.com.samsung.da.type": "SuperFineDust",
+          "x.com.samsung.da.value": [
+            "5.000000",
+            "0.000000"
+          ]
+        }
+      ]
+    },
+    "/file/information/vs/0": {
+      "x.com.samsung.timeoffset": "+09:00",
+      "x.com.samsung.supprtedtype": 1
+    },
+    "/configuration/vs/0": {
+      "x.com.samsung.da.region": "4113300000"
+    },
+    "/humidity/0": {
+      "humidity": 0
+    },
+    "/humidity/vs/0": {
+      "x.com.samsung.da.humidity": "0.000000",
+      "x.com.samsung.da.fivepercentHumidity": "63"
+    },
+    "/consumable/vs/0": {
+      "x.com.samsung.da.items": [
+        {
+          "x.com.samsung.da.state": "2",
+          "x.com.samsung.da.name": "FilterProgress"
+        }
+      ]
+    },
+    "/drlc/0": {
+      "DRLevel": 0,
+      "start": "1970-01-01T00:00:00Z",
+      "duration": 0,
+      "override": false
+    },
+    "/drlc/vs/0": {
+      "x.com.samsung.da.drlcLevel": "0",
+      "x.com.samsung.da.duration": "00:00:00",
+      "x.com.samsung.da.drlcStartTime": "1970-01-01T00:00:00Z",
+      "x.com.samsung.da.override": "Off"
+    }
+  },
+  "resource_fields": {
+    "/airflow/vs/0": [
+      "x.com.samsung.da.direction",
+      "x.com.samsung.da.speedLevel"
+    ],
+    "/airflow/0": [
+      "direction",
+      "speed"
+    ],
+    "/alarms/vs/0": [
+      "x.com.samsung.da.items"
+    ],
+    "/temperatures/vs/0": [
+      "x.com.samsung.da.items"
+    ],
+    "/temperature/current/0": [
+      "range",
+      "temperature",
+      "units"
+    ],
+    "/temperature/desired/0": [
+      "range",
+      "temperature",
+      "units"
+    ],
+    "/diagnosis/vs/0": [
+      "x.com.samsung.da.diagnosisStart"
+    ],
+    "/energy/consumption/vs/0": [
+      "x.com.samsung.da.cumulativeConsumption",
+      "x.com.samsung.da.cumulativePower",
+      "x.com.samsung.da.instantaneousPower",
+      "x.com.samsung.da.usageThreshold"
+    ],
+    "/energy/consumption/0": [
+      "energy",
+      "power"
+    ],
+    "/mode/vs/0": [
+      "x.com.samsung.da.modes",
+      "x.com.samsung.da.options",
+      "x.com.samsung.da.supportedModes"
+    ],
+    "/mode/0": [
+      "modes",
+      "supportedModes"
+    ],
+    "/power/vs/0": [
+      "x.com.samsung.da.power"
+    ],
+    "/power/0": [
+      "value"
+    ],
+    "/sensors/vs/0": [
+      "x.com.samsung.da.items"
+    ],
+    "/file/information/vs/0": [
+      "x.com.samsung.supprtedtype",
+      "x.com.samsung.timeoffset"
+    ],
+    "/configuration/vs/0": [
+      "x.com.samsung.da.region"
+    ],
+    "/humidity/0": [
+      "humidity"
+    ],
+    "/humidity/vs/0": [
+      "x.com.samsung.da.fivepercentHumidity",
+      "x.com.samsung.da.humidity"
+    ],
+    "/consumable/vs/0": [
+      "x.com.samsung.da.items"
+    ],
+    "/drlc/0": [
+      "DRLevel",
+      "duration",
+      "override",
+      "start"
+    ],
+    "/drlc/vs/0": [
+      "x.com.samsung.da.drlcLevel",
+      "x.com.samsung.da.drlcStartTime",
+      "x.com.samsung.da.duration",
+      "x.com.samsung.da.override"
+    ]
+  },
+  "advertised_state_paths": [
+    "/airflow/0",
+    "/airflow/vs/0",
+    "/alarms/vs/0",
+    "/configuration/vs/0",
+    "/consumable/vs/0",
+    "/diagnosis/vs/0",
+    "/drlc/0",
+    "/drlc/vs/0",
+    "/energy/consumption/0",
+    "/energy/consumption/vs/0",
+    "/file/information/vs/0",
+    "/humidity/0",
+    "/humidity/vs/0",
+    "/mode/0",
+    "/mode/vs/0",
+    "/power/0",
+    "/power/vs/0",
+    "/sensors/vs/0",
+    "/temperature/current/0",
+    "/temperature/desired/0",
+    "/temperatures/vs/0"
+  ],
+  "resource_directory": {
+    "code": "2.05",
+    "payload_bytes": 8970
+  },
+  "individual_reads": {
+    "advertised_path_count": 76,
+    "attempted_path_count": 65,
+    "excluded_path_count": 11,
+    "excluded_paths": [
+      {
+        "path": "/CoapCloudConfResURI",
+        "reason": "outside_application_state_scope"
+      },
+      {
+        "path": "/DevConfResURI",
+        "reason": "outside_application_state_scope"
+      },
+      {
+        "path": "/EasySetupResURI",
+        "reason": "outside_application_state_scope"
+      },
+      {
+        "path": "/WiFiConfResURI",
+        "reason": "outside_application_state_scope"
+      },
+      {
+        "path": "/oic/d",
+        "reason": "outside_application_state_scope"
+      },
+      {
+        "path": "/oic/p",
+        "reason": "outside_application_state_scope"
+      },
+      {
+        "path": "/oic/sec/doxm",
+        "reason": "outside_application_state_scope"
+      },
+      {
+        "path": "/oic/sec/pstat",
+        "reason": "outside_application_state_scope"
+      },
+      {
+        "path": "/sec/accesspointlist",
+        "reason": "outside_application_state_scope"
+      },
+      {
+        "path": "/sec/devices",
+        "reason": "outside_application_state_scope"
+      },
+      {
+        "path": "/sec/provisioninginfo",
+        "reason": "outside_application_state_scope"
+      }
+    ],
+    "results": {
+      "/actions/vs/0": {
+        "code": "2.05",
+        "payload_bytes": 2,
+        "empty_representation": true,
+        "fields": [],
+        "values": {},
+        "values_filtered": true
+      },
+      "/actions/vs/1": {
+        "code": "2.05",
+        "payload_bytes": 2,
+        "empty_representation": true,
+        "fields": [],
+        "values": {},
+        "values_filtered": true
+      },
+      "/airflow/0": {
+        "code": "2.05",
+        "payload_bytes": 23,
+        "empty_representation": false,
+        "fields": [
+          "direction",
+          "speed"
+        ],
+        "values": {
+          "speed": 0,
+          "direction": "Off"
+        },
+        "values_filtered": true
+      },
+      "/airflow/1": {
+        "code": "2.05",
+        "payload_bytes": 2,
+        "empty_representation": true,
+        "fields": [],
+        "values": {},
+        "values_filtered": true
+      },
+      "/airflow/vs/0": {
+        "code": "2.05",
+        "payload_bytes": 65,
+        "empty_representation": false,
+        "fields": [
+          "x.com.samsung.da.direction",
+          "x.com.samsung.da.speedLevel"
+        ],
+        "values": {
+          "x.com.samsung.da.speedLevel": "0",
+          "x.com.samsung.da.direction": "Off"
+        },
+        "values_filtered": true
+      },
+      "/airflow/vs/1": {
+        "code": "2.05",
+        "payload_bytes": 2,
+        "empty_representation": true,
+        "fields": [],
+        "values": {},
+        "values_filtered": true
+      },
+      "/alarms/vs/0": {
+        "code": "2.05",
+        "payload_bytes": 883,
+        "empty_representation": false,
+        "fields": [
+          "x.com.samsung.da.items"
+        ],
+        "item_fields": [
+          "x.com.samsung.da.alarmType",
+          "x.com.samsung.da.code",
+          "x.com.samsung.da.description",
+          "x.com.samsung.da.id",
+          "x.com.samsung.da.state",
+          "x.com.samsung.da.triggeredTime"
+        ],
+        "values": {
+          "x.com.samsung.da.items": [
+            {
+              "x.com.samsung.da.alarmType": "Device",
+              "x.com.samsung.da.code": "ErrorCode_OFF",
+              "x.com.samsung.da.triggeredTime": "2026-10-19T10:57:54",
+              "x.com.samsung.da.state": "Deleted"
+            },
+            {
+              "x.com.samsung.da.alarmType": "Device",
+              "x.com.samsung.da.code": "FilterAlarm_OFF",
+              "x.com.samsung.da.triggeredTime": "2026-10-19T10:57:54",
+              "x.com.samsung.da.state": "Deleted"
+            },
+            {
+              "x.com.samsung.da.alarmType": "Device",
+              "x.com.samsung.da.code": "AC_V_0002_OFF",
+              "x.com.samsung.da.triggeredTime": "2026-10-19T10:57:54",
+              "x.com.samsung.da.state": "Deleted"
+            },
+            {
+              "x.com.samsung.da.alarmType": "Device",
+              "x.com.samsung.da.code": "DA_AC_M_0004",
+              "x.com.samsung.da.triggeredTime": "2026-10-19T10:57:54",
+              "x.com.samsung.da.state": "Created"
+            }
+          ]
+        },
+        "values_filtered": true
+      },
+      "/alarms/vs/1": {
+        "code": "2.05",
+        "payload_bytes": 2,
+        "empty_representation": true,
+        "fields": [],
+        "values": {},
+        "values_filtered": true
+      },
+      "/bixby/0": {
+        "code": "5.00",
+        "payload_bytes": 0
+      },
+      "/bixby/1": {
+        "code": "5.00",
+        "payload_bytes": 0
+      },
+      "/configuration/vs/0": {
+        "code": "2.05",
+        "payload_bytes": 37,
+        "empty_representation": false,
+        "fields": [
+          "x.com.samsung.da.region"
+        ],
+        "values": {
+          "x.com.samsung.da.region": "4113300000"
+        },
+        "values_filtered": true
+      },
+      "/configuration/vs/1": {
+        "code": "2.05",
+        "payload_bytes": 37,
+        "empty_representation": false,
+        "fields": [
+          "x.com.samsung.da.region"
+        ],
+        "values": {
+          "x.com.samsung.da.region": "4113300000"
+        },
+        "values_filtered": true
+      },
+      "/consumable/vs/0": {
+        "code": "2.05",
+        "payload_bytes": 90,
+        "empty_representation": false,
+        "fields": [
+          "x.com.samsung.da.items"
+        ],
+        "item_fields": [
+          "x.com.samsung.da.name",
+          "x.com.samsung.da.state"
+        ],
+        "values": {
+          "x.com.samsung.da.items": [
+            {
+              "x.com.samsung.da.state": "2",
+              "x.com.samsung.da.name": "FilterProgress"
+            }
+          ]
+        },
+        "values_filtered": true
+      },
+      "/consumable/vs/1": {
+        "code": "2.05",
+        "payload_bytes": 90,
+        "empty_representation": false,
+        "fields": [
+          "x.com.samsung.da.items"
+        ],
+        "item_fields": [
+          "x.com.samsung.da.name",
+          "x.com.samsung.da.state"
+        ],
+        "values": {
+          "x.com.samsung.da.items": [
+            {
+              "x.com.samsung.da.state": "2",
+              "x.com.samsung.da.name": "FilterProgress"
+            }
+          ]
+        },
+        "values_filtered": true
+      },
+      "/device/0": {
+        "code": "2.05",
+        "payload_bytes": 4863,
+        "empty_representation": false,
+        "collection_resources": {
+          "/airflow/vs/0": {
+            "x.com.samsung.da.speedLevel": "0",
+            "x.com.samsung.da.direction": "Off"
+          },
+          "/airflow/0": {
+            "speed": 0,
+            "direction": "Off"
+          },
+          "/alarms/vs/0": {
+            "x.com.samsung.da.items": [
+              {
+                "x.com.samsung.da.alarmType": "Device",
+                "x.com.samsung.da.code": "ErrorCode_OFF",
+                "x.com.samsung.da.triggeredTime": "2026-10-19T10:57:56",
+                "x.com.samsung.da.state": "Deleted"
+              },
+              {
+                "x.com.samsung.da.alarmType": "Device",
+                "x.com.samsung.da.code": "FilterAlarm_OFF",
+                "x.com.samsung.da.triggeredTime": "2026-10-19T10:57:56",
+                "x.com.samsung.da.state": "Deleted"
+              },
+              {
+                "x.com.samsung.da.alarmType": "Device",
+                "x.com.samsung.da.code": "AC_V_0002_OFF",
+                "x.com.samsung.da.triggeredTime": "2026-10-19T10:57:56",
+                "x.com.samsung.da.state": "Deleted"
+              },
+              {
+                "x.com.samsung.da.alarmType": "Device",
+                "x.com.samsung.da.code": "DA_AC_M_0004",
+                "x.com.samsung.da.triggeredTime": "2026-10-19T10:57:56",
+                "x.com.samsung.da.state": "Created"
+              }
+            ]
+          },
+          "/temperatures/vs/0": {
+            "x.com.samsung.da.items": [
+              {
+                "x.com.samsung.da.desired": "24",
+                "x.com.samsung.da.current": "25",
+                "x.com.samsung.da.maximum": "30",
+                "x.com.samsung.da.minimum": "18",
+                "x.com.samsung.da.unit": "Celsius"
+              }
+            ]
+          },
+          "/temperature/current/0": {
+            "range": [
+              18.0,
+              30.0
+            ],
+            "units": "C",
+            "temperature": 25.0
+          },
+          "/temperature/desired/0": {
+            "range": [
+              18.0,
+              30.0
+            ],
+            "units": "C",
+            "temperature": 24.0
+          },
+          "/diagnosis/vs/0": {
+            "x.com.samsung.da.diagnosisStart": "Ready"
+          },
+          "/energy/consumption/vs/0": {
+            "x.com.samsung.da.cumulativeConsumption": "100.000000",
+            "x.com.samsung.da.instantaneousPower": "0.000000",
+            "x.com.samsung.da.usageThreshold": "0.000000",
+            "x.com.samsung.da.cumulativePower": "275852400"
+          },
+          "/energy/consumption/0": {
+            "energy": 100.0,
+            "power": 0.0
+          },
+          "/mode/vs/0": {
+            "x.com.samsung.da.supportedModes": [
+              "Gear",
+              "Cool",
+              "Dry",
+              "Wind",
+              "Auto",
+              "CoolClean",
+              "DryClean",
+              "HOMECARE_WIZARD_V2"
+            ],
+            "x.com.samsung.da.modes": [
+              "Auto"
+            ],
+            "x.com.samsung.da.options": [
+              "Operation_Family",
+              "Comode_Off",
+              "Blooming_0",
+              "OnTimer_0",
+              "OffTimer_0",
+              "Sleep_0",
+              "AI_Enable",
+              "ArtificialWorking_Off",
+              "ComfortAICooling_Off",
+              "Autoclean_Off",
+              "Panel_Close",
+              "Light_Off",
+              "Smarton_LockOff",
+              "Weather_Off",
+              "Volume_Melody",
+              "VoiceSet_Enable",
+              "AirMonitoring_Off",
+              "AutocleanProgress_1",
+              "StopAutoClean_Idle",
+              "PurifiAI_Off",
+              "DiagnosisAI_Off",
+              "Display_Off",
+              "ProgressDiagnosisAI_0",
+              "ResultDiagnosisAI_Normal",
+              "OptionCode_925",
+              "ExtendOptionCode_0",
+              "UpdateAllow_NotAllowed",
+              "EnergySaveIcon_Off",
+              "Dehumidification_0",
+              "DurationOn_0",
+              "PM1Progress_67",
+              "AirpatrolInterval_0",
+              "WakeupWord_4",
+              "WelcomeCoolingState_Off"
+            ]
+          },
+          "/mode/0": {
+            "supportedModes": [
+              "Gear",
+              "Cool",
+              "Dry",
+              "Wind",
+              "Auto",
+              "CoolClean",
+              "DryClean",
+              "HOMECARE_WIZARD_V2"
+            ],
+            "modes": [
+              "Auto"
+            ]
+          },
+          "/power/vs/0": {
+            "x.com.samsung.da.power": "Off"
+          },
+          "/power/0": {
+            "value": false
+          },
+          "/sensors/vs/0": {
+            "x.com.samsung.da.items": [
+              {
+                "x.com.samsung.da.type": "CleanLevel",
+                "x.com.samsung.da.value": [
+                  "1.000000"
+                ]
+              },
+              {
+                "x.com.samsung.da.type": "Odor",
+                "x.com.samsung.da.value": [
+                  "0.000000"
+                ]
+              },
+              {
+                "x.com.samsung.da.type": "Dust",
+                "x.com.samsung.da.value": [
+                  "5.000000",
+                  "0.000000"
+                ]
+              },
+              {
+                "x.com.samsung.da.type": "FineDust",
+                "x.com.samsung.da.value": [
+                  "5.000000",
+                  "0.000000"
+                ]
+              },
+              {
+                "x.com.samsung.da.type": "SuperFineDust",
+                "x.com.samsung.da.value": [
+                  "5.000000",
+                  "0.000000"
+                ]
+              }
+            ]
+          },
+          "/file/information/vs/0": {
+            "x.com.samsung.timeoffset": "+09:00",
+            "x.com.samsung.supprtedtype": 1
+          },
+          "/configuration/vs/0": {
+            "x.com.samsung.da.region": "4113300000"
+          },
+          "/humidity/0": {
+            "humidity": 0
+          },
+          "/humidity/vs/0": {
+            "x.com.samsung.da.humidity": "0.000000",
+            "x.com.samsung.da.fivepercentHumidity": "63"
+          },
+          "/consumable/vs/0": {
+            "x.com.samsung.da.items": [
+              {
+                "x.com.samsung.da.state": "2",
+                "x.com.samsung.da.name": "FilterProgress"
+              }
+            ]
+          },
+          "/drlc/0": {
+            "DRLevel": 0,
+            "start": "1970-01-01T00:00:00Z",
+            "duration": 0,
+            "override": false
+          },
+          "/drlc/vs/0": {
+            "x.com.samsung.da.drlcLevel": "0",
+            "x.com.samsung.da.duration": "00:00:00",
+            "x.com.samsung.da.drlcStartTime": "1970-01-01T00:00:00Z",
+            "x.com.samsung.da.override": "Off"
+          }
+        }
+      },
+      "/device/1": {
+        "code": "2.05",
+        "payload_bytes": 1187,
+        "empty_representation": false,
+        "collection_resources": {
+          "/airflow/vs/1": {},
+          "/airflow/1": {},
+          "/alarms/vs/1": {},
+          "/temperatures/vs/1": {
+            "x.com.samsung.da.items": [
+              {}
+            ]
+          },
+          "/temperature/current/1": {},
+          "/temperature/desired/1": {},
+          "/mode/vs/1": {},
+          "/mode/1": {},
+          "/power/vs/1": {},
+          "/power/1": {},
+          "/configuration/vs/1": {
+            "x.com.samsung.da.region": "4113300000"
+          },
+          "/humidity/1": {},
+          "/humidity/vs/1": {},
+          "/consumable/vs/1": {
+            "x.com.samsung.da.items": [
+              {}
+            ]
+          },
+          "/drlc/1": {
+            "DRLevel": 0,
+            "start": "1970-01-01T00:00:00Z",
+            "duration": 0,
+            "override": false
+          },
+          "/drlc/vs/1": {
+            "x.com.samsung.da.drlcLevel": "0",
+            "x.com.samsung.da.duration": "00:00:00",
+            "x.com.samsung.da.drlcStartTime": "1970-01-01T00:00:00Z",
+            "x.com.samsung.da.override": "Off"
+          }
+        }
+      },
+      "/diagnosis/vs/0": {
+        "code": "2.05",
+        "payload_bytes": 41,
+        "empty_representation": false,
+        "fields": [
+          "x.com.samsung.da.diagnosisStart"
+        ],
+        "values": {
+          "x.com.samsung.da.diagnosisStart": "Ready"
+        },
+        "values_filtered": true
+      },
+      "/diagnosis/vs/1": {
+        "code": "2.05",
+        "payload_bytes": 2,
+        "empty_representation": true,
+        "fields": [],
+        "values": {},
+        "values_filtered": true
+      },
+      "/drlc/0": {
+        "code": "2.05",
+        "payload_bytes": 58,
+        "empty_representation": false,
+        "fields": [
+          "DRLevel",
+          "duration",
+          "override",
+          "start"
+        ],
+        "values": {
+          "DRLevel": 0,
+          "start": "1970-01-01T00:00:00Z",
+          "duration": 0,
+          "override": false
+        },
+        "values_filtered": true
+      },
+      "/drlc/1": {
+        "code": "2.05",
+        "payload_bytes": 58,
+        "empty_representation": false,
+        "fields": [
+          "DRLevel",
+          "duration",
+          "override",
+          "start"
+        ],
+        "values": {
+          "DRLevel": 0,
+          "start": "1970-01-01T00:00:00Z",
+          "duration": 0,
+          "override": false
+        },
+        "values_filtered": true
+      },
+      "/drlc/vs/0": {
+        "code": "2.05",
+        "payload_bytes": 152,
+        "empty_representation": false,
+        "fields": [
+          "x.com.samsung.da.drlcLevel",
+          "x.com.samsung.da.drlcStartTime",
+          "x.com.samsung.da.duration",
+          "x.com.samsung.da.override"
+        ],
+        "values": {
+          "x.com.samsung.da.drlcLevel": "0",
+          "x.com.samsung.da.duration": "00:00:00",
+          "x.com.samsung.da.drlcStartTime": "1970-01-01T00:00:00Z",
+          "x.com.samsung.da.override": "Off"
+        },
+        "values_filtered": true
+      },
+      "/drlc/vs/1": {
+        "code": "2.05",
+        "payload_bytes": 152,
+        "empty_representation": false,
+        "fields": [
+          "x.com.samsung.da.drlcLevel",
+          "x.com.samsung.da.drlcStartTime",
+          "x.com.samsung.da.duration",
+          "x.com.samsung.da.override"
+        ],
+        "values": {
+          "x.com.samsung.da.drlcLevel": "0",
+          "x.com.samsung.da.duration": "00:00:00",
+          "x.com.samsung.da.drlcStartTime": "1970-01-01T00:00:00Z",
+          "x.com.samsung.da.override": "Off"
+        },
+        "values_filtered": true
+      },
+      "/energy/consumption/0": {
+        "code": "2.05",
+        "payload_bytes": 33,
+        "empty_representation": false,
+        "fields": [
+          "energy",
+          "power"
+        ],
+        "values": {
+          "energy": 100.0,
+          "power": 0.0
+        },
+        "values_filtered": true
+      },
+      "/energy/consumption/1": {
+        "code": "2.05",
+        "payload_bytes": 2,
+        "empty_representation": true,
+        "fields": [],
+        "values": {},
+        "values_filtered": true
+      },
+      "/energy/consumption/vs/0": {
+        "code": "2.05",
+        "payload_bytes": 185,
+        "empty_representation": false,
+        "fields": [
+          "x.com.samsung.da.cumulativeConsumption",
+          "x.com.samsung.da.cumulativePower",
+          "x.com.samsung.da.instantaneousPower",
+          "x.com.samsung.da.usageThreshold"
+        ],
+        "values": {
+          "x.com.samsung.da.cumulativeConsumption": "100.000000",
+          "x.com.samsung.da.instantaneousPower": "0.000000",
+          "x.com.samsung.da.usageThreshold": "0.000000",
+          "x.com.samsung.da.cumulativePower": "275852400"
+        },
+        "values_filtered": true
+      },
+      "/energy/consumption/vs/1": {
+        "code": "2.05",
+        "payload_bytes": 2,
+        "empty_representation": true,
+        "fields": [],
+        "values": {},
+        "values_filtered": true
+      },
+      "/file/information/vs/0": {
+        "code": "2.05",
+        "payload_bytes": 64,
+        "empty_representation": false,
+        "fields": [
+          "x.com.samsung.supprtedtype",
+          "x.com.samsung.timeoffset"
+        ],
+        "values": {
+          "x.com.samsung.timeoffset": "+09:00",
+          "x.com.samsung.supprtedtype": 1
+        },
+        "values_filtered": true
+      },
+      "/file/information/vs/1": {
+        "code": "2.05",
+        "payload_bytes": 64,
+        "empty_representation": false,
+        "fields": [
+          "x.com.samsung.supprtedtype",
+          "x.com.samsung.timeoffset"
+        ],
+        "values": {
+          "x.com.samsung.timeoffset": "+09:00",
+          "x.com.samsung.supprtedtype": 1
+        },
+        "values_filtered": true
+      },
+      "/file/list/vs/0": {
+        "code": "2.05",
+        "payload_bytes": 141,
+        "empty_representation": false,
+        "fields": [
+          "x.com.samsung.items"
+        ],
+        "values": {},
+        "values_filtered": true
+      },
+      "/file/list/vs/1": {
+        "code": "2.05",
+        "payload_bytes": 141,
+        "empty_representation": false,
+        "fields": [
+          "x.com.samsung.items"
+        ],
+        "values": {},
+        "values_filtered": true
+      },
+      "/file/transfer/chunk/vs/0": {
+        "code": "4.05",
+        "payload_bytes": 0
+      },
+      "/file/transfer/chunk/vs/1": {
+        "code": "4.05",
+        "payload_bytes": 0
+      },
+      "/file/transfer/vs/0": {
+        "code": "2.05",
+        "payload_bytes": 1772,
+        "empty_representation": false,
+        "fields": [
+          "x.com.samsung.items"
+        ],
+        "values": {},
+        "values_filtered": true
+      },
+      "/file/transfer/vs/1": {
+        "code": "2.05",
+        "payload_bytes": 1772,
+        "empty_representation": false,
+        "fields": [
+          "x.com.samsung.items"
+        ],
+        "values": {},
+        "values_filtered": true
+      },
+      "/hass/command/vs/0": {
+        "code": "4.04",
+        "payload_bytes": 0
+      },
+      "/hass/command/vs/1": {
+        "code": "4.04",
+        "payload_bytes": 0
+      },
+      "/hass/state/vs/0": {
+        "code": "2.05",
+        "payload_bytes": 132,
+        "empty_representation": false,
+        "fields": [
+          "x.com.samsung.da.fileTransResult",
+          "x.com.samsung.da.hassClosed",
+          "x.com.samsung.da.hassResult",
+          "x.com.samsung.da.hassUpdateReady"
+        ],
+        "values": {
+          "x.com.samsung.da.hassResult": 0,
+          "x.com.samsung.da.hassClosed": 1,
+          "x.com.samsung.da.fileTransResult": 0,
+          "x.com.samsung.da.hassUpdateReady": 0
+        },
+        "values_filtered": true
+      },
+      "/hass/state/vs/1": {
+        "code": "2.05",
+        "payload_bytes": 132,
+        "empty_representation": false,
+        "fields": [
+          "x.com.samsung.da.fileTransResult",
+          "x.com.samsung.da.hassClosed",
+          "x.com.samsung.da.hassResult",
+          "x.com.samsung.da.hassUpdateReady"
+        ],
+        "values": {
+          "x.com.samsung.da.hassResult": 0,
+          "x.com.samsung.da.hassClosed": 1,
+          "x.com.samsung.da.fileTransResult": 0,
+          "x.com.samsung.da.hassUpdateReady": 0
+        },
+        "values_filtered": true
+      },
+      "/humidity/0": {
+        "code": "2.05",
+        "payload_bytes": 12,
+        "empty_representation": false,
+        "fields": [
+          "humidity"
+        ],
+        "values": {
+          "humidity": 0
+        },
+        "values_filtered": true
+      },
+      "/humidity/1": {
+        "code": "2.05",
+        "payload_bytes": 2,
+        "empty_representation": true,
+        "fields": [],
+        "values": {},
+        "values_filtered": true
+      },
+      "/humidity/vs/0": {
+        "code": "2.05",
+        "payload_bytes": 79,
+        "empty_representation": false,
+        "fields": [
+          "x.com.samsung.da.fivepercentHumidity",
+          "x.com.samsung.da.humidity"
+        ],
+        "values": {
+          "x.com.samsung.da.humidity": "0.000000",
+          "x.com.samsung.da.fivepercentHumidity": "63"
+        },
+        "values_filtered": true
+      },
+      "/humidity/vs/1": {
+        "code": "2.05",
+        "payload_bytes": 2,
+        "empty_representation": true,
+        "fields": [],
+        "values": {},
+        "values_filtered": true
+      },
+      "/information/vs/0": {
+        "code": "2.05",
+        "payload_bytes": 574,
+        "empty_representation": false,
+        "fields": [
+          "x.com.samsung.da.description",
+          "x.com.samsung.da.items",
+          "x.com.samsung.da.modelNum",
+          "x.com.samsung.da.otnDUID",
+          "x.com.samsung.da.serialNum"
+        ],
+        "item_fields": [
+          "x.com.samsung.da.description",
+          "x.com.samsung.da.id",
+          "x.com.samsung.da.newVersionAvailable",
+          "x.com.samsung.da.number",
+          "x.com.samsung.da.type"
+        ],
+        "values": {},
+        "values_filtered": true
+      },
+      "/information/vs/1": {
+        "code": "2.05",
+        "payload_bytes": 364,
+        "empty_representation": false,
+        "fields": [
+          "x.com.samsung.da.description",
+          "x.com.samsung.da.items",
+          "x.com.samsung.da.modelNum",
+          "x.com.samsung.da.otnDUID",
+          "x.com.samsung.da.serialNum"
+        ],
+        "item_fields": [
+          "x.com.samsung.da.description",
+          "x.com.samsung.da.id",
+          "x.com.samsung.da.newVersionAvailable",
+          "x.com.samsung.da.number",
+          "x.com.samsung.da.type"
+        ],
+        "values": {},
+        "values_filtered": true
+      },
+      "/mode/0": {
+        "code": "2.05",
+        "payload_bytes": 92,
+        "empty_representation": false,
+        "fields": [
+          "modes",
+          "supportedModes"
+        ],
+        "values": {
+          "supportedModes": [
+            "Gear",
+            "Cool",
+            "Dry",
+            "Wind",
+            "Auto",
+            "CoolClean",
+            "DryClean",
+            "HOMECARE_WIZARD_V2"
+          ],
+          "modes": [
+            "Auto"
+          ]
+        },
+        "values_filtered": true
+      },
+      "/mode/1": {
+        "code": "2.05",
+        "payload_bytes": 2,
+        "empty_representation": true,
+        "fields": [],
+        "values": {},
+        "values_filtered": true
+      },
+      "/mode/vs/0": {
+        "code": "2.05",
+        "payload_bytes": 755,
+        "empty_representation": false,
+        "fields": [
+          "x.com.samsung.da.modes",
+          "x.com.samsung.da.options",
+          "x.com.samsung.da.supportedModes"
+        ],
+        "values": {
+          "x.com.samsung.da.supportedModes": [
+            "Gear",
+            "Cool",
+            "Dry",
+            "Wind",
+            "Auto",
+            "CoolClean",
+            "DryClean",
+            "HOMECARE_WIZARD_V2"
+          ],
+          "x.com.samsung.da.modes": [
+            "Auto"
+          ],
+          "x.com.samsung.da.options": [
+            "Operation_Family",
+            "Comode_Off",
+            "Blooming_0",
+            "OnTimer_0",
+            "OffTimer_0",
+            "Sleep_0",
+            "AI_Enable",
+            "ArtificialWorking_Off",
+            "ComfortAICooling_Off",
+            "Autoclean_Off",
+            "Panel_Close",
+            "Light_Off",
+            "Smarton_LockOff",
+            "Weather_Off",
+            "Volume_Melody",
+            "VoiceSet_Enable",
+            "AirMonitoring_Off",
+            "AutocleanProgress_1",
+            "StopAutoClean_Idle",
+            "PurifiAI_Off",
+            "DiagnosisAI_Off",
+            "Display_Off",
+            "ProgressDiagnosisAI_0",
+            "ResultDiagnosisAI_Normal",
+            "OptionCode_925",
+            "ExtendOptionCode_0",
+            "UpdateAllow_NotAllowed",
+            "EnergySaveIcon_Off",
+            "Dehumidification_0",
+            "DurationOn_0",
+            "PM1Progress_67",
+            "AirpatrolInterval_0",
+            "WakeupWord_4",
+            "WelcomeCoolingState_Off"
+          ]
+        },
+        "values_filtered": true,
+        "option_prefixes": [
+          "AI",
+          "AirMonitoring",
+          "AirpatrolInterval",
+          "ArtificialWorking",
+          "Autoclean",
+          "AutocleanProgress",
+          "Blooming",
+          "ComfortAICooling",
+          "Comode",
+          "Dehumidification",
+          "DiagnosisAI",
+          "Display",
+          "DurationOn",
+          "EnergySaveIcon",
+          "ExtendOptionCode",
+          "Light",
+          "ModelInfo",
+          "OffTimer",
+          "OnTimer",
+          "Operation",
+          "OptionCode",
+          "PM1Progress",
+          "Panel",
+          "ProgressDiagnosisAI",
+          "PurifiAI",
+          "RacInfo",
+          "ResultDiagnosisAI",
+          "Sleep",
+          "Smarton",
+          "StopAutoClean",
+          "UpdateAllow",
+          "VoiceSet",
+          "Volume",
+          "WakeupWord",
+          "WakeupWordRange",
+          "Weather",
+          "WelcomeCoolingState"
+        ]
+      },
+      "/mode/vs/1": {
+        "code": "2.05",
+        "payload_bytes": 2,
+        "empty_representation": true,
+        "fields": [],
+        "values": {},
+        "values_filtered": true,
+        "option_prefixes": []
+      },
+      "/multidevice/vs/0": {
+        "code": "2.05",
+        "payload_bytes": 37,
+        "empty_representation": false,
+        "fields": [
+          "x.com.samsung.da.numofsubdevice"
+        ],
+        "values": {
+          "x.com.samsung.da.numofsubdevice": "1"
+        },
+        "values_filtered": true
+      },
+      "/power/0": {
+        "code": "2.05",
+        "payload_bytes": 9,
+        "empty_representation": false,
+        "fields": [
+          "value"
+        ],
+        "values": {
+          "value": false
+        },
+        "values_filtered": true
+      },
+      "/power/1": {
+        "code": "2.05",
+        "payload_bytes": 2,
+        "empty_representation": true,
+        "fields": [],
+        "values": {},
+        "values_filtered": true
+      },
+      "/power/vs/0": {
+        "code": "2.05",
+        "payload_bytes": 29,
+        "empty_representation": false,
+        "fields": [
+          "x.com.samsung.da.power"
+        ],
+        "values": {
+          "x.com.samsung.da.power": "Off"
+        },
+        "values_filtered": true
+      },
+      "/power/vs/1": {
+        "code": "2.05",
+        "payload_bytes": 2,
+        "empty_representation": true,
+        "fields": [],
+        "values": {},
+        "values_filtered": true
+      },
+      "/rm/micomdata/vs/0": {
+        "code": "2.05",
+        "payload_bytes": 524,
+        "empty_representation": false,
+        "fields": [
+          "x.com.samsung.rm.micomdata",
+          "x.com.samsung.rm.micomdataLength"
+        ],
+        "values": {
+          "x.com.samsung.rm.micomdataLength": 454
+        },
+        "values_filtered": true
+      },
+      "/rm/micomdata/vs/1": {
+        "code": "2.05",
+        "payload_bytes": 2,
+        "empty_representation": true,
+        "fields": [],
+        "values": {},
+        "values_filtered": true
+      },
+      "/rm/state/vs/0": {
+        "code": "2.05",
+        "payload_bytes": 2,
+        "empty_representation": true,
+        "fields": [],
+        "values": {},
+        "values_filtered": true
+      },
+      "/rm/state/vs/1": {
+        "code": "2.05",
+        "payload_bytes": 2,
+        "empty_representation": true,
+        "fields": [],
+        "values": {},
+        "values_filtered": true
+      },
+      "/sensors/vs/0": {
+        "code": "2.05",
+        "payload_bytes": 742,
+        "empty_representation": false,
+        "fields": [
+          "x.com.samsung.da.items"
+        ],
+        "item_fields": [
+          "x.com.samsung.da.description",
+          "x.com.samsung.da.id",
+          "x.com.samsung.da.type",
+          "x.com.samsung.da.value"
+        ],
+        "values": {
+          "x.com.samsung.da.items": [
+            {
+              "x.com.samsung.da.type": "CleanLevel",
+              "x.com.samsung.da.value": [
+                "1.000000"
+              ]
+            },
+            {
+              "x.com.samsung.da.type": "Odor",
+              "x.com.samsung.da.value": [
+                "0.000000"
+              ]
+            },
+            {
+              "x.com.samsung.da.type": "Dust",
+              "x.com.samsung.da.value": [
+                "5.000000",
+                "0.000000"
+              ]
+            },
+            {
+              "x.com.samsung.da.type": "FineDust",
+              "x.com.samsung.da.value": [
+                "5.000000",
+                "0.000000"
+              ]
+            },
+            {
+              "x.com.samsung.da.type": "SuperFineDust",
+              "x.com.samsung.da.value": [
+                "5.000000",
+                "0.000000"
+              ]
+            }
+          ]
+        },
+        "values_filtered": true
+      },
+      "/sensors/vs/1": {
+        "code": "2.05",
+        "payload_bytes": 742,
+        "empty_representation": false,
+        "fields": [
+          "x.com.samsung.da.items"
+        ],
+        "item_fields": [
+          "x.com.samsung.da.description",
+          "x.com.samsung.da.id",
+          "x.com.samsung.da.type",
+          "x.com.samsung.da.value"
+        ],
+        "values": {
+          "x.com.samsung.da.items": [
+            {
+              "x.com.samsung.da.type": "CleanLevel",
+              "x.com.samsung.da.value": [
+                "0.000000"
+              ]
+            },
+            {
+              "x.com.samsung.da.type": "Odor",
+              "x.com.samsung.da.value": [
+                "0.000000"
+              ]
+            },
+            {
+              "x.com.samsung.da.type": "Dust",
+              "x.com.samsung.da.value": [
+                "0.000000",
+                "0.000000"
+              ]
+            },
+            {
+              "x.com.samsung.da.type": "FineDust",
+              "x.com.samsung.da.value": [
+                "0.000000",
+                "0.000000"
+              ]
+            },
+            {
+              "x.com.samsung.da.type": "SuperFineDust",
+              "x.com.samsung.da.value": [
+                "0.000000",
+                "0.000000"
+              ]
+            }
+          ]
+        },
+        "values_filtered": true
+      },
+      "/temperature/current/0": {
+        "code": "2.05",
+        "payload_bytes": 56,
+        "empty_representation": false,
+        "fields": [
+          "range",
+          "temperature",
+          "units"
+        ],
+        "values": {
+          "range": [
+            18.0,
+            30.0
+          ],
+          "units": "C",
+          "temperature": 25.0
+        },
+        "values_filtered": true
+      },
+      "/temperature/current/1": {
+        "code": "2.05",
+        "payload_bytes": 2,
+        "empty_representation": true,
+        "fields": [],
+        "values": {},
+        "values_filtered": true
+      },
+      "/temperature/desired/0": {
+        "code": "2.05",
+        "payload_bytes": 56,
+        "empty_representation": false,
+        "fields": [
+          "range",
+          "temperature",
+          "units"
+        ],
+        "values": {
+          "range": [
+            18.0,
+            30.0
+          ],
+          "units": "C",
+          "temperature": 24.0
+        },
+        "values_filtered": true
+      },
+      "/temperature/desired/1": {
+        "code": "2.05",
+        "payload_bytes": 2,
+        "empty_representation": true,
+        "fields": [],
+        "values": {},
+        "values_filtered": true
+      },
+      "/temperatures/vs/0": {
+        "code": "2.05",
+        "payload_bytes": 238,
+        "empty_representation": false,
+        "fields": [
+          "x.com.samsung.da.items"
+        ],
+        "item_fields": [
+          "x.com.samsung.da.current",
+          "x.com.samsung.da.description",
+          "x.com.samsung.da.desired",
+          "x.com.samsung.da.id",
+          "x.com.samsung.da.maximum",
+          "x.com.samsung.da.minimum",
+          "x.com.samsung.da.unit"
+        ],
+        "values": {
+          "x.com.samsung.da.items": [
+            {
+              "x.com.samsung.da.desired": "24",
+              "x.com.samsung.da.current": "25",
+              "x.com.samsung.da.maximum": "30",
+              "x.com.samsung.da.minimum": "18",
+              "x.com.samsung.da.unit": "Celsius"
+            }
+          ]
+        },
+        "values_filtered": true
+      },
+      "/temperatures/vs/1": {
+        "code": "2.05",
+        "payload_bytes": 92,
+        "empty_representation": false,
+        "fields": [
+          "x.com.samsung.da.items"
+        ],
+        "item_fields": [
+          "x.com.samsung.da.description",
+          "x.com.samsung.da.id"
+        ],
+        "values": {
+          "x.com.samsung.da.items": [
+            {}
+          ]
+        },
+        "values_filtered": true
+      }
+    }
+  },
+  "temporary_credentials_removed": true
+}

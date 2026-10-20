@@ -1,0 +1,202 @@
+{
+  "audit_date": "2026-10-20",
+  "timezone": "Asia/Seoul",
+  "scope": "Saved hub logs, archived uploaded source, offline Lua replay, authenticated GET-only appliance state and metadata queries, and public reference implementations",
+  "appliance_write_commands_sent": false,
+  "driver_reinstalled": false,
+  "historical_driver_version": "2026-10-19T16:32:06.367242348",
+  "historical_source_matches_archived_uploaded_zip": true,
+  "timeline": [
+    {
+      "at": "2026-10-20T01:33:04.595823972+09:00",
+      "event": "On-timer setting POST phase",
+      "log_line": 217
+    },
+    {
+      "at": "2026-10-20T01:33:06.400621639+09:00",
+      "event": "Observed power off and onTimer=2",
+      "log_line": 220
+    },
+    {
+      "at": "2026-10-20T01:33:08.471712389+09:00",
+      "event": "Driver received cancelOn",
+      "log_line": 229
+    },
+    {
+      "at": "2026-10-20T01:33:09.472985181+09:00",
+      "event": "One onTimer POST phase; no power POST in this interval",
+      "log_line": 233
+    },
+    {
+      "at": "2026-10-20T01:33:11.035689639+09:00",
+      "event": "Observed onTimer=0, power off, outlet bits=0; command marked CONFIRMED immediately afterward",
+      "log_line": 236
+    },
+    {
+      "at": "2026-10-20T01:33:12.611228181+09:00",
+      "event": "Next GET observation: power on, onTimer=0, outlet bits=3",
+      "log_line": 245
+    }
+  ],
+  "historical_log": "private-diagnostics/event-fixed-runtime.log",
+  "historical_cancel_reconstructed_offline": {
+    "request_method": "POST",
+    "path": "/mode/vs/0",
+    "body": {"x.com.samsung.da.options": ["OnTimer_0"]},
+    "power_field_included": false,
+    "independent_cbor_decode_verified": true,
+    "wire_capture_available": false,
+    "evidence": "Replayed the archived package's ac.plan and CBOR encoder; the saved log records the onTimer POST phase, not plaintext packet bytes"
+  },
+  "confirmed_implementation_gap": {
+    "cancel_mapped_to_zero_without_verified_native_cancel_contract": true,
+    "confirmation_checked_only_requested_timer_value": true,
+    "confirmation_accepted_timer_zero_with_either_power_state_in_offline_replay": true,
+    "later_power_transition_not_covered_by_first_matching_read": true
+  },
+  "causal_assessment": {
+    "classification": "Inference, not established firmware root cause",
+    "leading_candidate": "The native OnTimer_0 write triggered or failed to prevent the subsequent appliance-side power-on transition",
+    "confidence": "high relative to other causes visible in the saved driver log",
+    "mechanisms_not_distinguished": [
+      "Zero-duration write interpreted as immediate timer execution",
+      "A separate native cancellation flag or command is required",
+      "Firmware side effect or timing race in timer cancellation"
+    ],
+    "other_control_channels_fully_excluded": false,
+    "user_reported_manual_power_action": false,
+    "firmware_internal_execution_trace_available": false,
+    "normal_samsung_app_cancel_wire_capture_available": false
+  },
+  "reference_checks": {
+    "localthings_commit": "363fbd5ec9d3b34982154e3ad1dca48ba0f82501",
+    "on_timer_cancel_implementation_found_in_checked_reference": false,
+    "on_timer_zero_present_in_state_fixtures": true,
+    "read_state_zero_proves_safe_cancel_write": false,
+    "samsung_remote_zero_cancel_instruction_is_native_ocf_api_contract": false,
+    "urls": [
+      "https://github.com/mbillow/localthings/blob/363fbd5ec9d3b34982154e3ad1dca48ba0f82501/custom_components/localthings/registry/capabilities/airconditioner.py",
+      "https://www.samsungsvc.co.kr/solution/221583"
+    ]
+  },
+  "current_code_offline_checks": {
+    "native_timer_write_paths_retired": true,
+    "cancel_updates_hub_reservation_only": true,
+    "cancel_then_stale_callback_cases_passed": 2,
+    "cases": ["onTimer", "offTimer"],
+    "power_commands_created": 0,
+    "network_used": false,
+    "scope": "Cancellation before expiry; canceled callbacks manually invoked after their old deadlines"
+  },
+  "current_readonly_appliance_query": {
+    "at": "2026-10-20T02:48:24.835679+00:00",
+    "power": false,
+    "mode": "Wind",
+    "onTimerRaw": "0",
+    "offTimerRaw": "0",
+    "udp_gets": 2,
+    "tcp_gets": 2,
+    "appliance_state_written": false,
+    "temporary_credentials_removed": true,
+    "open_socket_count": 0
+  },
+  "separate_cancellation_investigation": {
+    "date": "2026-10-20",
+    "native_ocf_cancel_command_identified": false,
+    "absence_of_native_cancel_command_established": false,
+    "readonly_metadata_query": {
+      "at": "2026-10-20T03:07:25.773490+00:00",
+      "evidence": "private-diagnostics/timer-metadata-readonly.json",
+      "udp_gets": 2,
+      "tcp_gets": 6,
+      "appliance_state_written": false,
+      "server_chain_verified": true,
+      "public_and_secure_identity_match": true,
+      "temporary_credentials_removed": true,
+      "advertised_path_count": 76,
+      "advertised_timer_named_links": [],
+      "advertised_introspection_links": [],
+      "mode_baseline_fields": [
+        "if",
+        "rt",
+        "x.com.samsung.da.modes",
+        "x.com.samsung.da.options",
+        "x.com.samsung.da.supportedModes"
+      ],
+      "mode_baseline_timer_tokens": ["OnTimer_0", "OffTimer_0"],
+      "actions_baseline_fields": ["if", "rt"],
+      "actions_supported_command_names_returned": false,
+      "power_at_end": false
+    },
+    "reference_findings": [
+      {
+        "reference": "IRremoteESP8266 Samsung AC implementation",
+        "protocol": "Infrared, not OCF",
+        "facts": [
+          "The raw extended IR state contains separate OnTimerEnable and OffTimerEnable bits alongside timer duration fields",
+          "_setOnTimer and _setOffTimer set the corresponding enable bit from whether the duration is greater than zero",
+          "The IR implementation therefore encodes more than a bare duration when changing a timer"
+        ],
+        "limitation": "This does not establish the LAN token, payload, or behavior of the user's FAC_BORA firmware",
+        "urls": [
+          "https://github.com/crankyoldgit/IRremoteESP8266/blob/master/src/ir_Samsung.h",
+          "https://github.com/crankyoldgit/IRremoteESP8266/blob/master/src/ir_Samsung.cpp"
+        ]
+      },
+      {
+        "reference": "LocalThings filter reset investigation",
+        "facts": [
+          "The author reports a FilterCleanAlarm_Clear command token that is not stored or echoed in options GET responses",
+          "The token is for filter reset, not timer cancellation"
+        ],
+        "implication": "A GET state inventory cannot be assumed to enumerate every accepted command",
+        "timer_cancel_vocabulary_supplied": false,
+        "url": "https://github.com/mbillow/localthings/blob/363fbd5ec9d3b34982154e3ad1dca48ba0f82501/docs/investigations/ac-filter-reset.md"
+      },
+      {
+        "reference": "samsungce.systemAirConditionerReservation definition",
+        "facts": [
+          "The published definition contains reservation IDs, an enabled flag and a commands object with no entries",
+          "This capability is absent from the saved status capability list of the user's original Samsung device"
+        ],
+        "limitation": "It provides no applicable native cancellation command for this device",
+        "url": "https://github.com/pySmartThings/capabilities/blob/5bdc3848d45602df834d9beb6f10a7e8e6477075/json/samsungce/samsungce.systemAirConditionerReservation.json"
+      }
+    ],
+    "hypothesis_status": {
+      "separate_cancel_token_or_enable_flag": "Still possible; not established on this LAN protocol or firmware",
+      "zero_means_immediate_execution": "Not established; retain as one candidate rather than the conclusion",
+      "get_zero_equivalent_to_safe_cancel_write": "Unsupported assumption; do not restore this mapping"
+    },
+    "user_clarification": {
+      "native_timer_ui": ["appliance", "remote_control"],
+      "native_timer_ui_in_samsung_app": "User reports unavailable",
+      "scope": "The native timer under investigation; do not infer availability from other app schedule functions",
+      "previous_phone_apk_recommendation": "No longer the primary investigation route for this feature",
+      "remote_signal_analysis": "User reports this route is not feasible; exclude it from requested next steps",
+      "appliance_readonly_constraint_unchanged": true
+    },
+    "missing_evidence": [
+      "Exact retail appliance or remote-control model to select matching protocol documentation",
+      "A matching firmware implementation or demonstrated local-network implementation defining the native cancellation request"
+    ],
+    "additional_public_code_search": {
+      "repository": "Samsung/TizenRT",
+      "query": "\"OnTimer\" \"OffTimer\"",
+      "matching_results_returned": 0,
+      "scope_limit": "A code-search result only; not evidence that no Samsung firmware or LAN cancellation implementation exists",
+      "confirmed_matching_lan_cancellation_implementation_found": false
+    },
+    "remote_analysis_limits": {
+      "reference_ir_decoder_is_verified_for_user_remote": false,
+      "remote_ir_capture_performed": false,
+      "ir_payload_is_directly_usable_as_ocf_payload": false,
+      "get_after_remote_cancel_would_prove_native_cancel_request": false,
+      "infrared_cancellation_support_proves_lan_cancellation_support": false,
+      "no_appliance_actuation_requested_or_performed": true,
+      "reference": "https://github.com/crankyoldgit/IRremoteESP8266/issues/1277"
+    },
+    "production_driver_changed": false,
+    "driver_reinstalled": false
+  }
+}

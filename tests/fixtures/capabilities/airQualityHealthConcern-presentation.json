@@ -1,0 +1,148 @@
+{
+  "dashboard": {
+    "states": [
+      {
+        "label": "{{airQualityHealthConcern.value}}",
+        "alternatives": [
+          {
+            "key": "good",
+            "value": "좋음",
+            "type": "active"
+          },
+          {
+            "key": "moderate",
+            "value": "보통",
+            "type": "active"
+          },
+          {
+            "key": "slightlyUnhealthy",
+            "value": "약간 나쁨",
+            "type": "active"
+          },
+          {
+            "key": "unhealthy",
+            "value": "나쁨",
+            "type": "active"
+          },
+          {
+            "key": "veryUnhealthy",
+            "value": "매우 나쁨",
+            "type": "active"
+          },
+          {
+            "key": "hazardous",
+            "value": "위험",
+            "type": "active"
+          },
+          {
+            "key": "unknown",
+            "value": "알 수 없음",
+            "type": "active"
+          }
+        ]
+      }
+    ],
+    "actions": [],
+    "panelItems": []
+  },
+  "detailView": [
+    {
+      "label": "공기질",
+      "displayType": "state",
+      "state": {
+        "label": "{{airQualityHealthConcern.value}}",
+        "alternatives": [
+          {
+            "key": "good",
+            "value": "좋음",
+            "type": "active"
+          },
+          {
+            "key": "moderate",
+            "value": "보통",
+            "type": "active"
+          },
+          {
+            "key": "slightlyUnhealthy",
+            "value": "약간 나쁨",
+            "type": "active"
+          },
+          {
+            "key": "unhealthy",
+            "value": "나쁨",
+            "type": "active"
+          },
+          {
+            "key": "veryUnhealthy",
+            "value": "매우 나쁨",
+            "type": "active"
+          },
+          {
+            "key": "hazardous",
+            "value": "위험",
+            "type": "active"
+          },
+          {
+            "key": "unknown",
+            "value": "알 수 없음",
+            "type": "active"
+          }
+        ]
+      }
+    }
+  ],
+  "automation": {
+    "conditions": [
+      {
+        "label": "공기질",
+        "displayType": "list",
+        "list": {
+          "alternatives": [
+            {
+              "key": "good",
+              "value": "좋음",
+              "type": "active"
+            },
+            {
+              "key": "moderate",
+              "value": "보통",
+              "type": "active"
+            },
+            {
+              "key": "slightlyUnhealthy",
+              "value": "약간 나쁨",
+              "type": "active"
+            },
+            {
+              "key": "unhealthy",
+              "value": "나쁨",
+              "type": "active"
+            },
+            {
+              "key": "veryUnhealthy",
+              "value": "매우 나쁨",
+              "type": "active"
+            },
+            {
+              "key": "hazardous",
+              "value": "위험",
+              "type": "active"
+            },
+            {
+              "key": "unknown",
+              "value": "알 수 없음",
+              "type": "active"
+            }
+          ],
+          "supportedValues": "supportedAirQualityValues.value",
+          "value": "airQualityHealthConcern.value",
+          "valueType": "string",
+          "multiSelectable": false
+        }
+      }
+    ],
+    "actions": []
+  },
+  "id": "airQualityHealthConcern",
+  "version": 1
+}

@@ -1,0 +1,177 @@
+{
+  "recorded_date": "2026-10-19",
+  "timezone": "Asia/Seoul",
+  "user_reference": {
+    "url": "https://cafe.naver.com/stsmarthome/116675",
+    "title": "헤어질 결심 - 삼성 TV/에어컨/스마트싱스 기기 Home Assistant 로컬 제어 가이드",
+    "checked_date": "2026-10-19",
+    "access": "브라우저의 공개 게시글 본문 확인",
+    "scope": "주 에어컨 예제는 8888번 토큰 HTTPS이며 OCF용 LocalThings는 별도로 링크함. 실제 대상의 8888·2878번 TCP 연결은 거부됨"
+  },
+  "repositories": [
+    {
+      "repository": "https://github.com/QuiteYellow/SmartThings-Local",
+      "commit": "7f96fdfbc89c63fb188bb378526018637221c74d",
+      "purpose": "클라이언트 인증서 규칙, 공개 OCF 서버 CA"
+    },
+    {
+      "repository": "https://github.com/mbillow/localthings",
+      "commit": "363fbd5ec9d3b34982154e3ad1dca48ba0f82501",
+      "purpose": "에어컨 상태와 제어 후보, 공기질, legacy 전력량 환산 후보, 공통 계량 예외 값과 내부 자원 분류"
+    },
+    {
+      "repository": "https://github.com/clipman/samsungac",
+      "commit": null,
+      "purpose": "사용자 카페 원문의 8888번 토큰 HTTPS 구현. README와 실제 대상의 포트 연결 결과를 대조했으며 OCF 드라이버에 해당 전송 방식을 적용하지 않음"
+    },
+    {
+      "repository": "https://github.com/SmartThingsDevelopers/SampleDrivers",
+      "commit": null,
+      "purpose": "웹으로 확인한 공식 LAN Edge 구조 예제. 소스를 이 프로젝트에 복사하지 않음"
+    }
+  ],
+  "official_documentation": [
+    {
+      "url": "https://developer.smartthings.com/docs/edge-device-drivers/ssl.html",
+      "purpose": "mode·protocol·verify·certificates·cafile 지원 형식과 공식 SSL 호출 예제 대조",
+      "checked_date": "2026-10-19"
+    },
+    {
+      "url": "https://developer.smartthings.com/docs/devices/hub-connected/lan",
+      "purpose": "cosock coroutine과 TCP 서버의 임시 포트 제약 대조",
+      "checked_date": "2026-10-19"
+    },
+    {
+      "url": "https://github.com/SmartThingsCommunity/SmartThingsEdgeDrivers/releases/tag/apiv21_62",
+      "purpose": "허브 0.62 대응 공식 SDK의 cosock/ssl.lua와 socket/internals.lua 소스 확인. 런타임 API 버전 자체는 별도 로그하지 않음",
+      "checked_date": "2026-10-19"
+    },
+    {
+      "url": "https://www.iana.org/assignments/multicast-addresses",
+      "purpose": "All CoAP Nodes IPv4 주소 224.0.1.187",
+      "checked_date": "2026-10-19"
+    },
+    {
+      "url": "https://lunarmodules.github.io/luasocket/udp.html",
+      "purpose": "UDP setsockname의 임시 포트와 ip-multicast-ttl 설정",
+      "checked_date": "2026-10-19"
+    },
+    {
+      "url": "https://developer.smartthings.com/docs/edge-device-drivers/socket.html",
+      "purpose": "허브 소켓과 cosock.socket 권장 API 확인. 실제 허브에서 UDP TTL 옵션 비지원 확인",
+      "checked_date": "2026-10-19"
+    },
+    {
+      "url": "https://developer.smartthings.com/docs/devices/configurations-and-presentations/embedded-device-configurations",
+      "purpose": "에어컨 profile 안의 모드·설정 온도 범위·setter 값 제한과 표시명 재정의",
+      "checked_date": "2026-10-20"
+    },
+    {
+      "url": "https://developer.smartthings.com/docs/devices/configurations-and-presentations/device-configurations",
+      "purpose": "상세 화면·대시보드·루틴 설정과 presentation 생성·프로필 연결",
+      "checked_date": "2026-10-20"
+    },
+    {
+      "url": "https://github.com/SmartThingsCommunity/SmartThingsEdgeDrivers/blob/247dbadb4f1a66c74c0713c5c6f4fde69e4f859c/drivers/SmartThings/matter-lock/profiles/lock-unlatch.yml",
+      "purpose": "공식 Edge profile의 root deviceConfig와 JSON presentation patch 예제",
+      "checked_date": "2026-10-20"
+    },
+    {
+      "url": "https://www.samsungsvc.co.kr/solution/166158",
+      "purpose": "자동·스마트 쾌적 운전 명칭과 동작 설명. 본인 장비의 물리 모드 전환 검증과 구분",
+      "checked_date": "2026-10-20"
+    },
+    {
+      "url": "https://www.samsungsvc.co.kr/solution/40795",
+      "purpose": "AI·스마트 쾌적의 청정 포함 동작, 냉방·제습 청정 추가와 AI 네트워크 조건. 특정 보드의 Gear 대응을 직접 증명하지는 않음",
+      "checked_date": "2026-10-20"
+    },
+    {
+      "url": "https://www.samsungsvc.co.kr/solution/177977",
+      "purpose": "스탠드형 에어컨 청정 단독 운전과 냉방·제습 동시 운전",
+      "checked_date": "2026-10-20"
+    },
+    {
+      "url": "https://developer.smartthings.com/docs/api/public/#operation/getCapability",
+      "purpose": "표준 에어컨·전원·온습도 capability version 1 정의를 CLI로 조회, tests/fixtures/capabilities/에 저장",
+      "checked_date": "2026-10-19"
+    },
+    {
+      "url": "https://developer.smartthings.com/docs/api/public/#operation/getCapabilityPresentation",
+      "purpose": "airConditionerMode·airConditionerFanMode·thermostatCoolingSetpoint의 앱 값·supportedValues·명령 인자 확인",
+      "checked_date": "2026-10-19"
+    },
+    {
+      "url": "https://developer.smartthings.com/docs/devices/capabilities/capabilities-reference",
+      "purpose": "stock 센서·계량 속성 및 powerConsumptionReport 요구 조건",
+      "checked_date": "2026-10-19"
+    }
+  ],
+  "additional_feature_sources": [
+    {
+      "url": "https://www.samsungsvc.co.kr/solution/28067",
+      "purpose": "전원이 꺼진 상태에서 청소용 바람문만 열고 닫는 기능 안내. 운전용 상·하 선택과 분리하고 Panel_Open/Close는 본인 장비에서 별도로 검증",
+      "checked_date": "2026-10-20"
+    },
+    {
+      "url": "https://developer.smartthings.com/docs/edge-device-drivers/capabilities.html",
+      "purpose": "state_change=true의 명시적 상태 변경 전달과 0.58 이후 허브의 이벤트 스키마 검증. 효과음의 서버 동기화 시험에 사용",
+      "checked_date": "2026-10-20"
+    },
+    {
+      "url": "https://developer.smartthings.com/docs/getting-started/rate-limits",
+      "purpose": "변경 중심 이벤트 발행 권장. 기기 이벤트 제한의 현재 수치를 이 자료만으로 단정하지 않음",
+      "checked_date": "2026-10-20"
+    },
+    {
+      "url": "https://community.smartthings.com/t/hub-firmware-beta-0-39-x/230827",
+      "purpose": "공식 과거 펌웨어의 기기 이벤트 초당 5개 제한과 초과 시 누락 안내. 현재 0.62 펌웨어의 동일 한도라는 증거로 사용하지 않음",
+      "checked_date": "2026-10-20"
+    },
+    {
+      "url": "https://developer.smartthings.com/docs/devices/capabilities/display-types/",
+      "purpose": "라이팅·음성·예약 list와 상세 화면 취소 버튼. 자동화에는 list를 사용",
+      "checked_date": "2026-10-20"
+    },
+    {
+      "url": "https://www.samsungsvc.co.kr/solution/28576",
+      "purpose": "2019년 스탠드 무풍 에어컨의 30분~24시간 예약 안내. 로컬 토큰 단위는 본인 기기의 1·2시간 설정과 별도 대조",
+      "checked_date": "2026-10-20"
+    }
+  ],
+  "public_ca": {
+    "path": "assets/ocf-root-ca.pem",
+    "source": "https://raw.githubusercontent.com/QuiteYellow/SmartThings-Local/7f96fdfbc89c63fb188bb378526018637221c74d/smartthings_local/protocol/ocf_root_ca.pem",
+    "sha256": "4a823f94d023cee344dccf9f571851331ae8d518183a736d060ec96c51c19287",
+    "contains_private_key": false
+  },
+  "probe_environment": {
+    "python": "3.12",
+    "cbor2": "6.1.5",
+    "cryptography": "41.0.7",
+    "smartthings_cli": "2.1.1"
+  },
+  "lua_prototype_environment": {
+    "lua_standalone": "5.3.6",
+    "lua_source": "https://www.lua.org/ftp/lua-5.3.6.tar.gz",
+    "lua_source_sha256": "fc5fd69bb8736323f026672b1b7235da613d7177e72558893a0bdcd320466d60",
+    "lupa": "2.8",
+    "jsonschema": "4.25.1",
+    "lupa_runtime": "lupa.lua53",
+    "lupa_source": "https://pypi.org/project/lupa/2.8/",
+    "pc_transport": "Python socket/ssl adapter; not the hub SDK",
+    "sample_drivers_commit": "221edef9e0a8c2072778a6aa5cb70cd26f16609d",
+    "verified_hub_model": "V3_HUB",
+    "verified_hub_firmware": "000.062.00007",
+    "hub_driver_execution_verified": true,
+    "hub_discovery_and_device_creation_verified": true,
+    "hub_direct_tls_read_verified": false,
+    "hub_only_internal_tls_relay_read_verified": true,
+    "hub_authenticated_connection_reuse_verified": true,
+    "smartthings_health_online_verified": true,
+    "smartphone_screen_verified": true,
+    "smartphone_screen_scope": "User supplied current temperature/humidity, PM and indoor quality screenshot; not every newly added control",
+    "actual_appliance_post_verified": true,
+    "actual_appliance_post_scope": "PC ComfortAICooling options and reservation cancellation; hub per-control evidence in observed-controls-v2.json"
+  }
+}

@@ -1,0 +1,104 @@
+{
+  "id": "instantcommon43059.samsungAcLocalCare",
+  "version": 1,
+  "status": "proposed",
+  "name": "Samsung Ac Local Care",
+  "ephemeral": false,
+  "attributes": {
+    "autoclean": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "enum": [
+              "on",
+              "off"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "value"
+        ]
+      },
+      "setter": "setAutoclean",
+      "enumCommands": []
+    },
+    "panelEnabled": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "enum": [
+              "enabled",
+              "disabled"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "value"
+        ]
+      },
+      "enumCommands": []
+    },
+    "panel": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "enum": [
+              "closed",
+              "open"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "value"
+        ]
+      },
+      "setter": "setPanel",
+      "enumCommands": []
+    }
+  },
+  "commands": {
+    "setPanel": {
+      "name": "setPanel",
+      "arguments": [
+        {
+          "name": "setting",
+          "optional": false,
+          "schema": {
+            "type": "string",
+            "enum": [
+              "closed",
+              "open"
+            ]
+          }
+        }
+      ],
+      "sensitive": false
+    },
+    "setAutoclean": {
+      "name": "setAutoclean",
+      "arguments": [
+        {
+          "name": "setting",
+          "optional": false,
+          "schema": {
+            "type": "string",
+            "enum": [
+              "on",
+              "off"
+            ]
+          }
+        }
+      ],
+      "sensitive": false
+    }
+  }
+}

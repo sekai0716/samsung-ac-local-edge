@@ -1,0 +1,54 @@
+{
+  "dashboard": {
+    "states": [
+      {
+        "label": "PM2.5 {{fineDustLevel.value}} µg/m³"
+      }
+    ],
+    "actions": [],
+    "panelItems": []
+  },
+  "detailView": [
+    {
+      "label": "PM 10",
+      "displayType": "state",
+      "state": {
+        "label": "{{dustLevel.value}}",
+        "unit": "dustLevel.unit"
+      }
+    },
+    {
+      "label": "PM 2.5",
+      "displayType": "state",
+      "state": {
+        "label": "{{fineDustLevel.value}}",
+        "unit": "fineDustLevel.unit"
+      }
+    }
+  ],
+  "automation": {
+    "conditions": [
+      {
+        "label": "PM 10",
+        "displayType": "numberField",
+        "numberField": {
+          "value": "dustLevel.value",
+          "valueType": "integer",
+          "unit": "dustLevel.unit"
+        }
+      },
+      {
+        "label": "PM 2.5",
+        "displayType": "numberField",
+        "numberField": {
+          "value": "fineDustLevel.value",
+          "valueType": "integer",
+          "unit": "fineDustLevel.unit"
+        }
+      }
+    ],
+    "actions": []
+  },
+  "id": "dustSensor",
+  "version": 1
+}

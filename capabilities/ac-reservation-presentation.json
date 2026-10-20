@@ -1,0 +1,2058 @@
+{
+  "dashboard": {
+    "states": [],
+    "actions": []
+  },
+  "detailView": [
+    {
+      "label": "켜짐 예약 (지금부터)",
+      "displayType": "list",
+      "list": {
+        "command": {
+          "name": "setOnDelay",
+          "alternatives": [
+            {
+              "key": "none",
+              "value": "예약 없음",
+              "type": "inactive"
+            },
+            {
+              "key": "1",
+              "value": "30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "2",
+              "value": "1시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "3",
+              "value": "1시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "4",
+              "value": "2시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "5",
+              "value": "2시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "6",
+              "value": "3시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "7",
+              "value": "3시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "8",
+              "value": "4시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "9",
+              "value": "4시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "10",
+              "value": "5시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "11",
+              "value": "5시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "12",
+              "value": "6시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "13",
+              "value": "6시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "14",
+              "value": "7시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "15",
+              "value": "7시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "16",
+              "value": "8시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "17",
+              "value": "8시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "18",
+              "value": "9시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "19",
+              "value": "9시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "20",
+              "value": "10시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "21",
+              "value": "10시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "22",
+              "value": "11시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "23",
+              "value": "11시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "24",
+              "value": "12시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "25",
+              "value": "12시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "26",
+              "value": "13시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "27",
+              "value": "13시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "28",
+              "value": "14시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "29",
+              "value": "14시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "30",
+              "value": "15시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "31",
+              "value": "15시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "32",
+              "value": "16시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "33",
+              "value": "16시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "34",
+              "value": "17시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "35",
+              "value": "17시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "36",
+              "value": "18시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "37",
+              "value": "18시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "38",
+              "value": "19시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "39",
+              "value": "19시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "40",
+              "value": "20시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "41",
+              "value": "20시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "42",
+              "value": "21시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "43",
+              "value": "21시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "44",
+              "value": "22시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "45",
+              "value": "22시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "46",
+              "value": "23시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "47",
+              "value": "23시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "48",
+              "value": "24시간 뒤",
+              "type": "active"
+            }
+          ]
+        },
+        "state": {
+          "value": "onDelay.value",
+          "alternatives": [
+            {
+              "key": "none",
+              "value": "예약 없음",
+              "type": "inactive"
+            },
+            {
+              "key": "1",
+              "value": "30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "2",
+              "value": "1시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "3",
+              "value": "1시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "4",
+              "value": "2시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "5",
+              "value": "2시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "6",
+              "value": "3시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "7",
+              "value": "3시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "8",
+              "value": "4시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "9",
+              "value": "4시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "10",
+              "value": "5시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "11",
+              "value": "5시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "12",
+              "value": "6시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "13",
+              "value": "6시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "14",
+              "value": "7시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "15",
+              "value": "7시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "16",
+              "value": "8시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "17",
+              "value": "8시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "18",
+              "value": "9시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "19",
+              "value": "9시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "20",
+              "value": "10시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "21",
+              "value": "10시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "22",
+              "value": "11시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "23",
+              "value": "11시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "24",
+              "value": "12시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "25",
+              "value": "12시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "26",
+              "value": "13시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "27",
+              "value": "13시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "28",
+              "value": "14시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "29",
+              "value": "14시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "30",
+              "value": "15시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "31",
+              "value": "15시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "32",
+              "value": "16시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "33",
+              "value": "16시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "34",
+              "value": "17시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "35",
+              "value": "17시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "36",
+              "value": "18시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "37",
+              "value": "18시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "38",
+              "value": "19시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "39",
+              "value": "19시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "40",
+              "value": "20시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "41",
+              "value": "20시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "42",
+              "value": "21시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "43",
+              "value": "21시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "44",
+              "value": "22시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "45",
+              "value": "22시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "46",
+              "value": "23시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "47",
+              "value": "23시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "48",
+              "value": "24시간 뒤",
+              "type": "active"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "label": "켜짐 예약 취소",
+      "displayType": "pushButton",
+      "pushButton": {
+        "command": "cancelOn"
+      }
+    },
+    {
+      "label": "꺼짐 예약 (지금부터)",
+      "displayType": "list",
+      "list": {
+        "command": {
+          "name": "setOffDelay",
+          "alternatives": [
+            {
+              "key": "none",
+              "value": "예약 없음",
+              "type": "inactive"
+            },
+            {
+              "key": "1",
+              "value": "30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "2",
+              "value": "1시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "3",
+              "value": "1시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "4",
+              "value": "2시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "5",
+              "value": "2시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "6",
+              "value": "3시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "7",
+              "value": "3시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "8",
+              "value": "4시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "9",
+              "value": "4시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "10",
+              "value": "5시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "11",
+              "value": "5시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "12",
+              "value": "6시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "13",
+              "value": "6시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "14",
+              "value": "7시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "15",
+              "value": "7시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "16",
+              "value": "8시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "17",
+              "value": "8시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "18",
+              "value": "9시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "19",
+              "value": "9시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "20",
+              "value": "10시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "21",
+              "value": "10시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "22",
+              "value": "11시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "23",
+              "value": "11시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "24",
+              "value": "12시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "25",
+              "value": "12시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "26",
+              "value": "13시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "27",
+              "value": "13시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "28",
+              "value": "14시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "29",
+              "value": "14시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "30",
+              "value": "15시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "31",
+              "value": "15시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "32",
+              "value": "16시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "33",
+              "value": "16시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "34",
+              "value": "17시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "35",
+              "value": "17시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "36",
+              "value": "18시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "37",
+              "value": "18시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "38",
+              "value": "19시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "39",
+              "value": "19시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "40",
+              "value": "20시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "41",
+              "value": "20시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "42",
+              "value": "21시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "43",
+              "value": "21시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "44",
+              "value": "22시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "45",
+              "value": "22시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "46",
+              "value": "23시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "47",
+              "value": "23시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "48",
+              "value": "24시간 뒤",
+              "type": "active"
+            }
+          ]
+        },
+        "state": {
+          "value": "offDelay.value",
+          "alternatives": [
+            {
+              "key": "none",
+              "value": "예약 없음",
+              "type": "inactive"
+            },
+            {
+              "key": "1",
+              "value": "30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "2",
+              "value": "1시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "3",
+              "value": "1시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "4",
+              "value": "2시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "5",
+              "value": "2시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "6",
+              "value": "3시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "7",
+              "value": "3시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "8",
+              "value": "4시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "9",
+              "value": "4시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "10",
+              "value": "5시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "11",
+              "value": "5시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "12",
+              "value": "6시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "13",
+              "value": "6시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "14",
+              "value": "7시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "15",
+              "value": "7시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "16",
+              "value": "8시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "17",
+              "value": "8시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "18",
+              "value": "9시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "19",
+              "value": "9시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "20",
+              "value": "10시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "21",
+              "value": "10시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "22",
+              "value": "11시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "23",
+              "value": "11시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "24",
+              "value": "12시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "25",
+              "value": "12시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "26",
+              "value": "13시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "27",
+              "value": "13시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "28",
+              "value": "14시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "29",
+              "value": "14시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "30",
+              "value": "15시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "31",
+              "value": "15시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "32",
+              "value": "16시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "33",
+              "value": "16시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "34",
+              "value": "17시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "35",
+              "value": "17시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "36",
+              "value": "18시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "37",
+              "value": "18시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "38",
+              "value": "19시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "39",
+              "value": "19시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "40",
+              "value": "20시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "41",
+              "value": "20시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "42",
+              "value": "21시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "43",
+              "value": "21시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "44",
+              "value": "22시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "45",
+              "value": "22시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "46",
+              "value": "23시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "47",
+              "value": "23시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "48",
+              "value": "24시간 뒤",
+              "type": "active"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "label": "꺼짐 예약 취소",
+      "displayType": "pushButton",
+      "pushButton": {
+        "command": "cancelOff"
+      }
+    }
+  ],
+  "automation": {
+    "conditions": [
+      {
+        "label": "켜짐 예약",
+        "displayType": "list",
+        "list": {
+          "value": "onDelay.value",
+          "alternatives": [
+            {
+              "key": "none",
+              "value": "예약 없음",
+              "type": "inactive"
+            },
+            {
+              "key": "1",
+              "value": "30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "2",
+              "value": "1시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "3",
+              "value": "1시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "4",
+              "value": "2시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "5",
+              "value": "2시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "6",
+              "value": "3시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "7",
+              "value": "3시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "8",
+              "value": "4시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "9",
+              "value": "4시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "10",
+              "value": "5시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "11",
+              "value": "5시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "12",
+              "value": "6시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "13",
+              "value": "6시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "14",
+              "value": "7시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "15",
+              "value": "7시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "16",
+              "value": "8시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "17",
+              "value": "8시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "18",
+              "value": "9시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "19",
+              "value": "9시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "20",
+              "value": "10시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "21",
+              "value": "10시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "22",
+              "value": "11시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "23",
+              "value": "11시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "24",
+              "value": "12시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "25",
+              "value": "12시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "26",
+              "value": "13시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "27",
+              "value": "13시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "28",
+              "value": "14시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "29",
+              "value": "14시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "30",
+              "value": "15시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "31",
+              "value": "15시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "32",
+              "value": "16시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "33",
+              "value": "16시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "34",
+              "value": "17시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "35",
+              "value": "17시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "36",
+              "value": "18시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "37",
+              "value": "18시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "38",
+              "value": "19시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "39",
+              "value": "19시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "40",
+              "value": "20시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "41",
+              "value": "20시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "42",
+              "value": "21시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "43",
+              "value": "21시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "44",
+              "value": "22시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "45",
+              "value": "22시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "46",
+              "value": "23시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "47",
+              "value": "23시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "48",
+              "value": "24시간 뒤",
+              "type": "active"
+            }
+          ]
+        }
+      },
+      {
+        "label": "꺼짐 예약",
+        "displayType": "list",
+        "list": {
+          "value": "offDelay.value",
+          "alternatives": [
+            {
+              "key": "none",
+              "value": "예약 없음",
+              "type": "inactive"
+            },
+            {
+              "key": "1",
+              "value": "30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "2",
+              "value": "1시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "3",
+              "value": "1시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "4",
+              "value": "2시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "5",
+              "value": "2시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "6",
+              "value": "3시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "7",
+              "value": "3시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "8",
+              "value": "4시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "9",
+              "value": "4시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "10",
+              "value": "5시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "11",
+              "value": "5시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "12",
+              "value": "6시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "13",
+              "value": "6시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "14",
+              "value": "7시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "15",
+              "value": "7시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "16",
+              "value": "8시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "17",
+              "value": "8시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "18",
+              "value": "9시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "19",
+              "value": "9시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "20",
+              "value": "10시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "21",
+              "value": "10시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "22",
+              "value": "11시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "23",
+              "value": "11시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "24",
+              "value": "12시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "25",
+              "value": "12시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "26",
+              "value": "13시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "27",
+              "value": "13시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "28",
+              "value": "14시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "29",
+              "value": "14시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "30",
+              "value": "15시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "31",
+              "value": "15시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "32",
+              "value": "16시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "33",
+              "value": "16시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "34",
+              "value": "17시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "35",
+              "value": "17시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "36",
+              "value": "18시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "37",
+              "value": "18시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "38",
+              "value": "19시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "39",
+              "value": "19시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "40",
+              "value": "20시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "41",
+              "value": "20시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "42",
+              "value": "21시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "43",
+              "value": "21시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "44",
+              "value": "22시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "45",
+              "value": "22시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "46",
+              "value": "23시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "47",
+              "value": "23시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "48",
+              "value": "24시간 뒤",
+              "type": "active"
+            }
+          ]
+        }
+      }
+    ],
+    "actions": [
+      {
+        "label": "켜짐 예약 (지금부터)",
+        "displayType": "list",
+        "list": {
+          "command": "setOnDelay",
+          "alternatives": [
+            {
+              "key": "none",
+              "value": "예약 없음",
+              "type": "inactive"
+            },
+            {
+              "key": "1",
+              "value": "30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "2",
+              "value": "1시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "3",
+              "value": "1시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "4",
+              "value": "2시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "5",
+              "value": "2시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "6",
+              "value": "3시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "7",
+              "value": "3시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "8",
+              "value": "4시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "9",
+              "value": "4시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "10",
+              "value": "5시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "11",
+              "value": "5시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "12",
+              "value": "6시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "13",
+              "value": "6시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "14",
+              "value": "7시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "15",
+              "value": "7시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "16",
+              "value": "8시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "17",
+              "value": "8시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "18",
+              "value": "9시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "19",
+              "value": "9시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "20",
+              "value": "10시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "21",
+              "value": "10시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "22",
+              "value": "11시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "23",
+              "value": "11시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "24",
+              "value": "12시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "25",
+              "value": "12시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "26",
+              "value": "13시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "27",
+              "value": "13시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "28",
+              "value": "14시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "29",
+              "value": "14시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "30",
+              "value": "15시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "31",
+              "value": "15시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "32",
+              "value": "16시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "33",
+              "value": "16시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "34",
+              "value": "17시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "35",
+              "value": "17시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "36",
+              "value": "18시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "37",
+              "value": "18시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "38",
+              "value": "19시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "39",
+              "value": "19시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "40",
+              "value": "20시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "41",
+              "value": "20시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "42",
+              "value": "21시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "43",
+              "value": "21시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "44",
+              "value": "22시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "45",
+              "value": "22시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "46",
+              "value": "23시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "47",
+              "value": "23시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "48",
+              "value": "24시간 뒤",
+              "type": "active"
+            }
+          ]
+        }
+      },
+      {
+        "label": "꺼짐 예약 (지금부터)",
+        "displayType": "list",
+        "list": {
+          "command": "setOffDelay",
+          "alternatives": [
+            {
+              "key": "none",
+              "value": "예약 없음",
+              "type": "inactive"
+            },
+            {
+              "key": "1",
+              "value": "30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "2",
+              "value": "1시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "3",
+              "value": "1시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "4",
+              "value": "2시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "5",
+              "value": "2시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "6",
+              "value": "3시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "7",
+              "value": "3시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "8",
+              "value": "4시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "9",
+              "value": "4시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "10",
+              "value": "5시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "11",
+              "value": "5시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "12",
+              "value": "6시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "13",
+              "value": "6시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "14",
+              "value": "7시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "15",
+              "value": "7시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "16",
+              "value": "8시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "17",
+              "value": "8시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "18",
+              "value": "9시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "19",
+              "value": "9시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "20",
+              "value": "10시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "21",
+              "value": "10시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "22",
+              "value": "11시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "23",
+              "value": "11시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "24",
+              "value": "12시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "25",
+              "value": "12시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "26",
+              "value": "13시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "27",
+              "value": "13시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "28",
+              "value": "14시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "29",
+              "value": "14시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "30",
+              "value": "15시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "31",
+              "value": "15시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "32",
+              "value": "16시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "33",
+              "value": "16시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "34",
+              "value": "17시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "35",
+              "value": "17시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "36",
+              "value": "18시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "37",
+              "value": "18시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "38",
+              "value": "19시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "39",
+              "value": "19시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "40",
+              "value": "20시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "41",
+              "value": "20시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "42",
+              "value": "21시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "43",
+              "value": "21시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "44",
+              "value": "22시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "45",
+              "value": "22시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "46",
+              "value": "23시간 뒤",
+              "type": "active"
+            },
+            {
+              "key": "47",
+              "value": "23시간 30분 뒤",
+              "type": "active"
+            },
+            {
+              "key": "48",
+              "value": "24시간 뒤",
+              "type": "active"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "id": "instantcommon43059.samsungAcLocalTimer",
+  "version": 1
+}

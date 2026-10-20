@@ -1,0 +1,132 @@
+{
+  "id": "instantcommon43059.samsungAcLocalDeviceSettings",
+  "version": 1,
+  "status": "proposed",
+  "name": "Samsung Ac Local Device Settings",
+  "ephemeral": false,
+  "attributes": {
+    "voice": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high",
+              "melody",
+              "mute"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "value"
+        ]
+      },
+      "setter": "setVoice",
+      "enumCommands": []
+    },
+    "display": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "enum": [
+              "on",
+              "off"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "value"
+        ]
+      },
+      "setter": "setDisplay",
+      "enumCommands": []
+    },
+    "lighting": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "enum": [
+              "off",
+              "low",
+              "medium",
+              "high"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "value"
+        ]
+      },
+      "setter": "setLighting",
+      "enumCommands": []
+    }
+  },
+  "commands": {
+    "setDisplay": {
+      "name": "setDisplay",
+      "arguments": [
+        {
+          "name": "setting",
+          "optional": false,
+          "schema": {
+            "type": "string",
+            "enum": [
+              "on",
+              "off"
+            ]
+          }
+        }
+      ],
+      "sensitive": false
+    },
+    "setLighting": {
+      "name": "setLighting",
+      "arguments": [
+        {
+          "name": "setting",
+          "optional": false,
+          "schema": {
+            "type": "string",
+            "enum": [
+              "off",
+              "low",
+              "medium",
+              "high"
+            ]
+          }
+        }
+      ],
+      "sensitive": false
+    },
+    "setVoice": {
+      "name": "setVoice",
+      "arguments": [
+        {
+          "name": "setting",
+          "optional": false,
+          "schema": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high",
+              "melody",
+              "mute"
+            ]
+          }
+        }
+      ],
+      "sensitive": false
+    }
+  }
+}

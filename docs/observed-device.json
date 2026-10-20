@@ -1,0 +1,141 @@
+{
+  "observed_at": "2026-10-19T10:49:04.138998+00:00",
+  "device": {
+    "internal_model": "A20_FAC_BORA_18K",
+    "platform": "TizenRT2.0",
+    "manufacturer": "Samsung Electronics",
+    "resource_types": [
+      "oic.wk.d",
+      "oic.d.airconditioner"
+    ]
+  },
+  "tcp_tls_port": 43834,
+  "authenticated_read_requested": true,
+  "device_state_written": false,
+  "tls": {
+    "version": "TLSv1.2",
+    "cipher": "ECDHE-ECDSA-AES128-GCM-SHA256",
+    "server_chain_verified": true,
+    "dns_hostname_verified": false,
+    "alpn_offered": false,
+    "peer_certificate_sha256": "0f6c0b0940c2d4f7af266df2d194bb54d99ce9c52c9dcb0affcacd948c1c55ab",
+    "public_and_secure_ocf_identity_match": true
+  },
+  "batch": {
+    "code": "2.05",
+    "payload_bytes": 4861
+  },
+  "resources": {
+    "/airflow/vs/0": {
+      "x.com.samsung.da.speedLevel": "0",
+      "x.com.samsung.da.direction": "Off"
+    },
+    "/temperatures/vs/0": {
+      "x.com.samsung.da.items": [
+        {
+          "x.com.samsung.da.desired": "24",
+          "x.com.samsung.da.current": "25",
+          "x.com.samsung.da.maximum": "30",
+          "x.com.samsung.da.minimum": "18",
+          "x.com.samsung.da.unit": "Celsius"
+        }
+      ]
+    },
+    "/temperature/current/0": {
+      "range": [
+        18.0,
+        30.0
+      ],
+      "units": "C",
+      "temperature": 25.0
+    },
+    "/temperature/desired/0": {
+      "range": [
+        18.0,
+        30.0
+      ],
+      "units": "C",
+      "temperature": 24.0
+    },
+    "/mode/vs/0": {
+      "x.com.samsung.da.supportedModes": [
+        "Gear",
+        "Cool",
+        "Dry",
+        "Wind",
+        "Auto",
+        "CoolClean",
+        "DryClean",
+        "HOMECARE_WIZARD_V2"
+      ],
+      "x.com.samsung.da.modes": [
+        "Auto"
+      ],
+      "x.com.samsung.da.options": [
+        "Comode_Off"
+      ]
+    },
+    "/power/vs/0": {
+      "x.com.samsung.da.power": "Off"
+    },
+    "/power/0": {
+      "value": false
+    },
+    "/humidity/0": {
+      "humidity": 0
+    },
+    "/humidity/vs/0": {
+      "x.com.samsung.da.humidity": "0.000000",
+      "x.com.samsung.da.fivepercentHumidity": "63"
+    }
+  },
+  "resource_fields": {
+    "/airflow/vs/0": [
+      "x.com.samsung.da.direction",
+      "x.com.samsung.da.speedLevel"
+    ],
+    "/temperatures/vs/0": [
+      "x.com.samsung.da.items"
+    ],
+    "/temperature/current/0": [
+      "range",
+      "temperature",
+      "units"
+    ],
+    "/temperature/desired/0": [
+      "range",
+      "temperature",
+      "units"
+    ],
+    "/mode/vs/0": [
+      "x.com.samsung.da.modes",
+      "x.com.samsung.da.options",
+      "x.com.samsung.da.supportedModes"
+    ],
+    "/power/vs/0": [
+      "x.com.samsung.da.power"
+    ],
+    "/power/0": [
+      "value"
+    ],
+    "/humidity/0": [
+      "humidity"
+    ],
+    "/humidity/vs/0": [
+      "x.com.samsung.da.fivepercentHumidity",
+      "x.com.samsung.da.humidity"
+    ]
+  },
+  "advertised_state_paths": [
+    "/airflow/vs/0",
+    "/humidity/0",
+    "/humidity/vs/0",
+    "/mode/vs/0",
+    "/power/0",
+    "/power/vs/0",
+    "/temperature/current/0",
+    "/temperature/desired/0",
+    "/temperatures/vs/0"
+  ],
+  "temporary_credentials_removed": true
+}

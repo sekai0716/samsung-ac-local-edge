@@ -1,0 +1,17 @@
+{
+  "observed_at": "2026-10-19T12:12:40.632284+00:00",
+  "execution": "Lua 5.3 discovery with Python UDP adapter",
+  "hub_sdk_executed": false,
+  "target_ip_supplied": false,
+  "appliance_state_written": false,
+  "client_credentials_used": false,
+  "devices": [
+    {
+      "host": "192.168.1.170",
+      "model": "A20_FAC_BORA_18K",
+      "manufacturer": "Samsung Electronics"
+    }
+  ],
+  "udp_gets": 4,
+  "open_socket_count": 0
+}

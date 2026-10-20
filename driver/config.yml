@@ -1,0 +1,6 @@
+name: Samsung AC Local
+packageKey: samsung-ac-local
+description: Local OCF air-conditioner control and state over authenticated LAN TLS.
+permissions:
+  lan: {}
+  discovery: {}

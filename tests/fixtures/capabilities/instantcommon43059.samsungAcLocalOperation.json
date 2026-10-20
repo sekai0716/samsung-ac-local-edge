@@ -1,0 +1,138 @@
+{
+  "id": "instantcommon43059.samsungAcLocalOperation",
+  "version": 1,
+  "status": "proposed",
+  "name": "Samsung Ac Local Operation",
+  "ephemeral": false,
+  "attributes": {
+    "mode": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "enum": [
+              "aIComfort",
+              "auto",
+              "cool",
+              "dry",
+              "wind"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "value"
+        ]
+      },
+      "setter": "setMode",
+      "enumCommands": []
+    },
+    "fan": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "enum": [
+              "auto",
+              "low",
+              "medium",
+              "high",
+              "turbo"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "value"
+        ]
+      },
+      "setter": "setFan",
+      "enumCommands": []
+    },
+    "setpoint": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "number",
+            "minimum": 18,
+            "maximum": 30
+          },
+          "unit": {
+            "type": "string",
+            "enum": [
+              "C",
+              "F"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "value",
+          "unit"
+        ]
+      },
+      "setter": "setTemperature",
+      "enumCommands": []
+    }
+  },
+  "commands": {
+    "setFan": {
+      "name": "setFan",
+      "arguments": [
+        {
+          "name": "setting",
+          "optional": false,
+          "schema": {
+            "type": "string",
+            "enum": [
+              "auto",
+              "low",
+              "medium",
+              "high",
+              "turbo"
+            ]
+          }
+        }
+      ],
+      "sensitive": false
+    },
+    "setMode": {
+      "name": "setMode",
+      "arguments": [
+        {
+          "name": "setting",
+          "optional": false,
+          "schema": {
+            "type": "string",
+            "enum": [
+              "aIComfort",
+              "auto",
+              "cool",
+              "dry",
+              "wind"
+            ]
+          }
+        }
+      ],
+      "sensitive": false
+    },
+    "setTemperature": {
+      "name": "setTemperature",
+      "arguments": [
+        {
+          "name": "setpoint",
+          "optional": false,
+          "schema": {
+            "type": "number",
+            "minimum": 18,
+            "maximum": 30
+          }
+        }
+      ],
+      "sensitive": false
+    }
+  }
+}

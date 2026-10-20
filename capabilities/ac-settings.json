@@ -1,0 +1,85 @@
+{
+  "name": "Samsung AC Local Settings",
+  "attributes": {
+    "lighting": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "enum": [
+              "off",
+              "low",
+              "medium",
+              "high"
+            ]
+          }
+        },
+        "required": [
+          "value"
+        ],
+        "additionalProperties": false
+      },
+      "setter": "setLighting"
+    },
+    "voice": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high",
+              "melody",
+              "mute"
+            ]
+          }
+        },
+        "required": [
+          "value"
+        ],
+        "additionalProperties": false
+      },
+      "setter": "setVoice"
+    }
+  },
+  "commands": {
+    "setLighting": {
+      "name": "setLighting",
+      "arguments": [
+        {
+          "name": "setting",
+          "schema": {
+            "type": "string",
+            "enum": [
+              "off",
+              "low",
+              "medium",
+              "high"
+            ]
+          }
+        }
+      ]
+    },
+    "setVoice": {
+      "name": "setVoice",
+      "arguments": [
+        {
+          "name": "setting",
+          "schema": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high",
+              "melody",
+              "mute"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

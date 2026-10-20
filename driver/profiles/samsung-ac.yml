@@ -1,0 +1,98 @@
+name: samsung-ac
+components:
+  - id: main
+    label: 에어컨
+    capabilities:
+      - id: switch
+        version: 1
+      - id: airConditionerMode
+        version: 1
+      - id: thermostatCoolingSetpoint
+        version: 1
+      - id: airConditionerFanMode
+        version: 1
+      - id: temperatureMeasurement
+        version: 1
+      - id: relativeHumidityMeasurement
+        version: 1
+      - id: refresh
+        version: 1
+      - {id: dustSensor, version: 1}
+      - {id: veryFineDustSensor, version: 1}
+      - {id: odorSensor, version: 1}
+      - {id: airQualityHealthConcern, version: 1}
+      - {id: instantcommon43059.samsungAcLocalTimer, version: 1}
+      - {id: instantcommon43059.samsungAcLocalSettings, version: 1}
+      - {id: instantcommon43059.samsungAcLocalComfort, version: 1}
+      - {id: instantcommon43059.samsungAcLocalDeviceSettings, version: 1}
+      - {id: instantcommon43059.samsungAcLocalCare, version: 1}
+      - {id: instantcommon43059.samsungAcLocalOperation, version: 1}
+    categories:
+      - name: AirConditioner
+  - id: windfree
+    label: 무풍 (냉방·제습·청정에서 설정)
+    capabilities:
+      - id: switch
+        version: 1
+  - id: autoclean
+    label: 자동건조 사용 설정
+    capabilities:
+      - id: switch
+        version: 1
+  - id: purify
+    label: 청정 (냉방·제습에서 On/Off)
+    capabilities:
+      - id: switch
+        version: 1
+  - id: doorupper
+    label: 상단 바람문
+    capabilities:
+      - {id: switch, version: 1}
+  - id: doorlower
+    label: 하단 바람문
+    capabilities:
+      - {id: switch, version: 1}
+  - id: panel
+    label: 바람문(패널) 열림
+    capabilities:
+      - {id: doorControl, version: 1}
+  - id: speed
+    label: 스피드 (냉방에서 설정)
+    capabilities:
+      - {id: switch, version: 1}
+  - id: quiet
+    label: 정음 (냉방에서 설정)
+    capabilities:
+      - {id: switch, version: 1}
+  - id: displayoff
+    label: 화면 끄기
+    capabilities:
+      - {id: switch, version: 1}
+metadata:
+  ocfDeviceType: oic.d.airconditioner
+  # capabilities/ac-device-config.json에서 생성한 화면입니다. 구성·번역 변경 시 다시 생성합니다.
+  vid: 43c0ada9-66be-3bd7-9436-cf4969756365
+preferences:
+  - name: targetIp
+    title: 에어컨 IP
+    description: 비워 두면 자동 검색한 주소를 사용합니다. 등록된 기기의 주소를 직접 지정할 때 입력합니다.
+    required: false
+    preferenceType: string
+    definition:
+      stringType: text
+      default: ""
+  - name: enablePolling
+    title: 주기 조회
+    description: 꺼도 초기 조회와 수동 새로고침은 동작합니다.
+    required: true
+    preferenceType: boolean
+    definition:
+      default: true
+  - name: refreshSeconds
+    title: 조회 간격(초)
+    required: true
+    preferenceType: integer
+    definition:
+      minimum: 5
+      maximum: 900
+      default: 10

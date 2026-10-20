@@ -1,0 +1,264 @@
+{
+  "id": "instantcommon43059.samsungAcLocalSettings",
+  "version": 1,
+  "dashboard": {
+    "states": [],
+    "actions": []
+  },
+  "detailView": [
+    {
+      "label": "라이팅",
+      "displayType": "list",
+      "list": {
+        "command": {
+          "name": "setLighting",
+          "alternatives": [
+            {
+              "key": "off",
+              "value": "꺼짐",
+              "type": "inactive"
+            },
+            {
+              "key": "low",
+              "value": "약한 밝기",
+              "type": "active"
+            },
+            {
+              "key": "medium",
+              "value": "중간 밝기",
+              "type": "active"
+            },
+            {
+              "key": "high",
+              "value": "강한 밝기",
+              "type": "active"
+            }
+          ]
+        },
+        "state": {
+          "value": "lighting.value",
+          "alternatives": [
+            {
+              "key": "off",
+              "value": "꺼짐",
+              "type": "inactive"
+            },
+            {
+              "key": "low",
+              "value": "약한 밝기",
+              "type": "active"
+            },
+            {
+              "key": "medium",
+              "value": "중간 밝기",
+              "type": "active"
+            },
+            {
+              "key": "high",
+              "value": "강한 밝기",
+              "type": "active"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "label": "음성선택",
+      "displayType": "list",
+      "list": {
+        "command": {
+          "name": "setVoice",
+          "alternatives": [
+            {
+              "key": "low",
+              "value": "최소볼륨",
+              "type": "active"
+            },
+            {
+              "key": "medium",
+              "value": "기본볼륨",
+              "type": "active"
+            },
+            {
+              "key": "high",
+              "value": "최대볼륨",
+              "type": "active"
+            },
+            {
+              "key": "melody",
+              "value": "효과음",
+              "type": "active"
+            },
+            {
+              "key": "mute",
+              "value": "음소거",
+              "type": "inactive"
+            }
+          ]
+        },
+        "state": {
+          "value": "voice.value",
+          "alternatives": [
+            {
+              "key": "low",
+              "value": "최소볼륨",
+              "type": "active"
+            },
+            {
+              "key": "medium",
+              "value": "기본볼륨",
+              "type": "active"
+            },
+            {
+              "key": "high",
+              "value": "최대볼륨",
+              "type": "active"
+            },
+            {
+              "key": "melody",
+              "value": "효과음",
+              "type": "active"
+            },
+            {
+              "key": "mute",
+              "value": "음소거",
+              "type": "inactive"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "automation": {
+    "conditions": [
+      {
+        "label": "라이팅",
+        "displayType": "list",
+        "list": {
+          "value": "lighting.value",
+          "alternatives": [
+            {
+              "key": "off",
+              "value": "꺼짐",
+              "type": "inactive"
+            },
+            {
+              "key": "low",
+              "value": "약한 밝기",
+              "type": "active"
+            },
+            {
+              "key": "medium",
+              "value": "중간 밝기",
+              "type": "active"
+            },
+            {
+              "key": "high",
+              "value": "강한 밝기",
+              "type": "active"
+            }
+          ]
+        }
+      },
+      {
+        "label": "음성선택",
+        "displayType": "list",
+        "list": {
+          "value": "voice.value",
+          "alternatives": [
+            {
+              "key": "low",
+              "value": "최소볼륨",
+              "type": "active"
+            },
+            {
+              "key": "medium",
+              "value": "기본볼륨",
+              "type": "active"
+            },
+            {
+              "key": "high",
+              "value": "최대볼륨",
+              "type": "active"
+            },
+            {
+              "key": "melody",
+              "value": "효과음",
+              "type": "active"
+            },
+            {
+              "key": "mute",
+              "value": "음소거",
+              "type": "inactive"
+            }
+          ]
+        }
+      }
+    ],
+    "actions": [
+      {
+        "label": "라이팅",
+        "displayType": "list",
+        "list": {
+          "command": "setLighting",
+          "alternatives": [
+            {
+              "key": "off",
+              "value": "꺼짐",
+              "type": "inactive"
+            },
+            {
+              "key": "low",
+              "value": "약한 밝기",
+              "type": "active"
+            },
+            {
+              "key": "medium",
+              "value": "중간 밝기",
+              "type": "active"
+            },
+            {
+              "key": "high",
+              "value": "강한 밝기",
+              "type": "active"
+            }
+          ]
+        }
+      },
+      {
+        "label": "음성선택",
+        "displayType": "list",
+        "list": {
+          "command": "setVoice",
+          "alternatives": [
+            {
+              "key": "low",
+              "value": "최소볼륨",
+              "type": "active"
+            },
+            {
+              "key": "medium",
+              "value": "기본볼륨",
+              "type": "active"
+            },
+            {
+              "key": "high",
+              "value": "최대볼륨",
+              "type": "active"
+            },
+            {
+              "key": "melody",
+              "value": "효과음",
+              "type": "active"
+            },
+            {
+              "key": "mute",
+              "value": "음소거",
+              "type": "inactive"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

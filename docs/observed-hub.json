@@ -1,0 +1,101 @@
+{
+  "record_scope": "Historical transport verification for the driver_version below; later feature validation is recorded separately.",
+  "later_feature_verification": "observed-features.json",
+  "verified_at": "2026-10-19T14:01:06.882495+00:00",
+  "driver_name": "Samsung AC Local",
+  "driver_version": "2026-10-19T13:54:37.400646532",
+  "installed_version_confirmed": true,
+  "hub_model": "V3_HUB",
+  "hub_firmware": "000.062.00007",
+  "lan_devices_created": 1,
+  "app_addition_confirmed_by_user": true,
+  "fresh_refresh_runtime_observed": true,
+  "health": "ONLINE",
+  "state": {
+    "temperature": 25,
+    "humidity": 63,
+    "setpoint": 24,
+    "power": "off",
+    "mode": "auto",
+    "fan": "auto"
+  },
+  "direct_tls_handshake_succeeded": false,
+  "direct_tls_error": "unexpected message",
+  "native_first_handshake_result": "wantwrite",
+  "native_second_handshake_result": "unexpected message",
+  "raw_server_handshake_types": [
+    2,
+    11,
+    12,
+    13,
+    14
+  ],
+  "pc_authenticated_get_succeeded": true,
+  "hub_via_pc_tls_handshake_succeeded": true,
+  "hub_via_pc_state_get_verified": false,
+  "hub_internal_relay_succeeded": true,
+  "hub_only_authenticated_get_succeeded": true,
+  "external_relay_used_by_operational_driver": false,
+  "peer_unsolicited_clienthello_observed": true,
+  "tls_role_collision_detection_implemented": true,
+  "handshake_attempt_limit_before_coap": 6,
+  "authenticated_connection_reuse_implemented": true,
+  "latest_query_checks": {
+    "attempted": 5,
+    "succeeded": 5,
+    "fresh_runtime_outcome_each_request": true,
+    "tls_reuse_observed_each_request": true,
+    "role_retries_total": 0,
+    "queued_capability_events_each_request": 13
+  },
+  "previous_connect_per_query_checks": {
+    "attempted": 5,
+    "succeeded": 4
+  },
+  "idle_reconnect_check": {
+    "verified_at": "2026-10-19T14:01:06.882495+00:00",
+    "idle_minutes_over": 4,
+    "get_succeeded": true,
+    "reconnected_after_cached_tls": true,
+    "role_retries": 0,
+    "health": "ONLINE"
+  },
+  "no_op_power_off_command_confirmed_unchanged": true,
+  "physical_setting_change_verified": false,
+  "smartphone_screen_verified": false,
+  "long_term_stability_verified": false,
+  "pc_reverse_tls_role_error_with_same_certificate": "TLSV1_ALERT_UNKNOWN_CA",
+  "hub_native_ciphers_observed": [
+    "aes256-ecb",
+    "aes256-cbc",
+    "aes128-cbc",
+    "aes128-ecb"
+  ],
+  "hub_native_digests_observed": [
+    "sha256"
+  ],
+  "reference_ports": [
+    {
+      "port": 8888,
+      "result": "connection_refused"
+    },
+    {
+      "port": 2878,
+      "result": "connection_refused"
+    }
+  ],
+  "client_certificate_expires_at": "2126-09-25T12:25:34+00:00",
+  "temporary_diagnostic_removed_from_operational_package": true,
+  "operational_package_source_matches": true,
+  "agent_appliance_write_commands_sent": false,
+  "root_cause_confirmed": false,
+  "notes": [
+    "Cloud installation, LAN creation, TLS handshake, application GET and setting confirmation are separate checks.",
+    "Direct native TLS remains distinct from the successful hub-only internal encrypted relay path.",
+    "Peer ClientHello was observed; the firmware condition that initiates it is not confirmed.",
+    "One idle cached connection took the fresh authentication path during the final batch; later requests reused the authenticated connection.",
+    "Five successful refreshes and ONLINE are short-term evidence, not a long-term stability test or a physical setting-change test.",
+    "An SSL readiness adapter was tested, did not resolve the failure, and was removed.",
+    "Only the hub handles TLS and appliance requests in the operational path. No permanent external relay has been deployed."
+  ]
+}

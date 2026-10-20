@@ -1,0 +1,100 @@
+{
+  "name": "Samsung Ac Local Care",
+  "attributes": {
+    "autoclean": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "enum": [
+              "on",
+              "off"
+            ]
+          }
+        },
+        "required": [
+          "value"
+        ],
+        "additionalProperties": false
+      },
+      "enumCommands": [],
+      "setter": "setAutoclean"
+    },
+    "panel": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "enum": [
+              "closed",
+              "open"
+            ]
+          }
+        },
+        "required": [
+          "value"
+        ],
+        "additionalProperties": false
+      },
+      "enumCommands": [],
+      "setter": "setPanel"
+    },
+    "panelEnabled": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "enum": [
+              "enabled",
+              "disabled"
+            ]
+          }
+        },
+        "required": [
+          "value"
+        ],
+        "additionalProperties": false
+      },
+      "enumCommands": []
+    }
+  },
+  "commands": {
+    "setAutoclean": {
+      "name": "setAutoclean",
+      "sensitive": false,
+      "arguments": [
+        {
+          "name": "setting",
+          "optional": false,
+          "schema": {
+            "type": "string",
+            "enum": [
+              "on",
+              "off"
+            ]
+          }
+        }
+      ]
+    },
+    "setPanel": {
+      "name": "setPanel",
+      "sensitive": false,
+      "arguments": [
+        {
+          "name": "setting",
+          "optional": false,
+          "schema": {
+            "type": "string",
+            "enum": [
+              "closed",
+              "open"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

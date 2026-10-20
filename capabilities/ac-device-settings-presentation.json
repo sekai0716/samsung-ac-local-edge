@@ -1,0 +1,337 @@
+{
+  "id": "instantcommon43059.samsungAcLocalDeviceSettings",
+  "version": 1,
+  "dashboard": {
+    "states": [],
+    "actions": []
+  },
+  "detailView": [
+    {
+      "label": "라이팅",
+      "displayType": "list",
+      "list": {
+        "command": {
+          "name": "setLighting",
+          "argumentType": "string",
+          "alternatives": [
+            {
+              "key": "off",
+              "value": "꺼짐",
+              "type": "inactive"
+            },
+            {
+              "key": "low",
+              "value": "약한 밝기",
+              "type": "active"
+            },
+            {
+              "key": "medium",
+              "value": "중간 밝기",
+              "type": "active"
+            },
+            {
+              "key": "high",
+              "value": "강한 밝기",
+              "type": "active"
+            }
+          ]
+        },
+        "state": {
+          "value": "lighting.value",
+          "valueType": "string",
+          "alternatives": [
+            {
+              "key": "off",
+              "value": "꺼짐",
+              "type": "inactive"
+            },
+            {
+              "key": "low",
+              "value": "약한 밝기",
+              "type": "active"
+            },
+            {
+              "key": "medium",
+              "value": "중간 밝기",
+              "type": "active"
+            },
+            {
+              "key": "high",
+              "value": "강한 밝기",
+              "type": "active"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "label": "음성선택",
+      "displayType": "list",
+      "list": {
+        "command": {
+          "name": "setVoice",
+          "argumentType": "string",
+          "alternatives": [
+            {
+              "key": "low",
+              "value": "최소볼륨",
+              "type": "active"
+            },
+            {
+              "key": "medium",
+              "value": "기본볼륨",
+              "type": "active"
+            },
+            {
+              "key": "high",
+              "value": "최대볼륨",
+              "type": "active"
+            },
+            {
+              "key": "melody",
+              "value": "효과음",
+              "type": "active"
+            },
+            {
+              "key": "mute",
+              "value": "음소거",
+              "type": "active"
+            }
+          ]
+        },
+        "state": {
+          "value": "voice.value",
+          "valueType": "string",
+          "alternatives": [
+            {
+              "key": "low",
+              "value": "최소볼륨",
+              "type": "active"
+            },
+            {
+              "key": "medium",
+              "value": "기본볼륨",
+              "type": "active"
+            },
+            {
+              "key": "high",
+              "value": "최대볼륨",
+              "type": "active"
+            },
+            {
+              "key": "melody",
+              "value": "효과음",
+              "type": "active"
+            },
+            {
+              "key": "mute",
+              "value": "음소거",
+              "type": "active"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "label": "본체 화면",
+      "displayType": "toggleSwitch",
+      "toggleSwitch": {
+        "command": {
+          "name": "setDisplay",
+          "on": "on",
+          "off": "off",
+          "argumentType": "string"
+        },
+        "state": {
+          "value": "display.value",
+          "valueType": "string",
+          "alternatives": [
+            {
+              "key": "on",
+              "value": "켜짐",
+              "type": "active"
+            },
+            {
+              "key": "off",
+              "value": "꺼짐",
+              "type": "inactive"
+            }
+          ],
+          "on": "on",
+          "off": "off",
+          "label": "{{display.value}}"
+        }
+      }
+    }
+  ],
+  "automation": {
+    "conditions": [
+      {
+        "label": "라이팅",
+        "displayType": "list",
+        "list": {
+          "value": "lighting.value",
+          "alternatives": [
+            {
+              "key": "off",
+              "value": "꺼짐",
+              "type": "inactive"
+            },
+            {
+              "key": "low",
+              "value": "약한 밝기",
+              "type": "active"
+            },
+            {
+              "key": "medium",
+              "value": "중간 밝기",
+              "type": "active"
+            },
+            {
+              "key": "high",
+              "value": "강한 밝기",
+              "type": "active"
+            }
+          ]
+        }
+      },
+      {
+        "label": "음성선택",
+        "displayType": "list",
+        "list": {
+          "value": "voice.value",
+          "alternatives": [
+            {
+              "key": "low",
+              "value": "최소볼륨",
+              "type": "active"
+            },
+            {
+              "key": "medium",
+              "value": "기본볼륨",
+              "type": "active"
+            },
+            {
+              "key": "high",
+              "value": "최대볼륨",
+              "type": "active"
+            },
+            {
+              "key": "melody",
+              "value": "효과음",
+              "type": "active"
+            },
+            {
+              "key": "mute",
+              "value": "음소거",
+              "type": "active"
+            }
+          ]
+        }
+      },
+      {
+        "label": "본체 화면",
+        "displayType": "list",
+        "list": {
+          "value": "display.value",
+          "alternatives": [
+            {
+              "key": "on",
+              "value": "켜짐",
+              "type": "active"
+            },
+            {
+              "key": "off",
+              "value": "꺼짐",
+              "type": "inactive"
+            }
+          ]
+        }
+      }
+    ],
+    "actions": [
+      {
+        "label": "라이팅",
+        "displayType": "list",
+        "list": {
+          "command": "setLighting",
+          "alternatives": [
+            {
+              "key": "off",
+              "value": "꺼짐",
+              "type": "inactive"
+            },
+            {
+              "key": "low",
+              "value": "약한 밝기",
+              "type": "active"
+            },
+            {
+              "key": "medium",
+              "value": "중간 밝기",
+              "type": "active"
+            },
+            {
+              "key": "high",
+              "value": "강한 밝기",
+              "type": "active"
+            }
+          ]
+        }
+      },
+      {
+        "label": "음성선택",
+        "displayType": "list",
+        "list": {
+          "command": "setVoice",
+          "alternatives": [
+            {
+              "key": "low",
+              "value": "최소볼륨",
+              "type": "active"
+            },
+            {
+              "key": "medium",
+              "value": "기본볼륨",
+              "type": "active"
+            },
+            {
+              "key": "high",
+              "value": "최대볼륨",
+              "type": "active"
+            },
+            {
+              "key": "melody",
+              "value": "효과음",
+              "type": "active"
+            },
+            {
+              "key": "mute",
+              "value": "음소거",
+              "type": "active"
+            }
+          ]
+        }
+      },
+      {
+        "label": "본체 화면",
+        "displayType": "list",
+        "list": {
+          "command": "setDisplay",
+          "alternatives": [
+            {
+              "key": "on",
+              "value": "켜짐",
+              "type": "active"
+            },
+            {
+              "key": "off",
+              "value": "꺼짐",
+              "type": "inactive"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
