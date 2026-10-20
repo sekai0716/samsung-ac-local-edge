@@ -70,8 +70,9 @@ components:
       - {id: switch, version: 1}
 metadata:
   ocfDeviceType: oic.d.airconditioner
-  # capabilities/ac-device-config.json에서 생성한 화면입니다. 구성·번역 변경 시 다시 생성합니다.
+  # 화면 조회에는 ID와 제조사 쌍을 사용합니다. 구성·번역 변경 시 두 값을 함께 갱신합니다.
   vid: 43c0ada9-66be-3bd7-9436-cf4969756365
+  mnmn: SmartThingsCommunity
 preferences:
   - name: targetIp
     title: 에어컨 IP
