@@ -1,0 +1,124 @@
+{
+  "scope": "One owned A20_FAC_BORA_18K appliance and V3 hub; identifiers and credentials omitted",
+  "driver_version": "2026-10-20T12:52:02.622985997",
+  "observation_end_at": "2026-10-20T13:16:31.206391+00:00",
+  "production_native_zero_guard_retained": true,
+  "positive_setting_trials": [
+    {
+      "route": "SmartThings API to installed Edge handler to appliance",
+      "command": "setOnDelay",
+      "argument": "1",
+      "hub_confirmed_at": "2026-10-20T13:01:10.366+00:00",
+      "appliance_power": "Off",
+      "appliance_timers": {"OnTimer": 1, "OffTimer": 0},
+      "cloud_native_on_delay": "1",
+      "hub_timers": {"onDelay": "none", "offDelay": "none"}
+    },
+    {
+      "route": "SmartThings API to installed Edge handler to appliance",
+      "command": "setOffDelay",
+      "argument": "1",
+      "hub_confirmed_at": "2026-10-20T13:02:17.145833+00:00",
+      "appliance_power": "On",
+      "appliance_timers": {"OnTimer": 0, "OffTimer": 1},
+      "cloud_native_off_delay": "1",
+      "hub_timers": {"onDelay": "none", "offDelay": "none"}
+    }
+  ],
+  "zero_write_trials": [
+    {
+      "route": "Separately authorized private PC probe, not production Edge commands",
+      "option": "OnTimer_0",
+      "post_attempts": 1,
+      "response_code": "2.04 Changed",
+      "sent_at": "2026-10-20T13:01:35.758045+00:00",
+      "before": {"power": "Off", "OnTimer": 1, "OffTimer": 0},
+      "samples": [
+        {"at": "2026-10-20T13:01:37.725968+00:00", "power": "Off", "OnTimer": 0, "OffTimer": 0},
+        {"at": "2026-10-20T13:01:40.151352+00:00", "power": "On", "OnTimer": 0, "OffTimer": 0},
+        {"at": "2026-10-20T13:01:45.878675+00:00", "power": "On", "OnTimer": 0, "OffTimer": 0}
+      ]
+    },
+    {
+      "route": "Separately authorized private PC probe, not production Edge commands",
+      "option": "OffTimer_0",
+      "post_attempts": 1,
+      "response_code": "2.04 Changed",
+      "sent_at": "2026-10-20T13:02:37.341507+00:00",
+      "before": {"power": "On", "OnTimer": 0, "OffTimer": 1},
+      "samples": [
+        {"at": "2026-10-20T13:02:39.061975+00:00", "power": "On", "OnTimer": 0, "OffTimer": 0},
+        {"at": "2026-10-20T13:02:41.860760+00:00", "power": "Off", "OnTimer": 0, "OffTimer": 0},
+        {"at": "2026-10-20T13:02:47.543316+00:00", "power": "Off", "OnTimer": 0, "OffTimer": 0}
+      ]
+    }
+  ],
+  "restoration_after_zero_trials": {
+    "autoclean_changed_to_on_during_trials": true,
+    "restore_command": "setAutoclean(\"off\")",
+    "hub_confirmed_at": "2026-10-20T13:04:55.012+00:00",
+    "separate_power_or_outlet_restore_command_sent": false,
+    "checked_baseline_fields_restored": true,
+    "cloud_at": "2026-10-20T13:05:41.674+00:00",
+    "cloud_power": "off",
+    "cloud_native_timers": {"onDelay": "none", "offDelay": "none"},
+    "cloud_hub_timers": {"onDelay": "none", "offDelay": "none"}
+  },
+  "same_power_cancel_candidate": {
+    "route": "Private PC probe after installed Edge handler set OffTimer_1",
+    "request_path": "/power/vs/0",
+    "request_body": {"x.com.samsung.da.power": "Off"},
+    "timer_option_sent": false,
+    "post_attempts": 1,
+    "response_code": "2.04 Changed",
+    "sent_at": "2026-10-20T13:09:35.944188+00:00",
+    "before": {"power": "Off", "OnTimer": 0, "OffTimer": 1},
+    "samples": [
+      {"at": "2026-10-20T13:09:38.260138+00:00", "power": "Off", "OnTimer": 0, "OffTimer": 1},
+      {"at": "2026-10-20T13:09:40.701479+00:00", "power": "Off", "OnTimer": 0, "OffTimer": 1},
+      {"at": "2026-10-20T13:09:46.180574+00:00", "power": "Off", "OnTimer": 0, "OffTimer": 1}
+    ],
+    "cancellation_observed": false
+  },
+  "remote_cancel_observation": {
+    "user_reported_cancelled_via_remote": true,
+    "pc_observation_read_only": true,
+    "mode_and_configuration_sample_count": 42,
+    "first_sample_at": "2026-10-20T13:11:33.778912+00:00",
+    "first_sample_timers": {"OnTimer": 0, "OffTimer": 1},
+    "first_zero_sample_at": "2026-10-20T13:11:48.528907+00:00",
+    "last_sample_at": "2026-10-20T13:15:29.949519+00:00",
+    "only_observed_mode_change": "OffTimer_1 -> OffTimer_0",
+    "configuration_changed": false,
+    "removed_added_are_wire_fields": false,
+    "removed_added_origin": "Computed differences between GET options arrays",
+    "power_polled_continuously_during_remote_cancel": false,
+    "final_get": {
+      "at": "2026-10-20T13:16:31.206391+00:00",
+      "power": "Off",
+      "OnTimer": 0,
+      "OffTimer": 0,
+      "mode": ["Cool"],
+      "checked_options": ["Comode_Off", "Blooming_0", "ComfortAICooling_Off", "Autoclean_Off", "Panel_Close"]
+    }
+  },
+  "interpretation": {
+    "read_zero_is_no_active_timer": "Observed after remote cancellation",
+    "writing_zero_is_safe_cancellation": false,
+    "zero_may_mean_immediate_execution": "High-confidence inference from both power transitions, not verified firmware logic",
+    "read_state_difference_reveals_cancel_request": false,
+    "safe_native_cancel_command_identified": false
+  },
+  "limits": {
+    "natural_half_hour_expiry_tested": false,
+    "complete_1_to_48_range_acceptance_tested": false,
+    "same_value_rearm_deadline_tested": false,
+    "on_state_remote_off_timer_cancel_power_preservation_tested": false,
+    "native_timer_phone_card_rendering_verified": false,
+    "all_appliance_settings_restored_claimed": false,
+    "undocumented_tokens_fuzzed": false,
+    "resource_delete_attempted": false,
+    "firmware_cancel_handler_identified": false,
+    "temporary_pc_credential_copies_removed": true
+  }
+}

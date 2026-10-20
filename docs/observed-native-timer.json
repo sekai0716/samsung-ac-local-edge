@@ -1,5 +1,7 @@
 {
   "recorded_at": "2026-10-20T12:53:16.852966+00:00",
+  "record_kind": "Deployment read-only snapshot; later writes are recorded separately",
+  "followup_record": "observed-native-timer-trial.json",
   "scope": "One owned A20_FAC_BORA_18K appliance and V3 hub; no credentials or device identifiers",
   "deployment": {
     "driver_version": "2026-10-20T12:52:02.622985997",
