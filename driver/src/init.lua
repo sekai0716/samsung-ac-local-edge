@@ -12,6 +12,11 @@ local comfort = caps["instantcommon43059.samsungAcLocalComfort"]
 local device_settings = caps["instantcommon43059.samsungAcLocalDeviceSettings"]
 local care = caps["instantcommon43059.samsungAcLocalCare"]
 local operation = caps["instantcommon43059.samsungAcLocalOperation"]
+local temperature = caps["instantcommon43059.samsungAcLocalTemperature"]
+local air_features = caps["instantcommon43059.samsungAcLocalAirFeatures"]
+local display = caps["instantcommon43059.samsungAcLocalDisplay"]
+local panel = caps["instantcommon43059.samsungAcLocalPanel"]
+local operating = caps["instantcommon43059.samsungAcLocalOperating"]
 
 -- 시작 시 한 번, 앱 검색 중에는 취소될 때까지 OCF 멀티캐스트로 지원 모델을 찾습니다.
 local discovering = false
@@ -114,7 +119,7 @@ local driver = Driver("samsung-ac-local", {
   supported_capabilities = { caps.switch, caps.airConditionerMode, caps.airConditionerFanMode,
     caps.thermostatCoolingSetpoint, caps.temperatureMeasurement, caps.relativeHumidityMeasurement, caps.refresh,
     caps.dustSensor, caps.veryFineDustSensor, caps.odorSensor, caps.airQualityHealthConcern, reservation, settings, caps.doorControl,
-    comfort, device_settings, care, operation },
+    comfort, device_settings, care, operation, temperature, air_features, display, panel, operating },
   capability_handlers = {
     [caps.switch.ID] = { [caps.switch.commands.on.NAME] = switch_handler(true), [caps.switch.commands.off.NAME] = switch_handler(false) },
     [caps.airConditionerMode.ID] = { [caps.airConditionerMode.commands.setAirConditionerMode.NAME] = setting_handler("mode", "mode") },
@@ -153,6 +158,18 @@ local driver = Driver("samsung-ac-local", {
       [operation.commands.setMode.NAME] = setting_handler("mode", "setting"),
       [operation.commands.setTemperature.NAME] = setting_handler("setpoint", "setpoint"),
       [operation.commands.setFan.NAME] = setting_handler("fan", "setting"),
+    },
+    -- 화면에서 분리한 카드도 같은 검증·작업 큐를 사용하며 별도 본체 명령을 만들지 않습니다.
+    [temperature.ID] = { [temperature.commands.setTemperature.NAME] = setting_handler("setpoint", "setpoint") },
+    [air_features.ID] = {
+      [air_features.commands.setWindfree.NAME] = menu_toggle_handler("windfree", false),
+      [air_features.commands.setPurify.NAME] = menu_toggle_handler("purify", false),
+    },
+    [display.ID] = { [display.commands.setDisplay.NAME] = menu_toggle_handler("displayOff", true) },
+    [panel.ID] = { [panel.commands.setPanel.NAME] = setting_handler("panel", "setting") },
+    [operating.ID] = {
+      [operating.commands.setMode.NAME] = setting_handler("mode", "setting"),
+      [operating.commands.setFan.NAME] = setting_handler("fan", "setting"),
     },
   },
   lifecycle_handlers = {

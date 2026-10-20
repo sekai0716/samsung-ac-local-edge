@@ -6,13 +6,17 @@
 
 ## 구현한 기능
 
-상세 화면의 조작부는 운전, 바람·청정, 예약, 기기 설정, 관리 메뉴로 묶습니다. 운전은 `samsungAcLocalOperation`의 모드 선택·희망 온도 슬라이더·바람 세기 선택 세 항목을 한 카드에 배치합니다. 바람·청정은 `samsungAcLocalComfort`, 기기 설정은 `samsungAcLocalDeviceSettings`, 관리는 `samsungAcLocalCare`로 묶습니다. 아래의 기존 capability와 component는 루틴 호환을 위해 유지하며 상세 화면에서 중복 표시하지 않습니다. 운전 카드의 명령은 기존 모드·온도·풍량 작업 큐로 전달하고 같은 본체 관측값을 발행합니다. 생성 원본은 `tools/build_menu_capabilities.py`이고 JSON 정의·표시·테스트 스키마를 함께 생성합니다.
+상세 화면은 카드별로 한 종류의 조작부를 배치합니다. 사용자 Android 화면에서 한 capability의 목록·슬라이더·토글이 별도 카드로 나뉘고 같은 그룹 제목이 반복되는 것을 확인했습니다. 이전에 설명한 ‘운전 세 항목이 한 카드에 표시된다’는 동작은 해당 앱에서 성립하지 않았습니다. 운전의 모드·풍량 목록과 희망 온도 슬라이더, 바람 설정의 옵션·바람문 목록과 무풍·청정 토글, 기기 설정의 라이팅·음성 목록과 본체 화면 토글, 자동청소 스위치와 청소용 패널 목록을 각각 구분합니다.
 
-그룹 제목은 `capabilities/translations/`의 `*-ko.json`과 기본 언어용 `*-en.json`에 같은 한글 `label`로 관리합니다. 이 드라이버는 메뉴 문구를 한글로 제공하므로 앱이 언어를 지정하지 않아도 같은 제목을 사용합니다. `Samsung AC Local` 접두사를 빼고 ‘운전’, ‘바람·청정’, ‘예약’, ‘기기 설정’, ‘관리’로 표시하며, 루틴 호환용 기존 설정 그룹은 ‘라이팅·음성’으로 구분합니다. 등록용 capability `name`과 ID는 유지합니다. 번역 파일은 생성기와 별도로 관리하며, 대응하는 `*-presentation.json`의 ID에 `smartthings capabilities:translations:upsert <ID> --capability-version 1 --input <번역 파일>`로 등록합니다. 기존 해당 언어 번역에 다른 필드가 있으면 보존하고 `label`만 병합합니다. 방식은 [SmartThings Capability Translations 문서](https://developer.smartthings.com/docs/devices/capabilities/capability-translations)를 따릅니다.
+분리한 화면은 `samsungAcLocalOperating`, `samsungAcLocalTemperature`, `samsungAcLocalAirFeatures`, `samsungAcLocalDisplay`, `samsungAcLocalPanel`을 사용합니다. 기존 capability와 component 및 루틴 구성은 유지하고, 상세 화면에는 같은 조작부를 한 번만 배치합니다. 새 카드의 명령은 기존 검증·작업 큐로 전달하며 같은 관측값을 표시합니다. 활성 조건에 필요한 속성은 해당 카드를 소유한 capability에도 발행합니다. 기존 운전 정의에 추가한 속성이 허브에 반영되지 않아 이벤트 생성이 실패했던 것을 확인했으며, 기존 정의를 복구하고 새 운전 capability에 활성 조건을 두었습니다. 생성 원본은 `tools/build_menu_capabilities.py`이고 JSON 정의·표시·테스트 스키마를 함께 생성합니다.
+
+그룹 제목은 `capabilities/translations/`의 `*-ko.json`과 기본 언어용 `*-en.json`에 같은 한글 `label`로 관리합니다. 이 드라이버는 메뉴 문구를 한글로 제공하므로 앱이 언어를 지정하지 않아도 같은 제목을 사용합니다. `Samsung AC Local` 접두사를 빼고 ‘운전’, ‘희망 온도’, ‘바람 설정’, ‘무풍·청정’, ‘예약’, ‘기기 설정’, ‘본체 화면’, ‘자동청소’, ‘청소용 패널’로 표시하며, 루틴 호환용 기존 설정 그룹은 ‘라이팅·음성’으로 구분합니다. 기존 등록용 capability `name`과 ID는 유지합니다. 번역 파일은 생성기와 별도로 관리하며, 대응하는 `*-presentation.json`의 ID에 `smartthings capabilities:translations:upsert <ID> --capability-version 1 --input <번역 파일>`로 등록합니다. 기존 해당 언어 번역에 다른 필드가 있으면 보존하고 `label`만 병합합니다. 방식은 [SmartThings Capability Translations 문서](https://developer.smartthings.com/docs/devices/capabilities/capability-translations)를 따릅니다.
+
+무풍·청정·본체 화면·자동청소의 상세 표시 형식은 `switch`입니다. 사용자 휴대폰에서 기존 `toggleSwitch`가 원형으로 나타난 것을 확인한 뒤 표시 형식을 변경했습니다. 명령명·On/Off 인자·상태 매핑은 유지하며, 변경 후 사용자가 휴대폰에서 자동청소 제목과 네 가지 길쭉한 On/Off 스위치가 정상임을 확인했습니다. 표시 정의가 이미 있으면 `smartthings capabilities:presentation:update`를 사용합니다. `create`는 아직 없는 표시 정의에만 사용하며, 표시 수정에는 capability 속성 정의 갱신이 필요하지 않습니다.
 
 기기 화면 구성 원본은 `capabilities/ac-device-config.json`입니다. 그룹 번역을 등록한 뒤 `smartthings presentation:device-config:create --input capabilities/ac-device-config.json --json`으로 화면을 생성하고, 반환된 `vid`와 `mnmn`을 `driver/profiles/samsung-ac.yml`의 `metadata.vid`와 `metadata.mnmn`에 함께 연결해 패키징합니다. 방식은 [공식 Edge 화면 지정 절차](https://developer.smartthings.com/docs/devices/configurations-and-presentations/device-presentations#using-device-presentations-with-smartthings-edge-drivers)를 따릅니다. 상세 화면·루틴·대시보드의 순서, 범위, 활성 조건은 이 JSON에 보존합니다.
 
-기존 구성과 동일한 입력으로 화면을 다시 생성했을 때 이전 영어 제목이 남은 화면 ID가 재사용됐습니다. 운전 카드의 기존 ‘운전 모드’ 문구를 구성에 명시해 새 화면을 생성하고, 한국어·영어·언어 미지정 조회에서 모두 한글 그룹 제목인지 확인합니다. 명시한 문구는 기존과 같으며 조작부·활성 조건·루틴의 생성 결과도 이전 화면과 대조합니다.
+기존 구성과 동일한 입력으로 화면을 다시 생성했을 때 이전 영어 제목이 남은 화면 ID가 재사용됐습니다. 현재는 카드 분리를 반영한 구성으로 새 화면을 생성하고, 한국어·영어·언어 미지정 조회에서 모두 한글 그룹 제목인지 확인합니다. 각 메뉴의 표시 유형이 하나이고 제목이 서로 다른지, 이전의 모든 조작부가 한 번씩 남아 있는지, 활성 조건·루틴이 보존됐는지를 생성된 결과로 확인합니다. 스마트폰 렌더링은 서버 구성 검증과 별도로 확인합니다.
 
 번역 등록 결과와 설치된 기기의 화면 정보는 따로 확인합니다. 이번 확인에서 동일 소스 재업로드와 프로필 메타데이터 변경만으로는 기존 Device Presentation의 영어 제목이 유지됐습니다. 자동 생성용 `deviceConfig`와 capability별 `config`를 함께 넣었을 때에는 명시한 `vid`도 적용되지 않아, 표시 설정을 위 JSON으로 분리했습니다. 구성이나 번역을 변경하면 화면을 다시 생성하고, 설치된 기기의 `presentationId`와 `manufacturerName`이 생성 결과의 두 값과 일치하는지 확인합니다. 기기 정보에 값이 없으면 임의 기본값으로 대체하지 않으며, 기기에 저장된 쌍으로 직접 화면을 조회해 한국어 그룹 제목과 기존 조작부를 대조합니다. 이름 변경에 에어컨 제어 명령은 필요하지 않습니다.
 
@@ -91,9 +95,9 @@ PM10·PM2.5·PM1.0의 값 5와 단위 μg/m³는 기존 삼성 capability 및 �
 
 ## 검증과 남은 항목
 
-- Lua 5.3 검사 90개 통과: 기존 제어·예약 경계 외에 운전 카드의 모드·온도·풍량 연결과 상태 발행, 무풍의 전원·모드 차단, 바람문 단일 명령, 일반 선택 시 무풍 보존, 본체 화면 토글 반전을 포함합니다.
-- 모사 SDK 이벤트 294개가 표준/custom capability 스키마를 통과했습니다. version 1 응답을 `tests/fixtures/capabilities/`에 저장합니다.
-- 기존 Python 검사 17개가 통과했습니다. 읽기 15개와 IP 없는 패키지 설정·선택적 검색 후보 검사 2개이며 이번 운전 카드 수정에서 해당 경로는 변경하지 않았습니다.
+- Lua 5.3 검사 90개 통과: 기존 제어·예약 경계 외에 분리한 카드의 명령 연결과 상태·활성 조건 발행, 무풍의 전원·모드 차단, 바람문 단일 명령, 일반 선택 시 무풍 보존, 본체 화면 토글 반전을 포함합니다.
+- 모사 SDK 이벤트 306개가 표준/custom capability 스키마를 통과했습니다. version 1 응답을 `tests/fixtures/capabilities/`에 저장합니다.
+- Python 검사 20개가 통과했습니다. 기존 읽기·패키지 검사 17개에 카드별 제목·표시 형식, On/Off 명령·활성 조건, 생성 파일·기존 속성 정의 호환성 검사 3개를 추가했습니다. 제목 중복, `toggleSwitch` 복귀, On/Off 인자 뒤바뀜, 활성 조건 삭제, 기존 운전 정의에 새 속성 삽입을 각각 주입했을 때 회귀 검사가 모두 실패하는 것도 확인했습니다.
 - CLI 2.1.1로 main capability 17개와 부가 switch component 8개·패널 doorControl component 1개를 포함한 운영 zip을 만들고 `2026-10-20T02:25:00.101824993`의 허브 설치를 확인했습니다. 사용자 승인과 동일한 운영 개인 키를 재사용하며 키 포함 zip은 비공개 디렉터리에 보관합니다. 초기 키 없는 형식 검사 zip과 구분합니다.
 - 수정한 Lua의 PC 실기 GET을 2026-10-19 20:56 KST에 다시 확인했습니다. 현재 25℃, 설정 24℃, 습도 63%, 전원 Off / 모드 Auto였습니다. 공개·TLS 내부 ID가 일치했고 임시 키 삭제·열린 소켓 0개를 확인했습니다. [결과](observed-control-read.json)
 
@@ -103,7 +107,7 @@ PM10·PM2.5·PM1.0의 값 5와 단위 μg/m³는 기존 삼성 capability 및 �
 
 TLS 진단에서는 공식 SSL 설정·인증서 형식과 cosock 호출을 대조했습니다. 직접 연결의 `unexpected message`를 조사하다 TCP 연결 직후 에어컨이 먼저 ClientHello를 보내는 경우를 확인했습니다. 기기 연결을 먼저 열던 내부 중계는 같은 충돌로 실패했고, 허브의 ClientHello를 먼저 준비한 경로에서 인증 GET이 성공했습니다. 연결 재사용 전 중간 버전은 5회 중 4회 성공했습니다. 연결 재사용 버전 `2026-10-19T13:54:37.400646532`는 5회 모두 GET에 성공했습니다. 이후 기능 추가 버전에서 조회 실패 한 번과 다음 주기의 ONLINE 복구를 관측했습니다. 최신 기능 설치본의 새로고침 2회도 성공했지만 간헐 실패가 완전히 해결됐다는 근거는 아닙니다. PC에서 TLS 역할을 서버로 바꾸는 별도 시험은 동일 자체서명 인증서에 대한 `unknown_ca`로 실패했습니다. 에어컨이 ClientHello를 시작하는 펌웨어 내부 조건은 확정하지 않았고 SDK 결함으로 단정하지 않습니다.
 
-메뉴 업데이트 후 설치된 기기의 프로필 presentation에서 상세 항목 23개, 운전 카드의 모드 선택·온도 슬라이더·풍량 선택, 무풍·청정 토글, 바람문 선택 메뉴, 두 예약 메뉴와 6개 활성 조건을 확인했습니다. 기존 표준 모드·온도·풍량 카드는 상세 화면 정의에서 제외됐고 루틴용 capability는 유지됐습니다. 새 메뉴 상태와 기존 capability·component 상태가 일치했고 ONLINE, 전원 Off, 청정 모드, 효과음, 예약 없음이 유지됐습니다. 이번 검증에서 본체 제어 명령은 보내지 않았습니다. 스마트폰의 실제 카드 모양과 비활성 렌더링은 미검증이며 서버 정의 확인을 앱 화면 갱신 완료로 취급하지 않습니다.
+카드 제목·스위치 수정본 `2026-10-20T11:09:52.861719186`을 허브에 설치했습니다. 실제 기기의 `presentationId`·`manufacturerName`으로 조회한 화면에서 서로 다른 메뉴 제목 9개, 상세 항목 23개와 6개 활성 조건을 확인했습니다. `ko`, `ko-KR`, `en`, 언어 미지정 모두 한글 제목이며, 카드별 표시 유형은 하나이며 무풍·청정·본체 화면·자동청소 4개 항목은 `switch`입니다. 새 카드와 이전 카드의 조작부·입력 범위·활성 조건을 대조했고 기존 루틴·대시보드 구성이 보존됐습니다. 새 카드의 상태가 기존 capability 관측값과 일치하고 ONLINE·예약 없음도 확인했습니다. 수정본의 24초 허브 로그에는 조회 성공 5회, 조회 실패·이벤트 생성 오류·제어 명령 0회가 기록됐습니다. 이번 검증에서 본체 제어 명령은 보내지 않았습니다. 사용자가 앱을 다시 연 뒤 자동청소 제목과 무풍·청정·본체 화면·자동청소의 길쭉한 On/Off 스위치가 정상임을 확인했습니다. 운전 조건별 비활성 렌더링과 실물 제어는 이번 화면 수정 검증에 포함하지 않았습니다.
 
 로컬 재현:
 

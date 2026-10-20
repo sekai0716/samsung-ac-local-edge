@@ -1,0 +1,85 @@
+{
+  "id": "instantcommon43059.samsungAcLocalDisplay",
+  "version": 1,
+  "dashboard": {
+    "states": [],
+    "actions": []
+  },
+  "detailView": [
+    {
+      "label": "화면 표시",
+      "displayType": "switch",
+      "switch": {
+        "command": {
+          "name": "setDisplay",
+          "on": "on",
+          "off": "off",
+          "argumentType": "string"
+        },
+        "state": {
+          "value": "display.value",
+          "valueType": "string",
+          "alternatives": [
+            {
+              "key": "on",
+              "value": "켜짐",
+              "type": "active"
+            },
+            {
+              "key": "off",
+              "value": "꺼짐",
+              "type": "inactive"
+            }
+          ],
+          "on": "on",
+          "off": "off",
+          "label": "{{display.value}}"
+        }
+      }
+    }
+  ],
+  "automation": {
+    "conditions": [
+      {
+        "label": "화면 표시",
+        "displayType": "list",
+        "list": {
+          "value": "display.value",
+          "alternatives": [
+            {
+              "key": "on",
+              "value": "켜짐",
+              "type": "active"
+            },
+            {
+              "key": "off",
+              "value": "꺼짐",
+              "type": "inactive"
+            }
+          ]
+        }
+      }
+    ],
+    "actions": [
+      {
+        "label": "화면 표시",
+        "displayType": "list",
+        "list": {
+          "command": "setDisplay",
+          "alternatives": [
+            {
+              "key": "on",
+              "value": "켜짐",
+              "type": "active"
+            },
+            {
+              "key": "off",
+              "value": "꺼짐",
+              "type": "inactive"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

@@ -66,7 +66,14 @@ function M.menu_state(state)
   operation.mode, operation.fan = base_mode(state.acMode), state.fanMode
   local unit = state.desiredUnit or state.unit
   if state.desired ~= nil and unit then operation.setpoint = { value = state.desired, unit = unit } end
-  return comfort, settings, care, operation
+  -- 화면의 활성 조건은 해당 capability의 속성을 조회하므로 각 카드에도 같은 관측값을 제공합니다.
+  local operating = { mode = operation.mode, fan = operation.fan, fanEnabled = comfort.fanEnabled }
+  local temperature = { setpoint = operation.setpoint, setpointEnabled = comfort.setpointEnabled }
+  local air_features = { windfree = comfort.windfree, purify = comfort.purify,
+    windfreeEnabled = comfort.windfreeEnabled, purifyEnabled = comfort.purifyEnabled }
+  local display = { display = settings.display }
+  local panel = { panel = care.panel, panelEnabled = care.panelEnabled }
+  return comfort, settings, care, operation, temperature, air_features, display, panel, operating
 end
 
 function M.number(value)

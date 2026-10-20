@@ -1,0 +1,92 @@
+{
+  "id": "instantcommon43059.samsungAcLocalPanel",
+  "version": 1,
+  "dashboard": {
+    "states": [],
+    "actions": []
+  },
+  "detailView": [
+    {
+      "label": "열림·닫힘 (운전 꺼짐)",
+      "displayType": "list",
+      "list": {
+        "command": {
+          "name": "setPanel",
+          "argumentType": "string",
+          "alternatives": [
+            {
+              "key": "closed",
+              "value": "닫힘",
+              "type": "inactive"
+            },
+            {
+              "key": "open",
+              "value": "열림",
+              "type": "active"
+            }
+          ]
+        },
+        "state": {
+          "value": "panel.value",
+          "valueType": "string",
+          "alternatives": [
+            {
+              "key": "closed",
+              "value": "닫힘",
+              "type": "inactive"
+            },
+            {
+              "key": "open",
+              "value": "열림",
+              "type": "active"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "automation": {
+    "conditions": [
+      {
+        "label": "열림·닫힘 (운전 꺼짐)",
+        "displayType": "list",
+        "list": {
+          "value": "panel.value",
+          "alternatives": [
+            {
+              "key": "closed",
+              "value": "닫힘",
+              "type": "inactive"
+            },
+            {
+              "key": "open",
+              "value": "열림",
+              "type": "active"
+            }
+          ]
+        }
+      }
+    ],
+    "actions": [
+      {
+        "label": "열림·닫힘 (운전 꺼짐)",
+        "displayType": "list",
+        "list": {
+          "command": "setPanel",
+          "alternatives": [
+            {
+              "key": "closed",
+              "value": "닫힘",
+              "type": "inactive"
+            },
+            {
+              "key": "open",
+              "value": "열림",
+              "type": "active"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

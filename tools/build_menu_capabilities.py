@@ -31,7 +31,8 @@ def build(name, slug, rows, gates, temperature=False):
         definition["commands"][command] = {"name": command, "sensitive": False, "arguments": [{"name": "setting", "optional": False, "schema": {
             "type": "string", "enum": [value for value, _ in choices]}}]}
         state = {"value": key + ".value", "valueType": "string", "alternatives": alternatives(choices + state_only)}
-        if display_type == "toggleSwitch":
+        # 상세 switch와 toggleSwitch는 같은 명령·상태 매핑을 사용하며 앱의 버튼 형태만 다릅니다.
+        if display_type in {"toggleSwitch", "switch"}:
             state.update(on="on", off="off", label="{{" + key + ".value}}")
             control = {"command": {"name": command, "on": "on", "off": "off", "argumentType": "string"}, "state": state}
         else:
@@ -85,8 +86,26 @@ def main():
         ("display", "본체 화면", switch, "toggleSwitch", []),
     ], [])
     build("Samsung Ac Local Care", "ac-care", [
-        ("autoclean", "자동건조", switch, "toggleSwitch", []),
+        ("autoclean", "자동건조", switch, "switch", []),
         ("panel", "청소용 패널 (전원 끈 상태)", [("closed", "닫힘"), ("open", "열림")], "list", []),
+    ], ["panel"])
+
+    # Android 앱은 목록·슬라이더·토글을 다른 카드로 나눕니다. 분리되는 카드마다
+    # 독립된 표시 이름을 두고, 기존 capability는 저장된 루틴 호환용으로 유지합니다.
+    build("Samsung Ac Local Operating", "ac-operating", [
+        ("mode", "운전 모드", [("aIComfort", "인공지능 쾌적"), ("auto", "스마트쾌적"), ("cool", "냉방"), ("dry", "제습"), ("wind", "청정")], "list", []),
+        ("fan", "바람 세기", [("auto", "자동"), ("low", "약풍"), ("medium", "중풍"), ("high", "강풍"), ("turbo", "터보")], "list", []),
+    ], ["fan"])
+    build("Samsung Ac Local Temperature", "ac-temperature", [], ["setpoint"], temperature=True)
+    build("Samsung Ac Local Air Features", "ac-air-features", [
+        ("windfree", "무풍 (전원 켠 냉방·제습·청정)", switch, "switch", []),
+        ("purify", "청정 (냉방·제습)", switch, "switch", []),
+    ], ["windfree", "purify"])
+    build("Samsung Ac Local Display", "ac-display", [
+        ("display", "화면 표시", switch, "switch", []),
+    ], [])
+    build("Samsung Ac Local Panel", "ac-panel", [
+        ("panel", "열림·닫힘 (운전 꺼짐)", [("closed", "닫힘"), ("open", "열림")], "list", []),
     ], ["panel"])
 
 

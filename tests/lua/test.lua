@@ -88,6 +88,11 @@ local function capabilities()
     ["instantcommon43059.samsungAcLocalDeviceSettings"] = { { "lighting", "voice", "display" }, { "setLighting", "setVoice", "setDisplay" } },
     ["instantcommon43059.samsungAcLocalCare"] = { { "autoclean", "panel", "panelEnabled" }, { "setAutoclean", "setPanel" } },
     ["instantcommon43059.samsungAcLocalOperation"] = { { "mode", "setpoint", "fan" }, { "setMode", "setTemperature", "setFan" } },
+    ["instantcommon43059.samsungAcLocalOperating"] = { { "mode", "fan", "fanEnabled" }, { "setMode", "setFan" } },
+    ["instantcommon43059.samsungAcLocalTemperature"] = { { "setpoint", "setpointEnabled" }, { "setTemperature" } },
+    ["instantcommon43059.samsungAcLocalAirFeatures"] = { { "windfree", "purify", "windfreeEnabled", "purifyEnabled" }, { "setWindfree", "setPurify" } },
+    ["instantcommon43059.samsungAcLocalDisplay"] = { { "display" }, { "setDisplay" } },
+    ["instantcommon43059.samsungAcLocalPanel"] = { { "panel", "panelEnabled" }, { "setPanel" } },
   }
   for id, definition in pairs(definitions) do
     local capability = { ID = id, commands = {} }; result[id] = capability
@@ -987,7 +992,9 @@ local function worker_fixture(read, control, scan)
     -- 기존 프로필에 새 capability가 아직 도착하지 않은 상태를 기본 fixture로 둡니다.
     missing_capabilities = { ["instantcommon43059.samsungAcLocalComfort"] = true,
       ["instantcommon43059.samsungAcLocalDeviceSettings"] = true, ["instantcommon43059.samsungAcLocalCare"] = true,
-      ["instantcommon43059.samsungAcLocalOperation"] = true },
+      ["instantcommon43059.samsungAcLocalOperation"] = true, ["instantcommon43059.samsungAcLocalTemperature"] = true,
+      ["instantcommon43059.samsungAcLocalAirFeatures"] = true, ["instantcommon43059.samsungAcLocalDisplay"] = true,
+      ["instantcommon43059.samsungAcLocalPanel"] = true, ["instantcommon43059.samsungAcLocalOperating"] = true },
     device_network_id = "samsung-ac-ocf:appliance-a", preferences = { enablePolling = false },
     profile = { components = { main = { id = "main" }, windfree = { id = "windfree" }, autoclean = { id = "autoclean" }, purify = { id = "purify" },
       doorupper = { id = "doorupper" }, doorlower = { id = "doorlower" }, panel = { id = "panel" }, speed = { id = "speed" }, quiet = { id = "quiet" }, displayoff = { id = "displayoff" } } },
@@ -1089,6 +1096,13 @@ test("Updated profile publishes grouped menus and reservations cannot overwrite 
   assert(values[settings .. "voice"] == "melody" and values[care .. "panel"] == "closed" and values[care .. "panelEnabled"] == "enabled")
   local operation = "instantcommon43059.samsungAcLocalOperation:"
   assert(values[operation .. "mode"] == "auto" and values[operation .. "setpoint"] == 24 and values[operation .. "fan"] == "auto")
+  local prefix = "instantcommon43059.samsungAcLocal"
+  assert(values[prefix .. "Temperature:setpoint"] == 24 and values[prefix .. "Temperature:setpointEnabled"] == "enabled")
+  assert(values[prefix .. "AirFeatures:windfree"] == "off" and values[prefix .. "AirFeatures:purify"] == "off")
+  assert(values[prefix .. "AirFeatures:windfreeEnabled"] == "disabled" and values[prefix .. "AirFeatures:purifyEnabled"] == "disabled")
+  assert(values[prefix .. "Display:display"] == "on" and values[prefix .. "Panel:panel"] == "closed")
+  assert(values[prefix .. "Panel:panelEnabled"] == "enabled" and values[prefix .. "Operating:fanEnabled"] == "enabled")
+  assert(values[prefix .. "Operating:mode"] == "auto" and values[prefix .. "Operating:fan"] == "auto")
   local before = #events
   worker.reservation(driver, device, "offTimer", 0)
   for i = before + 1, #events do assert(events[i].capability == "instantcommon43059.samsungAcLocalTimer") end
@@ -1419,7 +1433,7 @@ test("Driver routes standard AC commands and switch components", function()
     return { run = function() end, call_with_delay = function(_, _, callback) bootstrap = callback end }
   end
   dofile(root .. "/driver/src/init.lua")
-  assert(#template.supported_capabilities == 18 and template.capability_handlers.refresh.refresh and type(bootstrap) == "function")
+  assert(#template.supported_capabilities == 23 and template.capability_handlers.refresh.refresh and type(bootstrap) == "function")
   local h = template.capability_handlers
   h.switch.on(nil, nil, { component = "main" })
   h.switch.off(nil, nil, { component = "windfree" })
@@ -1484,6 +1498,25 @@ test("Driver routes standard AC commands and switch components", function()
   assert(#commands == 25 and commands[23].kind == "mode" and commands[23].value == "dry")
   assert(commands[24].kind == "setpoint" and commands[24].value == 26)
   assert(commands[25].kind == "fan" and commands[25].value == "low")
+  -- 분리된 카드가 기존 모드 검사와 같은 작업 큐에 정확한 값으로 연결되는지 확인합니다.
+  h["instantcommon43059.samsungAcLocalTemperature"].setTemperature(nil, nil, {args={setpoint=23}})
+  h["instantcommon43059.samsungAcLocalAirFeatures"].setWindfree(nil, nil, {args={setting="on"}})
+  h["instantcommon43059.samsungAcLocalAirFeatures"].setPurify(nil, nil, {args={setting="off"}})
+  h["instantcommon43059.samsungAcLocalDisplay"].setDisplay(nil, nil, {args={setting="on"}})
+  h["instantcommon43059.samsungAcLocalPanel"].setPanel(nil, nil, {args={setting="closed"}})
+  assert(#commands == 30 and commands[26].kind == "setpoint" and commands[26].value == 23)
+  assert(commands[27].kind == "windfree" and commands[27].value == true)
+  assert(commands[28].kind == "purify" and commands[28].value == false)
+  assert(commands[29].kind == "displayOff" and commands[29].value == false)
+  assert(commands[30].kind == "panel" and commands[30].value == "closed")
+  h["instantcommon43059.samsungAcLocalOperating"].setMode(nil, nil, {args={setting="cool"}})
+  h["instantcommon43059.samsungAcLocalOperating"].setFan(nil, nil, {args={setting="high"}})
+  assert(commands[31].kind == "mode" and commands[31].value == "cool")
+  assert(commands[32].kind == "fan" and commands[32].value == "high")
+  h["instantcommon43059.samsungAcLocalAirFeatures"].setWindfree(nil, nil, {args={setting="invalid"}})
+  h["instantcommon43059.samsungAcLocalDisplay"].setDisplay(nil, nil, {component="windfree",args={setting="on"}})
+  h["instantcommon43059.samsungAcLocalPanel"].setPanel(nil, nil, {component="panel",args={setting="open"}})
+  assert(#commands == 32)
 end)
 if arg[3] then
   local output = assert(io.open(arg[3], "wb")); output:write(cbor.encode(captured_events)); output:close()

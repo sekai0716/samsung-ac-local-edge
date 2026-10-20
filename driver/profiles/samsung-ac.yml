@@ -27,6 +27,11 @@ components:
       - {id: instantcommon43059.samsungAcLocalDeviceSettings, version: 1}
       - {id: instantcommon43059.samsungAcLocalCare, version: 1}
       - {id: instantcommon43059.samsungAcLocalOperation, version: 1}
+      - {id: instantcommon43059.samsungAcLocalTemperature, version: 1}
+      - {id: instantcommon43059.samsungAcLocalAirFeatures, version: 1}
+      - {id: instantcommon43059.samsungAcLocalDisplay, version: 1}
+      - {id: instantcommon43059.samsungAcLocalPanel, version: 1}
+      - {id: instantcommon43059.samsungAcLocalOperating, version: 1}
     categories:
       - name: AirConditioner
   - id: windfree
@@ -71,7 +76,7 @@ components:
 metadata:
   ocfDeviceType: oic.d.airconditioner
   # 화면 조회에는 ID와 제조사 쌍을 사용합니다. 구성·번역 변경 시 두 값을 함께 갱신합니다.
-  vid: 5ccd48f3-6482-306a-87f6-eb7627058667
+  vid: 490c4f1e-8fd9-37c7-940f-d7131ae739a0
   mnmn: SmartThingsCommunity
 preferences:
   - name: targetIp

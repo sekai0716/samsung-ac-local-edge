@@ -1,0 +1,44 @@
+{
+  "name": "Samsung Ac Local Display",
+  "attributes": {
+    "display": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "enum": [
+              "on",
+              "off"
+            ]
+          }
+        },
+        "required": [
+          "value"
+        ],
+        "additionalProperties": false
+      },
+      "enumCommands": [],
+      "setter": "setDisplay"
+    }
+  },
+  "commands": {
+    "setDisplay": {
+      "name": "setDisplay",
+      "sensitive": false,
+      "arguments": [
+        {
+          "name": "setting",
+          "optional": false,
+          "schema": {
+            "type": "string",
+            "enum": [
+              "on",
+              "off"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

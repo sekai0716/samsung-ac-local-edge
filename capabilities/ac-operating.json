@@ -1,0 +1,112 @@
+{
+  "name": "Samsung Ac Local Operating",
+  "attributes": {
+    "mode": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "enum": [
+              "aIComfort",
+              "auto",
+              "cool",
+              "dry",
+              "wind"
+            ]
+          }
+        },
+        "required": [
+          "value"
+        ],
+        "additionalProperties": false
+      },
+      "enumCommands": [],
+      "setter": "setMode"
+    },
+    "fan": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "enum": [
+              "auto",
+              "low",
+              "medium",
+              "high",
+              "turbo"
+            ]
+          }
+        },
+        "required": [
+          "value"
+        ],
+        "additionalProperties": false
+      },
+      "enumCommands": [],
+      "setter": "setFan"
+    },
+    "fanEnabled": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "enum": [
+              "enabled",
+              "disabled"
+            ]
+          }
+        },
+        "required": [
+          "value"
+        ],
+        "additionalProperties": false
+      },
+      "enumCommands": []
+    }
+  },
+  "commands": {
+    "setMode": {
+      "name": "setMode",
+      "sensitive": false,
+      "arguments": [
+        {
+          "name": "setting",
+          "optional": false,
+          "schema": {
+            "type": "string",
+            "enum": [
+              "aIComfort",
+              "auto",
+              "cool",
+              "dry",
+              "wind"
+            ]
+          }
+        }
+      ]
+    },
+    "setFan": {
+      "name": "setFan",
+      "sensitive": false,
+      "arguments": [
+        {
+          "name": "setting",
+          "optional": false,
+          "schema": {
+            "type": "string",
+            "enum": [
+              "auto",
+              "low",
+              "medium",
+              "high",
+              "turbo"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

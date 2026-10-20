@@ -1,0 +1,58 @@
+{
+  "id": "instantcommon43059.samsungAcLocalTemperature",
+  "version": 1,
+  "dashboard": {
+    "states": [],
+    "actions": []
+  },
+  "detailView": [
+    {
+      "label": "희망 온도",
+      "displayType": "slider",
+      "slider": {
+        "value": "setpoint.value",
+        "valueType": "number",
+        "command": "setTemperature",
+        "argumentType": "number",
+        "unit": "setpoint.unit",
+        "range": [
+          18,
+          30
+        ],
+        "step": 1
+      }
+    }
+  ],
+  "automation": {
+    "conditions": [
+      {
+        "label": "희망 온도",
+        "displayType": "numberField",
+        "numberField": {
+          "value": "setpoint.value",
+          "valueType": "number",
+          "unit": "setpoint.unit",
+          "range": [
+            18,
+            30
+          ]
+        }
+      }
+    ],
+    "actions": [
+      {
+        "label": "희망 온도",
+        "displayType": "numberField",
+        "numberField": {
+          "command": "setTemperature",
+          "argumentType": "number",
+          "unit": "setpoint.unit",
+          "range": [
+            18,
+            30
+          ]
+        }
+      }
+    ]
+  }
+}

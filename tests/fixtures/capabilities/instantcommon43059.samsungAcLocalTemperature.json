@@ -1,0 +1,69 @@
+{
+  "id": "instantcommon43059.samsungAcLocalTemperature",
+  "version": 1,
+  "name": "Samsung Ac Local Temperature",
+  "attributes": {
+    "setpointEnabled": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "enum": [
+              "enabled",
+              "disabled"
+            ]
+          }
+        },
+        "required": [
+          "value"
+        ],
+        "additionalProperties": false
+      },
+      "enumCommands": []
+    },
+    "setpoint": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "number",
+            "minimum": 18,
+            "maximum": 30
+          },
+          "unit": {
+            "type": "string",
+            "enum": [
+              "C",
+              "F"
+            ]
+          }
+        },
+        "required": [
+          "value",
+          "unit"
+        ],
+        "additionalProperties": false
+      },
+      "enumCommands": [],
+      "setter": "setTemperature"
+    }
+  },
+  "commands": {
+    "setTemperature": {
+      "name": "setTemperature",
+      "sensitive": false,
+      "arguments": [
+        {
+          "name": "setpoint",
+          "optional": false,
+          "schema": {
+            "type": "number",
+            "minimum": 18,
+            "maximum": 30
+          }
+        }
+      ]
+    }
+  }
+}

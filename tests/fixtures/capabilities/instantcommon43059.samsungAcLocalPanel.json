@@ -1,0 +1,65 @@
+{
+  "id": "instantcommon43059.samsungAcLocalPanel",
+  "version": 1,
+  "name": "Samsung Ac Local Panel",
+  "attributes": {
+    "panel": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "enum": [
+              "closed",
+              "open"
+            ]
+          }
+        },
+        "required": [
+          "value"
+        ],
+        "additionalProperties": false
+      },
+      "enumCommands": [],
+      "setter": "setPanel"
+    },
+    "panelEnabled": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "enum": [
+              "enabled",
+              "disabled"
+            ]
+          }
+        },
+        "required": [
+          "value"
+        ],
+        "additionalProperties": false
+      },
+      "enumCommands": []
+    }
+  },
+  "commands": {
+    "setPanel": {
+      "name": "setPanel",
+      "sensitive": false,
+      "arguments": [
+        {
+          "name": "setting",
+          "optional": false,
+          "schema": {
+            "type": "string",
+            "enum": [
+              "closed",
+              "open"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,116 @@
+{
+  "id": "instantcommon43059.samsungAcLocalOperating",
+  "version": 1,
+  "status": "proposed",
+  "name": "Samsung Ac Local Operating",
+  "ephemeral": false,
+  "attributes": {
+    "mode": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "enum": [
+              "aIComfort",
+              "auto",
+              "cool",
+              "dry",
+              "wind"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "value"
+        ]
+      },
+      "setter": "setMode",
+      "enumCommands": []
+    },
+    "fan": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "enum": [
+              "auto",
+              "low",
+              "medium",
+              "high",
+              "turbo"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "value"
+        ]
+      },
+      "setter": "setFan",
+      "enumCommands": []
+    },
+    "fanEnabled": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string",
+            "enum": [
+              "enabled",
+              "disabled"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "value"
+        ]
+      },
+      "enumCommands": []
+    }
+  },
+  "commands": {
+    "setFan": {
+      "name": "setFan",
+      "arguments": [
+        {
+          "name": "setting",
+          "optional": false,
+          "schema": {
+            "type": "string",
+            "enum": [
+              "auto",
+              "low",
+              "medium",
+              "high",
+              "turbo"
+            ]
+          }
+        }
+      ],
+      "sensitive": false
+    },
+    "setMode": {
+      "name": "setMode",
+      "arguments": [
+        {
+          "name": "setting",
+          "optional": false,
+          "schema": {
+            "type": "string",
+            "enum": [
+              "aIComfort",
+              "auto",
+              "cool",
+              "dry",
+              "wind"
+            ]
+          }
+        }
+      ],
+      "sensitive": false
+    }
+  }
+}

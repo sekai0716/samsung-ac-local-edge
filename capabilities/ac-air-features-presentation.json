@@ -1,0 +1,154 @@
+{
+  "id": "instantcommon43059.samsungAcLocalAirFeatures",
+  "version": 1,
+  "dashboard": {
+    "states": [],
+    "actions": []
+  },
+  "detailView": [
+    {
+      "label": "무풍 (전원 켠 냉방·제습·청정)",
+      "displayType": "switch",
+      "switch": {
+        "command": {
+          "name": "setWindfree",
+          "on": "on",
+          "off": "off",
+          "argumentType": "string"
+        },
+        "state": {
+          "value": "windfree.value",
+          "valueType": "string",
+          "alternatives": [
+            {
+              "key": "on",
+              "value": "켜짐",
+              "type": "active"
+            },
+            {
+              "key": "off",
+              "value": "꺼짐",
+              "type": "inactive"
+            }
+          ],
+          "on": "on",
+          "off": "off",
+          "label": "{{windfree.value}}"
+        }
+      }
+    },
+    {
+      "label": "청정 (냉방·제습)",
+      "displayType": "switch",
+      "switch": {
+        "command": {
+          "name": "setPurify",
+          "on": "on",
+          "off": "off",
+          "argumentType": "string"
+        },
+        "state": {
+          "value": "purify.value",
+          "valueType": "string",
+          "alternatives": [
+            {
+              "key": "on",
+              "value": "켜짐",
+              "type": "active"
+            },
+            {
+              "key": "off",
+              "value": "꺼짐",
+              "type": "inactive"
+            }
+          ],
+          "on": "on",
+          "off": "off",
+          "label": "{{purify.value}}"
+        }
+      }
+    }
+  ],
+  "automation": {
+    "conditions": [
+      {
+        "label": "무풍 (전원 켠 냉방·제습·청정)",
+        "displayType": "list",
+        "list": {
+          "value": "windfree.value",
+          "alternatives": [
+            {
+              "key": "on",
+              "value": "켜짐",
+              "type": "active"
+            },
+            {
+              "key": "off",
+              "value": "꺼짐",
+              "type": "inactive"
+            }
+          ]
+        }
+      },
+      {
+        "label": "청정 (냉방·제습)",
+        "displayType": "list",
+        "list": {
+          "value": "purify.value",
+          "alternatives": [
+            {
+              "key": "on",
+              "value": "켜짐",
+              "type": "active"
+            },
+            {
+              "key": "off",
+              "value": "꺼짐",
+              "type": "inactive"
+            }
+          ]
+        }
+      }
+    ],
+    "actions": [
+      {
+        "label": "무풍 (전원 켠 냉방·제습·청정)",
+        "displayType": "list",
+        "list": {
+          "command": "setWindfree",
+          "alternatives": [
+            {
+              "key": "on",
+              "value": "켜짐",
+              "type": "active"
+            },
+            {
+              "key": "off",
+              "value": "꺼짐",
+              "type": "inactive"
+            }
+          ]
+        }
+      },
+      {
+        "label": "청정 (냉방·제습)",
+        "displayType": "list",
+        "list": {
+          "command": "setPurify",
+          "alternatives": [
+            {
+              "key": "on",
+              "value": "켜짐",
+              "type": "active"
+            },
+            {
+              "key": "off",
+              "value": "꺼짐",
+              "type": "inactive"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

@@ -8,8 +8,8 @@
   "detailView": [
     {
       "label": "자동건조",
-      "displayType": "toggleSwitch",
-      "toggleSwitch": {
+      "displayType": "switch",
+      "switch": {
         "command": {
           "name": "setAutoclean",
           "on": "on",

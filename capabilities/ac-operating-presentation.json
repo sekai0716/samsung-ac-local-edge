@@ -1,0 +1,288 @@
+{
+  "id": "instantcommon43059.samsungAcLocalOperating",
+  "version": 1,
+  "dashboard": {
+    "states": [],
+    "actions": []
+  },
+  "detailView": [
+    {
+      "label": "운전 모드",
+      "displayType": "list",
+      "list": {
+        "command": {
+          "name": "setMode",
+          "argumentType": "string",
+          "alternatives": [
+            {
+              "key": "aIComfort",
+              "value": "인공지능 쾌적",
+              "type": "active"
+            },
+            {
+              "key": "auto",
+              "value": "스마트쾌적",
+              "type": "active"
+            },
+            {
+              "key": "cool",
+              "value": "냉방",
+              "type": "active"
+            },
+            {
+              "key": "dry",
+              "value": "제습",
+              "type": "active"
+            },
+            {
+              "key": "wind",
+              "value": "청정",
+              "type": "active"
+            }
+          ]
+        },
+        "state": {
+          "value": "mode.value",
+          "valueType": "string",
+          "alternatives": [
+            {
+              "key": "aIComfort",
+              "value": "인공지능 쾌적",
+              "type": "active"
+            },
+            {
+              "key": "auto",
+              "value": "스마트쾌적",
+              "type": "active"
+            },
+            {
+              "key": "cool",
+              "value": "냉방",
+              "type": "active"
+            },
+            {
+              "key": "dry",
+              "value": "제습",
+              "type": "active"
+            },
+            {
+              "key": "wind",
+              "value": "청정",
+              "type": "active"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "label": "바람 세기",
+      "displayType": "list",
+      "list": {
+        "command": {
+          "name": "setFan",
+          "argumentType": "string",
+          "alternatives": [
+            {
+              "key": "auto",
+              "value": "자동",
+              "type": "active"
+            },
+            {
+              "key": "low",
+              "value": "약풍",
+              "type": "active"
+            },
+            {
+              "key": "medium",
+              "value": "중풍",
+              "type": "active"
+            },
+            {
+              "key": "high",
+              "value": "강풍",
+              "type": "active"
+            },
+            {
+              "key": "turbo",
+              "value": "터보",
+              "type": "active"
+            }
+          ]
+        },
+        "state": {
+          "value": "fan.value",
+          "valueType": "string",
+          "alternatives": [
+            {
+              "key": "auto",
+              "value": "자동",
+              "type": "active"
+            },
+            {
+              "key": "low",
+              "value": "약풍",
+              "type": "active"
+            },
+            {
+              "key": "medium",
+              "value": "중풍",
+              "type": "active"
+            },
+            {
+              "key": "high",
+              "value": "강풍",
+              "type": "active"
+            },
+            {
+              "key": "turbo",
+              "value": "터보",
+              "type": "active"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "automation": {
+    "conditions": [
+      {
+        "label": "운전 모드",
+        "displayType": "list",
+        "list": {
+          "value": "mode.value",
+          "alternatives": [
+            {
+              "key": "aIComfort",
+              "value": "인공지능 쾌적",
+              "type": "active"
+            },
+            {
+              "key": "auto",
+              "value": "스마트쾌적",
+              "type": "active"
+            },
+            {
+              "key": "cool",
+              "value": "냉방",
+              "type": "active"
+            },
+            {
+              "key": "dry",
+              "value": "제습",
+              "type": "active"
+            },
+            {
+              "key": "wind",
+              "value": "청정",
+              "type": "active"
+            }
+          ]
+        }
+      },
+      {
+        "label": "바람 세기",
+        "displayType": "list",
+        "list": {
+          "value": "fan.value",
+          "alternatives": [
+            {
+              "key": "auto",
+              "value": "자동",
+              "type": "active"
+            },
+            {
+              "key": "low",
+              "value": "약풍",
+              "type": "active"
+            },
+            {
+              "key": "medium",
+              "value": "중풍",
+              "type": "active"
+            },
+            {
+              "key": "high",
+              "value": "강풍",
+              "type": "active"
+            },
+            {
+              "key": "turbo",
+              "value": "터보",
+              "type": "active"
+            }
+          ]
+        }
+      }
+    ],
+    "actions": [
+      {
+        "label": "운전 모드",
+        "displayType": "list",
+        "list": {
+          "command": "setMode",
+          "alternatives": [
+            {
+              "key": "aIComfort",
+              "value": "인공지능 쾌적",
+              "type": "active"
+            },
+            {
+              "key": "auto",
+              "value": "스마트쾌적",
+              "type": "active"
+            },
+            {
+              "key": "cool",
+              "value": "냉방",
+              "type": "active"
+            },
+            {
+              "key": "dry",
+              "value": "제습",
+              "type": "active"
+            },
+            {
+              "key": "wind",
+              "value": "청정",
+              "type": "active"
+            }
+          ]
+        }
+      },
+      {
+        "label": "바람 세기",
+        "displayType": "list",
+        "list": {
+          "command": "setFan",
+          "alternatives": [
+            {
+              "key": "auto",
+              "value": "자동",
+              "type": "active"
+            },
+            {
+              "key": "low",
+              "value": "약풍",
+              "type": "active"
+            },
+            {
+              "key": "medium",
+              "value": "중풍",
+              "type": "active"
+            },
+            {
+              "key": "high",
+              "value": "강풍",
+              "type": "active"
+            },
+            {
+              "key": "turbo",
+              "value": "터보",
+              "type": "active"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

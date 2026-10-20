@@ -93,35 +93,43 @@
     },
     {
       "component": "main",
-      "capability": "instantcommon43059.samsungAcLocalOperation",
+      "capability": "instantcommon43059.samsungAcLocalOperating",
+      "version": 1,
+      "values": [],
+      "patch": [
+        {
+          "op": "add",
+          "path": "/1/visibleCondition",
+          "value": {
+            "component": "main",
+            "capability": "instantcommon43059.samsungAcLocalOperating",
+            "version": 1,
+            "value": "fanEnabled.value",
+            "operator": "EQUALS",
+            "operand": "enabled"
+          }
+        }
+      ]
+    },
+    {
+      "component": "main",
+      "capability": "instantcommon43059.samsungAcLocalTemperature",
       "version": 1,
       "values": [],
       "patch": [
         {
           "op": "replace",
           "path": "/0/label",
-          "value": "운전 모드"
+          "value": "온도 설정"
         },
         {
           "op": "add",
-          "path": "/1/visibleCondition",
+          "path": "/0/visibleCondition",
           "value": {
             "component": "main",
-            "capability": "instantcommon43059.samsungAcLocalComfort",
+            "capability": "instantcommon43059.samsungAcLocalTemperature",
             "version": 1,
             "value": "setpointEnabled.value",
-            "operator": "EQUALS",
-            "operand": "enabled"
-          }
-        },
-        {
-          "op": "add",
-          "path": "/2/visibleCondition",
-          "value": {
-            "component": "main",
-            "capability": "instantcommon43059.samsungAcLocalComfort",
-            "version": 1,
-            "value": "fanEnabled.value",
             "operator": "EQUALS",
             "operand": "enabled"
           }
@@ -147,11 +155,27 @@
           }
         },
         {
+          "op": "remove",
+          "path": "/2"
+        },
+        {
+          "op": "remove",
+          "path": "/1"
+        }
+      ]
+    },
+    {
+      "component": "main",
+      "capability": "instantcommon43059.samsungAcLocalAirFeatures",
+      "version": 1,
+      "values": [],
+      "patch": [
+        {
           "op": "add",
-          "path": "/1/visibleCondition",
+          "path": "/0/visibleCondition",
           "value": {
             "component": "main",
-            "capability": "instantcommon43059.samsungAcLocalComfort",
+            "capability": "instantcommon43059.samsungAcLocalAirFeatures",
             "version": 1,
             "value": "windfreeEnabled.value",
             "operator": "EQUALS",
@@ -160,10 +184,10 @@
         },
         {
           "op": "add",
-          "path": "/2/visibleCondition",
+          "path": "/1/visibleCondition",
           "value": {
             "component": "main",
-            "capability": "instantcommon43059.samsungAcLocalComfort",
+            "capability": "instantcommon43059.samsungAcLocalAirFeatures",
             "version": 1,
             "value": "purifyEnabled.value",
             "operator": "EQUALS",
@@ -215,6 +239,18 @@
       "capability": "instantcommon43059.samsungAcLocalDeviceSettings",
       "version": 1,
       "values": [],
+      "patch": [
+        {
+          "op": "remove",
+          "path": "/2"
+        }
+      ]
+    },
+    {
+      "component": "main",
+      "capability": "instantcommon43059.samsungAcLocalDisplay",
+      "version": 1,
+      "values": [],
       "patch": []
     },
     {
@@ -224,11 +260,28 @@
       "values": [],
       "patch": [
         {
+          "op": "remove",
+          "path": "/1"
+        },
+        {
+          "op": "replace",
+          "path": "/0/label",
+          "value": "자동청소"
+        }
+      ]
+    },
+    {
+      "component": "main",
+      "capability": "instantcommon43059.samsungAcLocalPanel",
+      "version": 1,
+      "values": [],
+      "patch": [
+        {
           "op": "add",
-          "path": "/1/visibleCondition",
+          "path": "/0/visibleCondition",
           "value": {
             "component": "main",
-            "capability": "instantcommon43059.samsungAcLocalCare",
+            "capability": "instantcommon43059.samsungAcLocalPanel",
             "version": 1,
             "value": "panelEnabled.value",
             "operator": "EQUALS",

@@ -17,7 +17,9 @@ local reservation = caps["instantcommon43059.samsungAcLocalTimer"]
 local settings = caps["instantcommon43059.samsungAcLocalSettings"]
 local menu_caps = { caps["instantcommon43059.samsungAcLocalComfort"],
   caps["instantcommon43059.samsungAcLocalDeviceSettings"], caps["instantcommon43059.samsungAcLocalCare"],
-  caps["instantcommon43059.samsungAcLocalOperation"] }
+  caps["instantcommon43059.samsungAcLocalOperation"], caps["instantcommon43059.samsungAcLocalTemperature"],
+  caps["instantcommon43059.samsungAcLocalAirFeatures"], caps["instantcommon43059.samsungAcLocalDisplay"],
+  caps["instantcommon43059.samsungAcLocalPanel"], caps["instantcommon43059.samsungAcLocalOperating"] }
 
 local function manual_host(device)
   local value = device.preferences and device.preferences.targetIp
