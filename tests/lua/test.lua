@@ -94,6 +94,7 @@ local function capabilities()
     ["instantcommon43059.samsungAcLocalAirFeatures"] = { { "windfree", "purify", "windfreeEnabled", "purifyEnabled" }, { "setWindfree", "setPurify" } },
     ["instantcommon43059.samsungAcLocalDisplay"] = { { "display" }, { "setDisplay" } },
     ["instantcommon43059.samsungAcLocalPanel"] = { { "panel", "panelEnabled" }, { "setPanel" } },
+    ["instantcommon43059.samsungAcLocalSensors"] = { { "monitoring", "temperature", "humidity", "airQuality", "dustLevel", "fineDustLevel", "veryFineDustLevel", "gas" }, {} },
   }
   for id, definition in pairs(definitions) do
     local capability = { ID = id, commands = {} }; result[id] = capability
@@ -642,6 +643,26 @@ test("Humidity bounds and power sentinel are not measurements", function()
     { href = "/energy/consumption/vs/0", rep = { [P .. "instantaneousPower"] = "65278" } } })
   assert(value.humidity == nil and value.instantaneousPowerRaw == nil)
 end)
+test("Sensor text is gated by AirMonitoring, preserves valid zero and clears missing values", function()
+  local state = {power=true, monitoringRaw="On", temperature=0, unit="C", humidity=0,
+    pm10=0, pm25=0, pm1=0, gasLevel=1, airQualityConcern="good"}
+  local shown = ac.sensor_state(state)
+  assert(shown.monitoring == "on" and shown.temperature == "0.0 °C" and shown.humidity == "0 %")
+  assert(shown.dustLevel == "0 μg/m³" and shown.fineDustLevel == "0 μg/m³" and shown.veryFineDustLevel == "0 μg/m³")
+  assert(shown.gas == "1단계" and shown.airQuality == "좋음")
+  for _, token in ipairs({"Off", "Unexpected", false}) do
+    state.monitoringRaw = token or nil
+    shown = ac.sensor_state(state)
+    assert(shown.monitoring == (token == "Off" and "off" or "unknown"))
+    for key, value in pairs(shown) do if key ~= "monitoring" then assert(value == "-") end end
+  end
+  -- 켜짐이어도 읽지 못한 센서나 확인하지 않은 청정도 등급을 이전 수치/좋음으로 대체하지 않습니다.
+  shown = ac.sensor_state({monitoringRaw="On", temperature=25, airQualityConcern="unknown"})
+  assert(shown.monitoring == "on")
+  for key, value in pairs(shown) do if key ~= "monitoring" then assert(value == "-") end end
+  shown = ac.sensor_state({monitoringRaw="On", temperature=72.5, unit="F"})
+  assert(shown.temperature == "72.5 °F")
+end)
 
 -- UDP 응답 포트와 TLS 스트림을 모사해 전체 경로의 종료·신원 검증을 검사합니다.
 local function transport(handshake_failure, secure_identity, behavior)
@@ -1049,7 +1070,7 @@ local function worker_fixture(read, control, scan)
       ["instantcommon43059.samsungAcLocalOperation"] = true, ["instantcommon43059.samsungAcLocalTemperature"] = true,
       ["instantcommon43059.samsungAcLocalAirFeatures"] = true, ["instantcommon43059.samsungAcLocalDisplay"] = true,
       ["instantcommon43059.samsungAcLocalPanel"] = true, ["instantcommon43059.samsungAcLocalOperating"] = true,
-      ["instantcommon43059.samsungAcLocalNativeTimer"] = true },
+      ["instantcommon43059.samsungAcLocalNativeTimer"] = true, ["instantcommon43059.samsungAcLocalSensors"] = true },
     device_network_id = "samsung-ac-ocf:appliance-a", preferences = { enablePolling = false },
     profile = { components = { main = { id = "main" }, windfree = { id = "windfree" }, autoclean = { id = "autoclean" }, purify = { id = "purify" },
       doorupper = { id = "doorupper" }, doorlower = { id = "doorlower" }, panel = { id = "panel" }, speed = { id = "speed" }, quiet = { id = "quiet" }, displayoff = { id = "displayoff" } } },
@@ -1086,7 +1107,7 @@ test("Worker serializes in-flight refresh and defaults to one-shot", function()
   worker, device, driver, tasks, events, counters = worker_fixture(function()
     reads = reads + 1
     if reads == 1 then worker.request(driver, device); worker.request(driver, device) end
-    return { temperature = 25, desired = 24, unit = "C", humidity = 63 }, "appliance-a"
+    return { temperature = 25, desired = 24, unit = "C", humidity = 63, monitoringRaw = "On" }, "appliance-a"
   end)
   worker.start(driver, device)
   assert(#tasks == 1 and counters.schedules == 0)
@@ -1115,12 +1136,16 @@ test("Worker failure marks offline without invented measurements", function()
 end)
 test("Worker publishes actual AC state and supported controls", function()
   local state = ac.summary(observed)
+  state.monitoringRaw = "On"
   local worker, device, driver, tasks, events = worker_fixture(function() return state, "appliance-a" end)
   worker.start(driver, device); tasks[1]()
   local values = {}
   for _, event in ipairs(events) do values[event.component .. ":" .. event.attribute] = event.data end
   for _, event in ipairs(events) do
-    if event.attribute == "voice" or event.attribute == "lighting" or event.attribute == "onDelay" or event.attribute == "offDelay" or event.attribute == "door" then
+    local measurements = { temperature=true, humidity=true, dustLevel=true, fineDustLevel=true,
+      veryFineDustLevel=true, odorLevel=true, airQualityHealthConcern=true }
+    if event.attribute == "voice" or event.attribute == "lighting" or event.attribute == "onDelay"
+      or event.attribute == "offDelay" or event.attribute == "door" or measurements[event.attribute] then
       assert(event.state_change == true)
     else assert(event.state_change == nil) end
   end
@@ -1161,6 +1186,85 @@ test("Updated profile publishes grouped menus and reservations cannot overwrite 
   local before = #events
   worker.reservation(driver, device, "offTimer", 0)
   for i = before + 1, #events do assert(events[i].capability == "instantcommon43059.samsungAcLocalTimer") end
+  package.loaded["network"] = network
+end)
+test("AirMonitoring transitions clear the sensor card and only resume real numeric samples when on", function()
+  local id = "instantcommon43059.samsungAcLocalSensors"
+  local numeric = { temperatureMeasurement=true, relativeHumidityMeasurement=true, dustSensor=true,
+    veryFineDustSensor=true, odorSensor=true, airQualityHealthConcern=true }
+  local state = ac.summary(observed)
+  state.monitoringRaw = "On"
+  local worker, device, driver, tasks, events, counters = worker_fixture(function() return state, "appliance-a" end)
+  device.missing_capabilities = {}
+  worker.start(driver, device); tasks[1]()
+  local function latest(attribute)
+    for i=#events,1,-1 do
+      if events[i].capability == id and events[i].attribute == attribute then return events[i].data.value end
+    end
+  end
+  local function sensor_events_since(before)
+    local count = 0
+    for i=before+1,#events do if numeric[events[i].capability] then count = count + 1 end end
+    return count
+  end
+  assert(latest("monitoring") == "on" and latest("humidity") == "63 %" and latest("dustLevel") == "5 μg/m³")
+  local before = #events
+  state.monitoringRaw = "Off"
+  -- 운전 전원이 켜져도 AirMonitoring Off의 캐시 숫자는 현재 측정값으로 발행하지 않습니다.
+  state.power = true
+  worker.request(driver, device); tasks[#tasks]()
+  assert(latest("monitoring") == "off" and sensor_events_since(before) == 0)
+  for _, key in ipairs({"temperature", "humidity", "airQuality", "dustLevel", "fineDustLevel", "veryFineDustLevel", "gas"}) do
+    assert(latest(key) == "-")
+  end
+  assert(device:get_field("ac_worker").sensors_active == false)
+  before = #events
+  worker.request(driver, device, true); tasks[#tasks]()
+  assert(sensor_events_since(before) == 0 and latest("temperature") == "-")
+  before = #events
+  assert(worker.reservation(driver, device, "offTimer", 0)); tasks[#tasks]()
+  for i=before+1,#events do assert(events[i].capability == "instantcommon43059.samsungAcLocalTimer") end
+  assert(device:get_field("ac_worker").sensors_active == false and latest("monitoring") == "off")
+  state.monitoringRaw = "On"
+  before = #events
+  worker.request(driver, device); tasks[#tasks]()
+  assert(latest("monitoring") == "on" and latest("humidity") == "63 %" and sensor_events_since(before) == 7)
+  for i=before+1,#events do
+    if numeric[events[i].capability] then assert(events[i].state_change == true) end
+  end
+  before = #events
+  assert(worker.reservation(driver, device, "onTimer", 0)); tasks[#tasks]()
+  assert(latest("monitoring") == "on" and device:get_field("ac_worker").sensors_active == true)
+  for i=before+1,#events do assert(events[i].capability == "instantcommon43059.samsungAcLocalTimer") end
+  before = #events
+  worker.request(driver, device); tasks[#tasks]()
+  assert(#events == before, "unchanged enabled sensor polling must remain deduplicated")
+  state.monitoringRaw = nil
+  before = #events
+  worker.request(driver, device); tasks[#tasks]()
+  assert(latest("monitoring") == "unknown" and latest("temperature") == "-" and sensor_events_since(before) == 0)
+  assert(counters.offline == 0)
+  package.loaded["network"] = network
+end)
+test("Sensor card initializes off without numeric events and waits for an updated profile", function()
+  local id = "instantcommon43059.samsungAcLocalSensors"
+  local state = ac.summary(observed)
+  assert(state.monitoringRaw == "Off")
+  local worker, device, driver, tasks, events, counters = worker_fixture(function() return state, "appliance-a" end)
+  worker.start(driver, device); tasks[1]()
+  for _, event in ipairs(events) do
+    assert(event.capability ~= id and event.capability ~= "temperatureMeasurement" and event.capability ~= "relativeHumidityMeasurement")
+  end
+  local before = #events
+  device.missing_capabilities[id] = nil
+  worker.request(driver, device); tasks[2]()
+  assert(#events == before + 8)
+  for i=before+1,#events do
+    local event = events[i]
+    assert(event.capability == id and event.state_change == true)
+    assert(event.data.value == (event.attribute == "monitoring" and "off" or "-"))
+  end
+  assert(counters.offline == 0)
   package.loaded["network"] = network
 end)
 test("Native timer events use appliance observations and hub-only updates preserve them", function()
@@ -1618,7 +1722,7 @@ test("Driver routes standard AC commands and switch components", function()
     return { run = function() end, call_with_delay = function(_, _, callback) bootstrap = callback end }
   end
   dofile(root .. "/driver/src/init.lua")
-  assert(#template.supported_capabilities == 24 and template.capability_handlers.refresh.refresh and type(bootstrap) == "function")
+  assert(#template.supported_capabilities == 25 and template.capability_handlers.refresh.refresh and type(bootstrap) == "function")
   local h = template.capability_handlers
   h.switch.on(nil, nil, { component = "main" })
   h.switch.off(nil, nil, { component = "windfree" })
@@ -1712,6 +1816,11 @@ test("Driver routes standard AC commands and switch components", function()
   assert(commands[34].kind == "nativeOnTimer" and commands[34].value == 2)
 end)
 if arg[3] then
-  local output = assert(io.open(arg[3], "wb")); output:write(cbor.encode(captured_events)); output:close()
+  -- 검사 전체의 이벤트 수가 늘어도 본체용 64 KiB 프레임 제한을 완화하지 않습니다.
+  -- 개수를 앞에 기록하고 각 이벤트를 독립 CBOR 항목으로 내보냅니다.
+  local output = assert(io.open(arg[3], "wb"))
+  output:write(cbor.encode(#captured_events))
+  for _, event in ipairs(captured_events) do output:write(cbor.encode(event)) end
+  output:close()
 end
 print("Lua 5.3 tests passed: " .. passed)

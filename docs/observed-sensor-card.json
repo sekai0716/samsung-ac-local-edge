@@ -1,0 +1,86 @@
+{
+  "observed_at": "2026-10-21T00:56:43.302+09:00",
+  "driver_version": "2026-10-20T15:53:11.604884434",
+  "exact_version_installed": true,
+  "presentation": {
+    "actual_device_presentation_pair_verified": true,
+    "languages": ["ko", "ko-KR", "en", "default"],
+    "sensor_title": "실내 환경",
+    "sensor_rows": ["온도", "습도", "청정도", "PM10", "PM2.5", "PM1.0", "GAS (생활가스)"],
+    "sensor_display_type": "state",
+    "sensor_commands": [],
+    "standard_sensor_detail_rows": 0,
+    "detail_rows": 23,
+    "custom_group_titles": 10,
+    "sensor_visible_conditions": 7,
+    "sensor_hide_on_unmatch": false,
+    "sliding_switches": 4,
+    "existing_control_visible_conditions": 6,
+    "other_detail_rows_preserved": true,
+    "automation_and_dashboard_preserved": true,
+    "standard_capabilities_and_history_retained": true,
+    "native_timer_detail_rows": 0,
+    "hub_timer_title": "예약"
+  },
+  "monitoring_trial": {
+    "baseline_power": "Off",
+    "baseline_native_timers": {"OnTimer": 0, "OffTimer": 0},
+    "baseline_monitoring": "Off",
+    "single_pc_post": {
+      "path": "/mode/vs/0",
+      "payload": {"x.com.samsung.da.options": ["AirMonitoring_On"]},
+      "response": "2.04 Changed",
+      "attempts": 1,
+      "off_command_sent": false
+    },
+    "status_samples": 24,
+    "first_complete_on_status_at": "2026-10-21T00:54:19.095612+09:00",
+    "on_display": {
+      "temperature": "26.0 °C",
+      "humidity": "46 %",
+      "airQuality": "좋음",
+      "dustLevel": "5 μg/m³",
+      "fineDustLevel": "5 μg/m³",
+      "veryFineDustLevel": "5 μg/m³",
+      "gas": "1단계"
+    },
+    "first_complete_off_status_at": "2026-10-21T00:54:59.069191+09:00",
+    "all_seven_off_values": "-",
+    "numeric_attribute_timestamps_unchanged_while_off": true,
+    "power_and_all_native_hub_timers_unchanged": true,
+    "health": "ONLINE",
+    "temporary_credential_copies_removed": true
+  },
+  "hub_log": {
+    "duration_seconds": 100,
+    "successful_queries": 20,
+    "appliance_post_phases": 0,
+    "query_event_command_errors": 0
+  },
+  "same_value_regression": {
+    "commands": ["DeviceSettings.voice", "Timer.onDelay", "Timer.offDelay"],
+    "all_three_status_timestamps_advanced": true,
+    "sensor_card_and_numeric_timestamps_unchanged": true,
+    "hub_log_unchanged_voice": true,
+    "hub_log_appliance_post_phases": 0,
+    "after_power": "off",
+    "after_native_and_hub_timers": "none",
+    "after_health": "ONLINE"
+  },
+  "local_checks": {
+    "lua_tests": 99,
+    "schema_validated_events": 641,
+    "python_tests": 22,
+    "monitoring_on_off_on": true,
+    "valid_zero_and_missing_value_distinction": true,
+    "unknown_monitoring_disables_card": true,
+    "hub_only_timer_update_preserves_sensors": true,
+    "new_capability_waits_for_profile_update": true
+  },
+  "limits": [
+    "새 카드의 휴대폰 배치와 회색 처리 렌더링은 직접 확인하지 않음",
+    "센서 정확도와 확인하지 않은 청정도·GAS 등급 대응은 이번 시험 범위가 아님",
+    "AirMonitoring Off 복귀 원인과 고정 지속 시간은 확정하지 않음",
+    "기존 기록 삭제나 장기 연결 안정성·인터넷 단절 시험은 수행하지 않음"
+  ]
+}

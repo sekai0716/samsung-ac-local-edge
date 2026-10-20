@@ -16,6 +16,7 @@ local BASE_MODES = { coolClean = "cool", dryClean = "dry" }
 local reservation = caps["instantcommon43059.samsungAcLocalTimer"]
 local native_reservation = caps["instantcommon43059.samsungAcLocalNativeTimer"]
 local settings = caps["instantcommon43059.samsungAcLocalSettings"]
+local sensors = caps["instantcommon43059.samsungAcLocalSensors"]
 local menu_caps = { caps["instantcommon43059.samsungAcLocalComfort"],
   caps["instantcommon43059.samsungAcLocalDeviceSettings"], caps["instantcommon43059.samsungAcLocalCare"],
   caps["instantcommon43059.samsungAcLocalOperation"], caps["instantcommon43059.samsungAcLocalTemperature"],
@@ -122,16 +123,16 @@ local function publish(device, state, force, acknowledgements)
   local context = assert(device:get_field(FIELD), "query context unavailable")
   context.published = context.published or {}
   local emitted, available = 0, 0
-  local function emit(event, component)
+  local function emit(event, component, fresh_measurement)
     available = available + 1
     local key = (component or "main") .. ":" .. event.capability.ID .. ":" .. event.attribute.NAME
     local previous = context.published[key]
     local now = socket.gettime()
     local reply = acknowledgements and acknowledgements[key]
-    if not force and not reply and previous and equal(previous.value, event.value) and now - previous.at < 300 then return end
+    if not force and not reply and not fresh_measurement and previous and equal(previous.value, event.value) and now - previous.at < 300 then return end
     -- 동일 값의 명령도 확인 GET의 상태를 앱에 돌려줘야 로딩이 끝납니다.
     -- 본체 POST 생략과 앱 이벤트 생략은 별개이며, 요청 인자를 성공 상태로 만들지 않습니다.
-    if reply then event.state_change = true end
+    if reply or fresh_measurement then event.state_change = true end
     -- 장비 이벤트 한도에 여유를 두고 최대 초당 4개로 보냅니다. 초기 전체 상태도 순서대로 전달합니다.
     local delay = context.last_event_at and 0.25 - (now - context.last_event_at) or 0
     if delay > 0 then socket.sleep(delay) end
@@ -145,11 +146,30 @@ local function publish(device, state, force, acknowledgements)
     emitted = emitted + 1
   end
   if state.power ~= nil then emit(caps.switch.switch(state.power and "on" or "off")) end
-  if state.temperature ~= nil and state.unit then
-    emit(caps.temperatureMeasurement.temperature({ value = state.temperature, unit = state.unit }))
+  local measuring = state.monitoringRaw == "On"
+  local resumed = measuring and context.sensors_active ~= true
+  -- Off는 먼저 카드를 비활성화하고 값을 지웁니다. On은 새 표시값을 채운 뒤 활성화합니다.
+  -- 허브 예약만 바꾼 빈 상태는 측정 상태나 마지막 표시를 덮어쓰지 않습니다.
+  if next(state) and device:supports_capability(sensors) then
+    local display = ac.sensor_state(state)
+    local function display_event(attribute)
+      local event = sensors[attribute](display[attribute])
+      event.state_change = true
+      emit(event)
+    end
+    if not measuring then display_event("monitoring") end
+    for _, attribute in ipairs({ "temperature", "humidity", "airQuality", "dustLevel", "fineDustLevel", "veryFineDustLevel", "gas" }) do
+      display_event(attribute)
+    end
+    if measuring then display_event("monitoring") end
   end
-  if state.humidity ~= nil then
-    emit(caps.relativeHumidityMeasurement.humidity(state.humidity))
+  -- 표준 capability는 기존 루틴·기록을 위해 유지하지만 측정 중에만 새 숫자를 보냅니다.
+  -- 재개 시 같은 숫자여도 새 실측 시점이므로 이전 300초 캐시와 구분합니다.
+  if measuring and state.temperature ~= nil and state.unit then
+    emit(caps.temperatureMeasurement.temperature({ value = state.temperature, unit = state.unit }), nil, resumed)
+  end
+  if measuring and state.humidity ~= nil then
+    emit(caps.relativeHumidityMeasurement.humidity(state.humidity), nil, resumed)
   end
   local unit = state.desiredUnit or state.unit
   if state.desired ~= nil and unit then
@@ -193,17 +213,19 @@ local function publish(device, state, force, acknowledgements)
     emit(event, "panel")
   end
   -- 갱신 전 프로필에는 새 센서가 없을 수 있으므로 capability가 도착한 뒤부터 발행합니다.
-  if device:supports_capability(caps.dustSensor) then
-    if state.pm10 ~= nil then emit(caps.dustSensor.dustLevel({ value = state.pm10, unit = "μg/m^3" })) end
-    if state.pm25 ~= nil then emit(caps.dustSensor.fineDustLevel({ value = state.pm25, unit = "μg/m^3" })) end
+  if measuring and device:supports_capability(caps.dustSensor) then
+    if state.pm10 ~= nil then emit(caps.dustSensor.dustLevel({ value = state.pm10, unit = "μg/m^3" }), nil, resumed) end
+    if state.pm25 ~= nil then emit(caps.dustSensor.fineDustLevel({ value = state.pm25, unit = "μg/m^3" }), nil, resumed) end
   end
-  if state.pm1 ~= nil and device:supports_capability(caps.veryFineDustSensor) then
-    emit(caps.veryFineDustSensor.veryFineDustLevel({ value = state.pm1, unit = "μg/m^3" }))
+  if measuring and state.pm1 ~= nil and device:supports_capability(caps.veryFineDustSensor) then
+    emit(caps.veryFineDustSensor.veryFineDustLevel({ value = state.pm1, unit = "μg/m^3" }), nil, resumed)
   end
-  if state.gasLevel ~= nil and device:supports_capability(caps.odorSensor) then emit(caps.odorSensor.odorLevel(state.gasLevel)) end
-  if state.airQualityConcern and device:supports_capability(caps.airQualityHealthConcern) then
+  if measuring and state.gasLevel ~= nil and device:supports_capability(caps.odorSensor) then
+    emit(caps.odorSensor.odorLevel(state.gasLevel), nil, resumed)
+  end
+  if measuring and state.airQualityConcern and device:supports_capability(caps.airQualityHealthConcern) then
     emit(caps.airQualityHealthConcern.supportedAirQualityValues({ "unknown", "good" }))
-    emit(caps.airQualityHealthConcern.airQualityHealthConcern(state.airQualityConcern))
+    emit(caps.airQualityHealthConcern.airQualityHealthConcern(state.airQualityConcern), nil, resumed)
   end
   if device:supports_capability(reservation) then
     local timers = reservations.snapshot(device)
@@ -247,6 +269,7 @@ local function publish(device, state, force, acknowledgements)
       end
     end
   end
+  if next(state) then context.sensors_active = measuring end
   assert(available > 0, "no verified AC state available to publish")
   if next(state) then log.info("AC_STATE " .. json.encode(state))
   else log.info("AC_LOCAL_RESERVATIONS " .. json.encode(reservations.snapshot(device))) end

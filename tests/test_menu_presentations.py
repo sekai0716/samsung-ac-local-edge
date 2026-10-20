@@ -12,6 +12,7 @@ from tools import build_menu_capabilities as builder
 ROOT = Path(__file__).resolve().parents[1]
 PREFIX = "instantcommon43059.samsungAcLocal"
 CARDS = [
+    ("Sensors", "ac-sensors", "실내 환경", "state", 7),
     ("Operating", "ac-operating", "운전", "list", 2),
     ("Temperature", "ac-temperature", "희망 온도", "slider", 1),
     ("Comfort", "ac-comfort", "바람 설정", "list", 2),
@@ -93,7 +94,7 @@ class MenuPresentationTests(unittest.TestCase):
                 self.assertEqual(argument["name"], "setting")
                 self.assertEqual(set(argument["schema"]["enum"]), {"on", "off"})
         self.assertEqual(self.rows["Care"][0]["label"], "자동청소")
-        gates = {(suffix, index): row["visibleCondition"] for suffix, rows in self.rows.items()
+        gates = {(suffix, index): row["visibleCondition"] for suffix, rows in self.rows.items() if suffix != "Sensors"
                  for index, row in enumerate(rows) if "visibleCondition" in row}
         expected = {("Operating", 1): "fan", ("Temperature", 0): "setpoint", ("Comfort", 0): "preset",
                     ("AirFeatures", 0): "windfree", ("AirFeatures", 1): "purify", ("Panel", 0): "panel"}
@@ -114,7 +115,7 @@ class MenuPresentationTests(unittest.TestCase):
             with patch.object(builder, "ROOT", temporary):
                 builder.main()
             files = list((temporary / "capabilities").glob("*.json"))
-            self.assertEqual(len(files), 20)
+            self.assertEqual(len(files), 22)
             for generated in files:
                 with self.subTest(file=generated.name):
                     expected = json.loads(generated.read_text())
@@ -124,6 +125,33 @@ class MenuPresentationTests(unittest.TestCase):
                 actual = read_json("tests/fixtures/capabilities/" + generated.name)
                 self.assertEqual(actual["attributes"], expected["attributes"])
                 self.assertEqual(actual["commands"], expected["commands"])
+
+    def test_sensor_card_uses_dash_and_readonly_states_without_standard_graphs(self):
+        definition = read_json("capabilities/ac-sensors.json")
+        self.assertEqual(definition["commands"], {})
+        self.assertEqual(set(definition["attributes"]), {
+            "monitoring", "temperature", "humidity", "airQuality", "dustLevel", "fineDustLevel", "veryFineDustLevel", "gas"})
+        for name in definition["attributes"]:
+            self.assertRegex(name, r"^[a-z]+(?:[A-Z][a-z]*)*$")
+            self.assertLessEqual(len(name), 36)
+        self.assertEqual(definition["attributes"]["monitoring"]["schema"]["properties"]["value"]["enum"], ["on", "off", "unknown"])
+        keys = ["temperature", "humidity", "airQuality", "dustLevel", "fineDustLevel", "veryFineDustLevel", "gas"]
+        for row, key in zip(self.rows["Sensors"], keys):
+            self.assertEqual(row["displayType"], "state")
+            self.assertEqual(row["state"]["label"], "{{" + key + ".value}}")
+            self.assertEqual(row["state"]["alternatives"], [{"key": "-", "value": "-", "type": "inactive"}])
+            self.assertEqual(row["visibleCondition"], {"value": "monitoring.value", "valueType": "string",
+                "operator": "EQUALS", "operand": "on"})
+            self.assertEqual(definition["attributes"][key]["schema"]["properties"]["value"]["type"], "string")
+        standard_sensors = {"temperatureMeasurement", "relativeHumidityMeasurement", "dustSensor",
+                            "veryFineDustSensor", "airQualityHealthConcern", "odorSensor"}
+        self.assertTrue(standard_sensors.isdisjoint(self.entries))
+        # 숫자 센서와 기존 루틴은 유지하고 상세 화면의 그래프만 제거합니다.
+        condition_ids = {row["capability"] for row in self.config["automation"]["conditions"]}
+        self.assertTrue(standard_sensors <= condition_ids)
+        profile = (ROOT / "driver/profiles/samsung-ac.yml").read_text()
+        for identifier in standard_sensors | {PREFIX + "Sensors"}:
+            self.assertIn("id: " + identifier, profile)
 
     def test_native_timer_cannot_offer_cancel_or_fabricate_an_unknown_as_none(self):
         definition = read_json("capabilities/ac-native-timer.json")

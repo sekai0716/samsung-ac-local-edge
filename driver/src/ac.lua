@@ -77,6 +77,25 @@ function M.menu_state(state)
   return comfort, settings, care, operation, temperature, air_features, display, panel, operating
 end
 
+-- 숫자 센서에 가짜 0이나 문자열을 넣지 않고 읽기 전용 카드의 표시값을 만듭니다.
+-- 운전 전원과 별개로 AirMonitoring_On을 확인한 경우에만 현재 측정값을 표시합니다.
+function M.sensor_state(state)
+  local monitoring = ({ On = "on", Off = "off" })[state.monitoringRaw] or "unknown"
+  local result = { monitoring = monitoring, temperature = "-", humidity = "-", airQuality = "-",
+    dustLevel = "-", fineDustLevel = "-", veryFineDustLevel = "-", gas = "-" }
+  if monitoring ~= "on" then return result end
+  if state.temperature ~= nil and (state.unit == "C" or state.unit == "F") then
+    result.temperature = string.format("%.1f °%s", state.temperature, state.unit)
+  end
+  if state.humidity ~= nil then result.humidity = string.format("%g %%", state.humidity) end
+  if state.airQualityConcern == "good" then result.airQuality = "좋음" end
+  for key, attribute in pairs({ pm10 = "dustLevel", pm25 = "fineDustLevel", pm1 = "veryFineDustLevel" }) do
+    if state[key] ~= nil then result[attribute] = string.format("%d μg/m³", state[key]) end
+  end
+  if state.gasLevel ~= nil then result.gas = string.format("%d단계", state.gasLevel) end
+  return result
+end
+
 function M.number(value)
   local result = tonumber(value)
   if result and result == result and result ~= math.huge and result ~= -math.huge then return result end

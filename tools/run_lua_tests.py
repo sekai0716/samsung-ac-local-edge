@@ -29,8 +29,13 @@ def main() -> None:
             runtime.globals()[b"arg"] = runtime.table_from({1: str(root).encode(), 2: str(path).encode(), 3: str(events_path).encode()})
             runtime.execute((root / "tests/lua/test.lua").read_bytes())
         # 모사 SDK가 만든 이벤트도 실제 공개 capability의 속성 스키마로 검사합니다.
-        events = cbor2.loads(events_path.read_bytes())
-        assert events, "no capability events collected"
+        # 개수와 개별 CBOR 항목으로 수집해, 전체 검사 로그에 본체 프레임 크기 제한을 적용하지 않습니다.
+        with events_path.open("rb") as stream:
+            decoder = cbor2.CBORDecoder(stream)
+            count = decoder.decode()
+            assert isinstance(count, int) and count > 0, "no capability events collected"
+            events = [decoder.decode() for _ in range(count)]
+            assert stream.read(1) == b"", "unexpected trailing event data"
         for event in events:
             capability = json.loads((root / "tests/fixtures/capabilities" / (event["capability"] + ".json")).read_text())
             Draft4Validator(capability["attributes"][event["attribute"]]["schema"]).validate(event["data"])

@@ -1,0 +1,154 @@
+{
+  "id": "instantcommon43059.samsungAcLocalSensors",
+  "version": 1,
+  "dashboard": {
+    "states": [],
+    "actions": []
+  },
+  "detailView": [
+    {
+      "label": "온도",
+      "displayType": "state",
+      "state": {
+        "label": "{{temperature.value}}",
+        "alternatives": [
+          {
+            "key": "-",
+            "value": "-",
+            "type": "inactive"
+          }
+        ]
+      },
+      "visibleCondition": {
+        "value": "monitoring.value",
+        "valueType": "string",
+        "operator": "EQUALS",
+        "operand": "on"
+      }
+    },
+    {
+      "label": "습도",
+      "displayType": "state",
+      "state": {
+        "label": "{{humidity.value}}",
+        "alternatives": [
+          {
+            "key": "-",
+            "value": "-",
+            "type": "inactive"
+          }
+        ]
+      },
+      "visibleCondition": {
+        "value": "monitoring.value",
+        "valueType": "string",
+        "operator": "EQUALS",
+        "operand": "on"
+      }
+    },
+    {
+      "label": "청정도",
+      "displayType": "state",
+      "state": {
+        "label": "{{airQuality.value}}",
+        "alternatives": [
+          {
+            "key": "-",
+            "value": "-",
+            "type": "inactive"
+          }
+        ]
+      },
+      "visibleCondition": {
+        "value": "monitoring.value",
+        "valueType": "string",
+        "operator": "EQUALS",
+        "operand": "on"
+      }
+    },
+    {
+      "label": "PM10",
+      "displayType": "state",
+      "state": {
+        "label": "{{dustLevel.value}}",
+        "alternatives": [
+          {
+            "key": "-",
+            "value": "-",
+            "type": "inactive"
+          }
+        ]
+      },
+      "visibleCondition": {
+        "value": "monitoring.value",
+        "valueType": "string",
+        "operator": "EQUALS",
+        "operand": "on"
+      }
+    },
+    {
+      "label": "PM2.5",
+      "displayType": "state",
+      "state": {
+        "label": "{{fineDustLevel.value}}",
+        "alternatives": [
+          {
+            "key": "-",
+            "value": "-",
+            "type": "inactive"
+          }
+        ]
+      },
+      "visibleCondition": {
+        "value": "monitoring.value",
+        "valueType": "string",
+        "operator": "EQUALS",
+        "operand": "on"
+      }
+    },
+    {
+      "label": "PM1.0",
+      "displayType": "state",
+      "state": {
+        "label": "{{veryFineDustLevel.value}}",
+        "alternatives": [
+          {
+            "key": "-",
+            "value": "-",
+            "type": "inactive"
+          }
+        ]
+      },
+      "visibleCondition": {
+        "value": "monitoring.value",
+        "valueType": "string",
+        "operator": "EQUALS",
+        "operand": "on"
+      }
+    },
+    {
+      "label": "GAS (생활가스)",
+      "displayType": "state",
+      "state": {
+        "label": "{{gas.value}}",
+        "alternatives": [
+          {
+            "key": "-",
+            "value": "-",
+            "type": "inactive"
+          }
+        ]
+      },
+      "visibleCondition": {
+        "value": "monitoring.value",
+        "valueType": "string",
+        "operator": "EQUALS",
+        "operand": "on"
+      }
+    }
+  ],
+  "automation": {
+    "conditions": [],
+    "actions": []
+  }
+}

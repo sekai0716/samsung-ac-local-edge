@@ -18,6 +18,7 @@ local air_features = caps["instantcommon43059.samsungAcLocalAirFeatures"]
 local display = caps["instantcommon43059.samsungAcLocalDisplay"]
 local panel = caps["instantcommon43059.samsungAcLocalPanel"]
 local operating = caps["instantcommon43059.samsungAcLocalOperating"]
+local sensors = caps["instantcommon43059.samsungAcLocalSensors"]
 
 -- 시작 시 한 번, 앱 검색 중에는 취소될 때까지 OCF 멀티캐스트로 지원 모델을 찾습니다.
 local discovering = false
@@ -128,7 +129,7 @@ local driver = Driver("samsung-ac-local", {
   supported_capabilities = { caps.switch, caps.airConditionerMode, caps.airConditionerFanMode,
     caps.thermostatCoolingSetpoint, caps.temperatureMeasurement, caps.relativeHumidityMeasurement, caps.refresh,
     caps.dustSensor, caps.veryFineDustSensor, caps.odorSensor, caps.airQualityHealthConcern, reservation, settings, caps.doorControl,
-    comfort, device_settings, care, operation, temperature, air_features, display, panel, operating, native_reservation },
+    comfort, device_settings, care, operation, temperature, air_features, display, panel, operating, native_reservation, sensors },
   capability_handlers = {
     [caps.switch.ID] = { [caps.switch.commands.on.NAME] = switch_handler(true), [caps.switch.commands.off.NAME] = switch_handler(false) },
     [caps.airConditionerMode.ID] = { [caps.airConditionerMode.commands.setAirConditionerMode.NAME] = setting_handler("mode", "mode") },

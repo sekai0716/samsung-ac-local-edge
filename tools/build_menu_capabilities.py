@@ -18,6 +18,36 @@ def alternatives(items):
     return [{"key": key, "value": label, "type": "inactive" if key in {"off", "closed", "normal", "none", "unknown"} else "active"}
             for key, label in items]
 
+def write_capability(slug, definition, presentation):
+    """정의·화면·이벤트 검사 스키마를 같은 원본에서 저장합니다."""
+    for suffix, value in [("", definition), ("-presentation", presentation)]:
+        (ROOT / "capabilities" / (slug + suffix + ".json")).write_text(
+            json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    fixture = {"id": presentation["id"], "version": 1, **definition}
+    (ROOT / "tests/fixtures/capabilities" / (presentation["id"] + ".json")).write_text(
+        json.dumps(fixture, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
+def build_sensors():
+    """기본 그래프 대신 비활성 값을 '-'로 지울 수 있는 읽기 전용 센서 카드를 만듭니다."""
+    identifier = NAMESPACE + ".samsungAcLocalSensors"
+    definition = {"name": "Samsung Ac Local Sensors", "attributes": {
+        "monitoring": attribute(["on", "off", "unknown"])}, "commands": {}}
+    presentation = {"id": identifier, "version": 1, "dashboard": {"states": [], "actions": []},
+                    "detailView": [], "automation": {"conditions": [], "actions": []}}
+    # capability 속성 이름에는 숫자를 허용하지 않으므로 먼지 종류는 표시 문구로 구분합니다.
+    for key, label in [("temperature", "온도"), ("humidity", "습도"), ("airQuality", "청정도"),
+                       ("dustLevel", "PM10"), ("fineDustLevel", "PM2.5"), ("veryFineDustLevel", "PM1.0"), ("gas", "GAS (생활가스)")]:
+        definition["attributes"][key] = {"schema": {"type": "object", "properties": {
+            "value": {"type": "string", "maxLength": 32}}, "required": ["value"], "additionalProperties": False},
+            "enumCommands": []}
+        presentation["detailView"].append({
+            "label": label, "displayType": "state",
+            "state": {"label": "{{" + key + ".value}}", "alternatives": [{"key": "-", "value": "-", "type": "inactive"}]},
+            "visibleCondition": {"value": "monitoring.value", "valueType": "string",
+                                 "operator": "EQUALS", "operand": "on"}})
+    write_capability("ac-sensors", definition, presentation)
+
 
 def build(name, slug, rows, gates, temperature=False):
     """보조 활성 속성은 화면·루틴에 별도 행을 만들지 않고 visibleCondition에서만 사용합니다."""
@@ -58,16 +88,11 @@ def build(name, slug, rows, gates, temperature=False):
             "value": "setpoint.value", "valueType": "number", "unit": "setpoint.unit", "range": [18, 30]}})
         presentation["automation"]["actions"].insert(1, {"label": "희망 온도", "displayType": "numberField", "numberField": {
             "command": "setTemperature", "argumentType": "number", "unit": "setpoint.unit", "range": [18, 30]}})
-    for suffix, value in [("", definition), ("-presentation", presentation)]:
-        (ROOT / "capabilities" / (slug + suffix + ".json")).write_text(
-            json.dumps(value, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    # API 등록 뒤 반환 정의와 비교하는 로컬 이벤트 스키마입니다.
-    fixture = {"id": identifier, "version": 1, **definition}
-    (ROOT / "tests/fixtures/capabilities" / (identifier + ".json")).write_text(
-        json.dumps(fixture, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    write_capability(slug, definition, presentation)
 
 
 def main():
+    build_sensors()
     switch = [("on", "켜짐"), ("off", "꺼짐")]
     build("Samsung Ac Local Operation", "ac-operation", [
         ("mode", "운전 모드", [("aIComfort", "인공지능 쾌적"), ("auto", "스마트쾌적"), ("cool", "냉방"), ("dry", "제습"), ("wind", "청정")], "list", []),

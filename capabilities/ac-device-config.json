@@ -34,62 +34,10 @@
     },
     {
       "component": "main",
-      "capability": "temperatureMeasurement",
+      "capability": "instantcommon43059.samsungAcLocalSensors",
       "version": 1,
       "values": [],
       "patch": []
-    },
-    {
-      "component": "main",
-      "capability": "relativeHumidityMeasurement",
-      "version": 1,
-      "values": [],
-      "patch": []
-    },
-    {
-      "component": "main",
-      "capability": "airQualityHealthConcern",
-      "version": 1,
-      "values": [],
-      "patch": [
-        {
-          "op": "replace",
-          "path": "/0/label",
-          "value": "실내 청정도"
-        }
-      ]
-    },
-    {
-      "component": "main",
-      "capability": "dustSensor",
-      "version": 1,
-      "values": [],
-      "patch": []
-    },
-    {
-      "component": "main",
-      "capability": "veryFineDustSensor",
-      "version": 1,
-      "values": [],
-      "patch": []
-    },
-    {
-      "component": "main",
-      "capability": "odorSensor",
-      "version": 1,
-      "values": [],
-      "patch": [
-        {
-          "op": "replace",
-          "path": "/0/label",
-          "value": "GAS (생활가스)"
-        },
-        {
-          "op": "replace",
-          "path": "/0/state/label",
-          "value": "{{odorLevel.value}}단계"
-        }
-      ]
     },
     {
       "component": "main",

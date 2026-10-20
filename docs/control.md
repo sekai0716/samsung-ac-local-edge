@@ -10,7 +10,7 @@
 
 분리한 화면은 `samsungAcLocalOperating`, `samsungAcLocalTemperature`, `samsungAcLocalAirFeatures`, `samsungAcLocalDisplay`, `samsungAcLocalPanel`을 사용합니다. 기존 capability와 component 및 루틴 구성은 유지하고, 상세 화면에는 같은 조작부를 한 번만 배치합니다. 새 카드의 명령은 기존 검증·작업 큐로 전달하며 같은 관측값을 표시합니다. 활성 조건에 필요한 속성은 해당 카드를 소유한 capability에도 발행합니다. 기존 운전 정의에 추가한 속성이 허브에 반영되지 않아 이벤트 생성이 실패했던 것을 확인했으며, 기존 정의를 복구하고 새 운전 capability에 활성 조건을 두었습니다. 생성 원본은 `tools/build_menu_capabilities.py`이고 JSON 정의·표시·테스트 스키마를 함께 생성합니다.
 
-그룹 제목은 `capabilities/translations/`의 `*-ko.json`과 기본 언어용 `*-en.json`에 같은 한글 `label`로 관리합니다. 이 드라이버는 메뉴 문구를 한글로 제공하므로 앱이 언어를 지정하지 않아도 같은 제목을 사용합니다. `Samsung AC Local` 접두사를 빼고 ‘운전’, ‘희망 온도’, ‘바람 설정’, ‘무풍·청정’, ‘예약’, ‘기기 설정’, ‘본체 화면’, ‘자동청소’, ‘청소용 패널’로 표시하며, 루틴 호환용 기존 설정 그룹은 ‘라이팅·음성’으로 구분합니다. 기기 예약은 상세 화면에서 숨기고 허브 예약만 ‘예약’으로 표시합니다. 기존 등록용 capability `name`과 ID는 유지합니다. 번역 파일은 생성기와 별도로 관리하며, 대응하는 `*-presentation.json`의 ID에 `smartthings capabilities:translations:upsert <ID> --capability-version 1 --input <번역 파일>`로 등록합니다. 기존 해당 언어 번역에 다른 필드가 있으면 보존하고 `label`만 병합합니다. 방식은 [SmartThings Capability Translations 문서](https://developer.smartthings.com/docs/devices/capabilities/capability-translations)를 따릅니다.
+그룹 제목은 `capabilities/translations/`의 `*-ko.json`과 기본 언어용 `*-en.json`에 같은 한글 `label`로 관리합니다. 이 드라이버는 메뉴 문구를 한글로 제공하므로 앱이 언어를 지정하지 않아도 같은 제목을 사용합니다. `Samsung AC Local` 접두사를 빼고 ‘실내 환경’, ‘운전’, ‘희망 온도’, ‘바람 설정’, ‘무풍·청정’, ‘예약’, ‘기기 설정’, ‘본체 화면’, ‘자동청소’, ‘청소용 패널’로 표시하며, 루틴 호환용 기존 설정 그룹은 ‘라이팅·음성’으로 구분합니다. 기기 예약은 상세 화면에서 숨기고 허브 예약만 ‘예약’으로 표시합니다. 기존 등록용 capability `name`과 ID는 유지합니다. 번역 파일은 생성기와 별도로 관리하며, 대응하는 `*-presentation.json`의 ID에 `smartthings capabilities:translations:upsert <ID> --capability-version 1 --input <번역 파일>`로 등록합니다. 기존 해당 언어 번역에 다른 필드가 있으면 보존하고 `label`만 병합합니다. 방식은 [SmartThings Capability Translations 문서](https://developer.smartthings.com/docs/devices/capabilities/capability-translations)를 따릅니다.
 
 무풍·청정·본체 화면·자동청소의 상세 표시 형식은 `switch`입니다. 사용자 휴대폰에서 기존 `toggleSwitch`가 원형으로 나타난 것을 확인한 뒤 표시 형식을 변경했습니다. 명령명·On/Off 인자·상태 매핑은 유지하며, 변경 후 사용자가 휴대폰에서 자동청소 제목과 네 가지 길쭉한 On/Off 스위치가 정상임을 확인했습니다. 표시 정의가 이미 있으면 `smartthings capabilities:presentation:update`를 사용합니다. `create`는 아직 없는 표시 정의에만 사용하며, 표시 수정에는 capability 속성 정의 갱신이 필요하지 않습니다.
 
@@ -32,7 +32,21 @@
 
 `2026-10-20T15:24:15.33648447`을 설치한 뒤 2026-10-21 00:25 KST에 음성선택 2회, 라이팅·모드·바람문·패널 각각 1회, 허브 켜짐·꺼짐 예약 없음 각각 1회를 호출했습니다. 8회 모두 서버의 같은 값 상태에 새 타임스탬프가 수신됐습니다. 허브 로그는 본체 설정 6회 모두 `AC_COMMAND_UNCHANGED`, 본체 POST 0회, 조회·이벤트·명령 오류 0회였습니다. 전원 Off·본체 및 허브 예약 없음·ONLINE을 유지했습니다. 휴대폰에서 로딩 종료가 보이는지는 이 서버·허브 검사와 구분합니다.
 
-이번 화면은 상세 행 23개, 메뉴 제목 9개이며 기기 예약 2개 행만 제외했습니다. 나머지 상세 행, 길쭉한 스위치 4개, 활성 조건 6개, 기존 대시보드와 루틴 구성은 이전 생성 결과와 같습니다. 실제 기기에 저장된 화면 ID·제조사 쌍으로 `ko`, `ko-KR`, `en`, 언어 미지정 조회를 수행해 ‘예약’ 제목을 확인했습니다. Lua 검사 96개·스키마 이벤트 491개·Python 검사 21개와 [실기 기록](observed-selection-ack.json)에 확인 범위를 보존합니다.
+당시 화면은 상세 행 23개, 메뉴 제목 9개이며 기기 예약 2개 행만 제외했습니다. 나머지 상세 행, 길쭉한 스위치 4개, 활성 조건 6개, 기존 대시보드와 루틴 구성은 이전 생성 결과와 같았습니다. 실제 기기에 저장된 화면 ID·제조사 쌍으로 `ko`, `ko-KR`, `en`, 언어 미지정 조회를 수행해 ‘예약’ 제목을 확인했습니다. Lua 검사 96개·스키마 이벤트 491개·Python 검사 21개와 [실기 기록](observed-selection-ack.json)에 그 버전의 확인 범위를 보존합니다.
+
+### 실내 환경 카드와 측정 비활성 표시
+
+사용자가 그래프 제거와 별도 카드를 선택해, `samsungAcLocalSensors`의 읽기 전용 `state` 7행으로 온도·습도·청정도·PM10·PM2.5·PM1.0·GAS를 표시합니다. `AirMonitoring_On`이면 실제 조회값을 문자열로 표시하고, Off 또는 상태 미확인이면 모든 값을 `-`로 지웁니다. 전원 On을 측정 On으로 대신 판단하지 않습니다. 값이 누락된 개별 항목과 아직 해석하지 못한 청정도도 `-`이며 정상 측정값 0은 숫자로 표시합니다.
+
+카드의 `monitoring` 속성은 on/off/unknown입니다. 각 행의 `visibleCondition`은 이 값이 on일 때만 활성화하며, 생성된 기기 화면의 `hideOnUnmatch: false`로 행을 남깁니다. Off 전환은 비활성 상태를 먼저 보내고 값을 지우며, On 전환은 새 값을 채운 뒤 활성 상태를 보냅니다. 이 카드에는 조작 명령이나 그래프를 정의하지 않습니다. 문자열 상태 표시는 [공식 Capability Presentation](https://developer.smartthings.com/docs/devices/capabilities/capability-presentations)의 `state` 형식을 사용합니다.
+
+상세 화면에서 표준 센서 표시만 제거하며 해당 capability, 기존 루틴 조건과 기록은 유지합니다. 표준 숫자 이벤트는 `AirMonitoring_On`일 때만 발행하고, Off 동안 남아 있는 본체 캐시를 새 측정 기록으로 만들지 않습니다. 측정이 다시 On이면 숫자가 전과 같아도 새로운 측정 시점으로 발행합니다. 허브 예약만 바꾸는 작업은 센서 카드나 측정 상태를 덮어쓰지 않습니다. 운영 드라이버는 측정 시작·중지 명령을 자동으로 보내지 않습니다.
+
+`2026-10-20T15:53:11.604884434` 설치 후 실제 기기의 화면 ID·제조사 쌍으로 네 가지 언어 조회를 확인했습니다. 상세 행은 23개, 제목은 10개이며, 센서 이외의 상세 행·길쭉한 스위치 4개·기존 활성 조건 6개·대시보드·루틴은 직전 설치본과 같습니다. 센서 활성 조건 7개만 추가됐습니다.
+
+전원 Off·예약 없음에서 `AirMonitoring_On`을 한 번 보내고 허브가 26.0°C·46%·좋음·PM 3종 각 5 μg/m³·GAS 1단계를 발행하는 것을 확인했습니다. Off 명령을 보내지 않은 상태에서 이후 본체의 Off를 읽었고, 허브의 7개 표시값이 모두 `-`로 바뀌었습니다. Off 동안 표준 숫자 속성의 타임스탬프도 유지됐습니다. 측정이 저절로 끝난 원인이나 고정 지속 시간은 확인하지 않았으며 코드에 시간 가정을 넣지 않습니다. 전원 Off·본체 및 허브 예약 없음·ONLINE을 유지했습니다.
+
+Lua 검사 99개·capability 스키마 이벤트 641개·Python 검사 22개가 통과했습니다. On→Off→On, 값 누락·정상 0·기존 프로필에서의 초기화, 예약만 바꿀 때의 센서 보존을 포함합니다. 실제 허브에서 같은 음성선택 값과 이미 없는 켜짐·꺼짐 허브 예약을 재선택한 3회도 새 타임스탬프가 수신됐으며, 비활성 센서 카드와 표준 숫자 타임스탬프는 유지됐습니다. [센서 카드 실기 기록](observed-sensor-card.json)에 적용·관측 범위를 보존합니다. 서버 화면 정의와 실제 허브 이벤트를 검증했으며, 새 카드의 휴대폰 배치·회색 처리 렌더링은 아직 직접 확인하지 않았습니다.
 
 | 앱 기능 | capability / component | 로컬 POST 경로와 필드 |
 |---|---|---|
@@ -43,12 +57,13 @@
 | 무풍 On/Off | `switch` / windfree | `/mode/vs/0`: `x.com.samsung.da.options`의 `Comode_*` 토큰 |
 | 청정 On/Off | `switch` / purify | `/mode/vs/0`: 냉방 `Cool`↔`CoolClean`, 제습 `Dry`↔`DryClean` |
 | 자동 건조 On/Off | `switch` / autoclean | 같은 옵션의 `Autoclean_On` / `Autoclean_Off` |
-| 현재 온도·습도 | `temperatureMeasurement`, `relativeHumidityMeasurement` | 기존 배치 GET에서 조회 |
+| 실내 환경 카드 | `instantcommon43059.samsungAcLocalSensors` / main | 배치 GET. 측정 On일 때만 7개 값 표시, Off·미확인 때 `-` |
+| 현재 온도·습도 | `temperatureMeasurement`, `relativeHumidityMeasurement` | 배치 GET. 상세 그래프는 숨기고 측정 On일 때만 기존 루틴용 숫자 발행 |
 | 상·하 바람문 | `switch` / doorupper, doorlower | `Blooming_0..3` 중 필요한 비트만 변경 |
 | 바람문(패널) 열림 | `doorControl` / panel | 청소용 `Panel_Open/Close` 단일 옵션. 전원 Off일 때만 허용 |
 | 허브 켜짐·꺼짐 예약 | `instantcommon43059.samsungAcLocalTimer` / main | 허브에 시각 저장. 만료 때 전원 명령 한 번. 설정·취소는 본체에 쓰지 않음 |
 | 본체 켜짐·꺼짐 예약 | `instantcommon43059.samsungAcLocalNativeTimer` / main | `OnTimer_N` / `OffTimer_N`, N=1~48. 1은 30분. 본체 GET으로 표시하며 취소는 미지원 |
-| 실내 먼지·GAS·청정도 | `dustSensor`, `veryFineDustSensor`, `odorSensor`, `airQualityHealthConcern` | 센서 배치 GET. PM 단위·GAS 1단계·좋음 대조 |
+| 실내 먼지·GAS·청정도 | `dustSensor`, `veryFineDustSensor`, `odorSensor`, `airQualityHealthConcern` | 센서 배치 GET. 측정 On일 때만 기존 루틴용 이벤트 발행 |
 | 스피드·정음 | `switch` / speed, quiet | `Comode_Speed/Quiet/Off` 단일 옵션. 냉방에서 허용, 운전 실기 미검증 |
 | 라이팅·음성선택 | `instantcommon43059.samsungAcLocalSettings` / main | `Light_Off/Small/On/Huge`, `Volume_33/66/100/Melody/Mute` |
 | 화면 끄기 | `switch` / displayoff | 켜짐=`Display_On`, 해제=`Display_Off` |
