@@ -82,6 +82,7 @@ local function capabilities()
     odorSensor = { { "odorLevel" }, {} },
     airQualityHealthConcern = { { "airQualityHealthConcern", "supportedAirQualityValues" }, {} },
     ["instantcommon43059.samsungAcLocalTimer"] = { { "onDelay", "offDelay" }, { "setOnDelay", "setOffDelay", "cancelOn", "cancelOff" } },
+    ["instantcommon43059.samsungAcLocalNativeTimer"] = { { "onDelay", "offDelay" }, { "setOnDelay", "setOffDelay" } },
     ["instantcommon43059.samsungAcLocalSettings"] = { { "lighting", "voice" }, { "setLighting", "setVoice" } },
     ["instantcommon43059.samsungAcLocalComfort"] = { { "preset", "windfree", "purify", "outlet", "presetEnabled", "windfreeEnabled", "purifyEnabled", "setpointEnabled", "fanEnabled" },
       { "setPreset", "setWindfree", "setPurify", "setOutlet" } },
@@ -451,7 +452,7 @@ test("Cleaning panel commands require observed power off and send one option wit
     fails(function() ac.validate({ kind = "panel", value = value }) end)
   end
 end)
-test("Native reservation values remain readable but every native reservation write is rejected", function()
+test("Native reservation values remain readable but legacy timer commands cannot reach native writes", function()
   local batch = cbor.decode(cbor.encode(observed))
   for _, entry in ipairs(batch) do
     if entry.href == "/mode/vs/0" then entry.rep[P .. "options"] = { "OnTimer_0", "OffTimer_4" } end
@@ -466,6 +467,27 @@ test("Native reservation values remain readable but every native reservation wri
   fails(function() ac.plan({ kind = "offTimer", value = 0 }, {}) end)
   for _, entry in ipairs(batch) do if entry.href == "/mode/vs/0" then entry.rep[P .. "options"] = {} end end
   assert(ac.summary(batch).offTimer == nil)
+end)
+test("Native timers accept positive half-hours only and rearm an identical setting with one option", function()
+  local state = ac.summary(observed)
+  state.onTimer, state.offTimer = 0, 0
+  for kind, prefix in pairs({nativeOnTimer="OnTimer_", nativeOffTimer="OffTimer_"}) do
+    for _, value in ipairs({1, 2, 4, 48, 1.0}) do
+      local command = {kind=kind, value=value}
+      local key = kind == "nativeOnTimer" and "onTimer" or "offTimer"
+      state[key] = value
+      assert(ac.matches(command, state))
+      local plan = ac.plan(command, state)
+      assert(plan and plan.path == "/mode/vs/0")
+      assert(#plan.body[P .. "options"] == 1 and plan.body[P .. "options"][1] == prefix .. string.format("%d", value))
+      local fields = 0; for _ in pairs(plan.body) do fields = fields + 1 end
+      assert(fields == 1)
+    end
+    for _, value in ipairs({0, -1, 0.5, 49, math.huge, 0/0, "1", "none", false}) do
+      fails(function() ac.plan({kind=kind, value=value}, state) end)
+    end
+    fails(function() ac.plan({kind=kind, value=1}, {}) end)
+  end
 end)
 test("WindFree is available in Cool, Dry and purification, including their optional clean modes", function()
   local state = ac.summary(observed)
@@ -803,6 +825,34 @@ test("Acknowledgement alone does not confirm a setting", function()
   local state, _, outcome = t.control({ kind = "setpoint", value = 23 })
   assert(outcome == "unconfirmed" and state.desired == 24 and #t.posts == 1 and #t.requests == 5)
 end)
+test("Native half-hour settings reach the appliance once and confirmation comes from GET", function()
+  for _, kind in ipairs({"nativeOnTimer", "nativeOffTimer"}) do
+    local t = transport(false)
+    local state, _, outcome = t.control({kind=kind, value=1})
+    local key = kind == "nativeOnTimer" and "onTimer" or "offTimer"
+    local token = kind == "nativeOnTimer" and "OnTimer_1" or "OffTimer_1"
+    assert(outcome == "confirmed" and state[key] == 1 and state.power == false)
+    assert(#t.posts == 1 and #t.requests == 3 and t.posts[1].path == "/mode/vs/0")
+    assert(#t.posts[1].body[P .. "options"] == 1 and t.posts[1].body[P .. "options"][1] == token)
+    -- 같은 시간을 다시 선택해도 새 예약 요청은 생략하지 않습니다.
+    local _, _, renewed = t.control({kind=kind, value=1})
+    assert(#t.posts == 2 and renewed == "accepted")
+    t = transport(false, nil, {ignore_change=true})
+    state, _, outcome = t.control({kind=kind, value=1})
+    assert(outcome == "unconfirmed" and state[key] == 0 and #t.posts == 1)
+    for _, behavior in ipairs({{drop_response=true}, {reject=true}, {readback_failure=true}}) do
+      t = transport(false, nil, behavior)
+      fails(function() t.control({kind=kind, value=1}) end)
+      assert(#t.posts == 1)
+    end
+    t = transport(false)
+    fails(function() t.control({kind=kind, value=0}) end)
+    assert(#t.posts == 0 and #t.requests == 0)
+    t = transport(false, "wrong-appliance")
+    fails(function() t.control({kind=kind, value=1}) end)
+    assert(#t.posts == 0)
+  end
+end)
 test("POST rejection, response loss and readback failure never retransmit", function()
   for _, behavior in ipairs({ { reject = true }, { drop_response = true }, { readback_failure = true } }) do
     local t = transport(false, nil, behavior)
@@ -994,7 +1044,8 @@ local function worker_fixture(read, control, scan)
       ["instantcommon43059.samsungAcLocalDeviceSettings"] = true, ["instantcommon43059.samsungAcLocalCare"] = true,
       ["instantcommon43059.samsungAcLocalOperation"] = true, ["instantcommon43059.samsungAcLocalTemperature"] = true,
       ["instantcommon43059.samsungAcLocalAirFeatures"] = true, ["instantcommon43059.samsungAcLocalDisplay"] = true,
-      ["instantcommon43059.samsungAcLocalPanel"] = true, ["instantcommon43059.samsungAcLocalOperating"] = true },
+      ["instantcommon43059.samsungAcLocalPanel"] = true, ["instantcommon43059.samsungAcLocalOperating"] = true,
+      ["instantcommon43059.samsungAcLocalNativeTimer"] = true },
     device_network_id = "samsung-ac-ocf:appliance-a", preferences = { enablePolling = false },
     profile = { components = { main = { id = "main" }, windfree = { id = "windfree" }, autoclean = { id = "autoclean" }, purify = { id = "purify" },
       doorupper = { id = "doorupper" }, doorlower = { id = "doorlower" }, panel = { id = "panel" }, speed = { id = "speed" }, quiet = { id = "quiet" }, displayoff = { id = "displayoff" } } },
@@ -1106,6 +1157,44 @@ test("Updated profile publishes grouped menus and reservations cannot overwrite 
   local before = #events
   worker.reservation(driver, device, "offTimer", 0)
   for i = before + 1, #events do assert(events[i].capability == "instantcommon43059.samsungAcLocalTimer") end
+  package.loaded["network"] = network
+end)
+test("Native timer events use appliance observations and hub-only updates preserve them", function()
+  local state = {power=true, onTimer=0, offTimer=1}
+  local controls = {}
+  local worker, device, driver, tasks, events = worker_fixture(function() return state, "appliance-a" end,
+    function(_, _, _, _, _, _, _, command)
+      controls[#controls + 1] = command
+      return state, "appliance-a", "unconfirmed"
+    end)
+  local id = "instantcommon43059.samsungAcLocalNativeTimer"
+  device.missing_capabilities[id] = nil
+  worker.start(driver, device); tasks[1]()
+  local function latest(attribute)
+    for i=#events,1,-1 do
+      if events[i].capability == id and events[i].attribute == attribute then return events[i].data.value end
+    end
+  end
+  assert(latest("onDelay") == "none" and latest("offDelay") == "1")
+  -- 기기에 30분이 있어도 허브 저장값은 없으며, 허브 2시간 설정이 본체 표시를 덮어쓰지 않습니다.
+  assert(device:get_field("ac_reservations") == nil)
+  assert(worker.reservation(driver, device, "offTimer", 4)); tasks[2]()
+  local saved = device:get_field("ac_reservations")
+  local due = saved.offTimer.due
+  assert(latest("offDelay") == "1" and #controls == 0)
+  assert(worker.command(driver, device, {kind="nativeOffTimer", value=2})); tasks[3]()
+  assert(#controls == 1 and controls[1].kind == "nativeOffTimer" and controls[1].value == 2)
+  assert(device:get_field("ac_reservations") == saved and saved.offTimer.due == due)
+  assert(latest("offDelay") == "1", "an unconfirmed write must not display the requested delay")
+  local before = #events
+  assert(worker.reservation(driver, device, "offTimer", 0)); tasks[4]()
+  for i=before+1,#events do assert(events[i].capability ~= id) end
+  assert(device:get_field("ac_reservations").offTimer == nil and saved.offTimer.due == due)
+  state = {power=true}
+  worker.request(driver, device); tasks[5]()
+  assert(latest("onDelay") == "unknown" and latest("offDelay") == "unknown")
+  assert(not worker.command(driver, device, {kind="nativeOnTimer", value=0}))
+  assert(#controls == 1)
   package.loaded["network"] = network
 end)
 test("UI reports basic Cool or Dry and a separate optional purification switch", function()
@@ -1433,7 +1522,7 @@ test("Driver routes standard AC commands and switch components", function()
     return { run = function() end, call_with_delay = function(_, _, callback) bootstrap = callback end }
   end
   dofile(root .. "/driver/src/init.lua")
-  assert(#template.supported_capabilities == 23 and template.capability_handlers.refresh.refresh and type(bootstrap) == "function")
+  assert(#template.supported_capabilities == 24 and template.capability_handlers.refresh.refresh and type(bootstrap) == "function")
   local h = template.capability_handlers
   h.switch.on(nil, nil, { component = "main" })
   h.switch.off(nil, nil, { component = "windfree" })
@@ -1517,6 +1606,14 @@ test("Driver routes standard AC commands and switch components", function()
   h["instantcommon43059.samsungAcLocalDisplay"].setDisplay(nil, nil, {component="windfree",args={setting="on"}})
   h["instantcommon43059.samsungAcLocalPanel"].setPanel(nil, nil, {component="panel",args={setting="open"}})
   assert(#commands == 32)
+  local native = h["instantcommon43059.samsungAcLocalNativeTimer"]
+  assert(native.cancelOn == nil and native.cancelOff == nil)
+  native.setOffDelay(nil, nil, {args={setting="1"}})
+  native.setOnDelay(nil, nil, {args={setting="2"}})
+  native.setOffDelay(nil, nil, {component="panel",args={setting="1"}})
+  assert(#commands == 34 and #reservations == 5)
+  assert(commands[33].kind == "nativeOffTimer" and commands[33].value == 1)
+  assert(commands[34].kind == "nativeOnTimer" and commands[34].value == 2)
 end)
 if arg[3] then
   local output = assert(io.open(arg[3], "wb")); output:write(cbor.encode(captured_events)); output:close()

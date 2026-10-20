@@ -198,6 +198,13 @@
     },
     {
       "component": "main",
+      "capability": "instantcommon43059.samsungAcLocalNativeTimer",
+      "version": 1,
+      "values": [],
+      "patch": []
+    },
+    {
+      "component": "main",
       "capability": "instantcommon43059.samsungAcLocalTimer",
       "version": 1,
       "values": [],
@@ -462,6 +469,14 @@
       },
       {
         "component": "main",
+        "capability": "instantcommon43059.samsungAcLocalNativeTimer",
+        "version": 1,
+        "values": [],
+        "patch": [],
+        "exclusion": []
+      },
+      {
+        "component": "main",
         "capability": "instantcommon43059.samsungAcLocalTimer",
         "version": 1,
         "values": [],
@@ -649,6 +664,14 @@
       {
         "component": "panel",
         "capability": "doorControl",
+        "version": 1,
+        "values": [],
+        "patch": [],
+        "exclusion": []
+      },
+      {
+        "component": "main",
+        "capability": "instantcommon43059.samsungAcLocalNativeTimer",
         "version": 1,
         "values": [],
         "patch": [],

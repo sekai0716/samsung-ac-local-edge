@@ -258,7 +258,9 @@ local function run(socket_api, ssl_api, config, host, expected_identity, context
     for attempt = 1, 3 do
       if attempt > 1 then socket_api.sleep(1) end
       state = read_state()
-      if ac.matches(command, state) then return state, endpoint.identity, "confirmed" end
+      if ac.matches(command, state) then
+        return state, endpoint.identity, plan.readback_ambiguous and "accepted" or "confirmed"
+      end
     end
     return state, endpoint.identity, "unconfirmed"
   end)

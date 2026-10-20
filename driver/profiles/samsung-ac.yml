@@ -22,6 +22,7 @@ components:
       - {id: odorSensor, version: 1}
       - {id: airQualityHealthConcern, version: 1}
       - {id: instantcommon43059.samsungAcLocalTimer, version: 1}
+      - {id: instantcommon43059.samsungAcLocalNativeTimer, version: 1}
       - {id: instantcommon43059.samsungAcLocalSettings, version: 1}
       - {id: instantcommon43059.samsungAcLocalComfort, version: 1}
       - {id: instantcommon43059.samsungAcLocalDeviceSettings, version: 1}
@@ -76,6 +77,7 @@ components:
 metadata:
   ocfDeviceType: oic.d.airconditioner
   # 화면 조회에는 ID와 제조사 쌍을 사용합니다. 구성·번역 변경 시 두 값을 함께 갱신합니다.
+  # 본체 예약 화면 등록이 403으로 실패해 기존 vid를 유지합니다. 새 화면 생성 전에는 배포하지 않습니다.
   vid: 490c4f1e-8fd9-37c7-940f-d7131ae739a0
   mnmn: SmartThingsCommunity
 preferences:

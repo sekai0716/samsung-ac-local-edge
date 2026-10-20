@@ -15,7 +15,7 @@ def attribute(values, setter=None):
 
 
 def alternatives(items):
-    return [{"key": key, "value": label, "type": "inactive" if key in {"off", "closed", "normal"} else "active"}
+    return [{"key": key, "value": label, "type": "inactive" if key in {"off", "closed", "normal", "none", "unknown"} else "active"}
             for key, label in items]
 
 
@@ -107,6 +107,18 @@ def main():
     build("Samsung Ac Local Panel", "ac-panel", [
         ("panel", "열림·닫힘 (운전 꺼짐)", [("closed", "닫힘"), ("open", "열림")], "list", []),
     ], ["panel"])
+
+    # 기존 Timer ID는 허브 예약입니다. 별도 ID로 본체 예약의 명령과 관측값을 섞지 않습니다.
+    # none/unknown은 읽기 상태만 있고 취소 명령은 없습니다. 0으로 취소하면 전원이 바뀐 이력이 있습니다.
+    delays = []
+    for units in range(1, 49):
+        hours, minutes = divmod(units * 30, 60)
+        label = (f"{hours}시간" if hours else "") + (" 30분" if hours and minutes else "30분" if minutes else "")
+        delays.append((str(units), label))
+    build("Samsung Ac Local Native Timer", "ac-native-timer", [
+        ("onDelay", "켜짐 예약 · 취소는 리모컨", delays, "list", [("none", "예약 없음"), ("unknown", "확인 안 됨")]),
+        ("offDelay", "꺼짐 예약 · 취소는 리모컨", delays, "list", [("none", "예약 없음"), ("unknown", "확인 안 됨")]),
+    ], [])
 
 
 if __name__ == "__main__":

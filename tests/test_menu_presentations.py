@@ -16,7 +16,8 @@ CARDS = [
     ("Temperature", "ac-temperature", "희망 온도", "slider", 1),
     ("Comfort", "ac-comfort", "바람 설정", "list", 2),
     ("AirFeatures", "ac-air-features", "무풍·청정", "switch", 2),
-    ("Timer", "ac-reservation", "예약", "list", 2),
+    ("NativeTimer", "ac-native-timer", "기기 예약", "list", 2),
+    ("Timer", "ac-reservation", "허브 예약", "list", 2),
     ("DeviceSettings", "ac-device-settings", "기기 설정", "list", 2),
     ("Display", "ac-display", "본체 화면", "switch", 1),
     ("Care", "ac-care", "자동청소", "switch", 1),
@@ -114,7 +115,7 @@ class MenuPresentationTests(unittest.TestCase):
             with patch.object(builder, "ROOT", temporary):
                 builder.main()
             files = list((temporary / "capabilities").glob("*.json"))
-            self.assertEqual(len(files), 18)
+            self.assertEqual(len(files), 20)
             for generated in files:
                 with self.subTest(file=generated.name):
                     expected = json.loads(generated.read_text())
@@ -124,6 +125,23 @@ class MenuPresentationTests(unittest.TestCase):
                 actual = read_json("tests/fixtures/capabilities/" + generated.name)
                 self.assertEqual(actual["attributes"], expected["attributes"])
                 self.assertEqual(actual["commands"], expected["commands"])
+
+    def test_native_timer_cannot_offer_cancel_or_fabricate_an_unknown_as_none(self):
+        definition = read_json("capabilities/ac-native-timer.json")
+        self.assertEqual(set(definition["commands"]), {"setOnDelay", "setOffDelay"})
+        for row, key in zip(self.rows["NativeTimer"], ["onDelay", "offDelay"]):
+            command = definition["commands"]["set" + key[0].upper() + key[1:]]
+            allowed = {str(value) for value in range(1, 49)}
+            self.assertEqual(set(command["arguments"][0]["schema"]["enum"]), allowed)
+            self.assertEqual({v["key"] for v in row["list"]["command"]["alternatives"]}, allowed)
+            states = {v["key"]: v["value"] for v in row["list"]["state"]["alternatives"]}
+            self.assertEqual(states["none"], "예약 없음")
+            self.assertEqual(states["unknown"], "확인 안 됨")
+            self.assertEqual(states["1"], "30분")
+            self.assertEqual(states["2"], "1시간")
+            self.assertEqual(states["4"], "2시간")
+            self.assertEqual(states["48"], "24시간")
+            self.assertIn("취소는 리모컨", row["label"])
 
 
 if __name__ == "__main__":

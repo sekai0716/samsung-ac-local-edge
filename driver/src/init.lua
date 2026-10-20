@@ -7,6 +7,7 @@ local network = require "network"
 local worker = require "worker"
 local config = require "private_config"
 local reservation = caps["instantcommon43059.samsungAcLocalTimer"]
+local native_reservation = caps["instantcommon43059.samsungAcLocalNativeTimer"]
 local settings = caps["instantcommon43059.samsungAcLocalSettings"]
 local comfort = caps["instantcommon43059.samsungAcLocalComfort"]
 local device_settings = caps["instantcommon43059.samsungAcLocalDeviceSettings"]
@@ -106,6 +107,14 @@ local function reservation_handler(kind, cancel)
   end
 end
 
+-- 본체 예약은 기존 전송·확인 GET 큐로 보냅니다. 허브 타이머를 생성하거나 취소하지 않습니다.
+local function native_reservation_handler(kind)
+  return function(driver, device, command)
+    if (command.component or "main") ~= "main" then log.error("AC_COMMAND_REJECTED wrong component"); return end
+    worker.command(driver, device, { kind = kind, value = tonumber((command.args or {}).setting) })
+  end
+end
+
 -- 청소용 패널은 운전용 상·하 바람문 스위치와 독립된 열림/닫힘 명령으로 처리합니다.
 local function panel_handler(position)
   return function(driver, device, command)
@@ -119,7 +128,7 @@ local driver = Driver("samsung-ac-local", {
   supported_capabilities = { caps.switch, caps.airConditionerMode, caps.airConditionerFanMode,
     caps.thermostatCoolingSetpoint, caps.temperatureMeasurement, caps.relativeHumidityMeasurement, caps.refresh,
     caps.dustSensor, caps.veryFineDustSensor, caps.odorSensor, caps.airQualityHealthConcern, reservation, settings, caps.doorControl,
-    comfort, device_settings, care, operation, temperature, air_features, display, panel, operating },
+    comfort, device_settings, care, operation, temperature, air_features, display, panel, operating, native_reservation },
   capability_handlers = {
     [caps.switch.ID] = { [caps.switch.commands.on.NAME] = switch_handler(true), [caps.switch.commands.off.NAME] = switch_handler(false) },
     [caps.airConditionerMode.ID] = { [caps.airConditionerMode.commands.setAirConditionerMode.NAME] = setting_handler("mode", "mode") },
@@ -133,6 +142,10 @@ local driver = Driver("samsung-ac-local", {
       [reservation.commands.setOffDelay.NAME] = reservation_handler("offTimer", false),
       [reservation.commands.cancelOn.NAME] = reservation_handler("onTimer", true),
       [reservation.commands.cancelOff.NAME] = reservation_handler("offTimer", true),
+    },
+    [native_reservation.ID] = {
+      [native_reservation.commands.setOnDelay.NAME] = native_reservation_handler("nativeOnTimer"),
+      [native_reservation.commands.setOffDelay.NAME] = native_reservation_handler("nativeOffTimer"),
     },
     [settings.ID] = {
       [settings.commands.setLighting.NAME] = setting_handler("lighting", "setting"),

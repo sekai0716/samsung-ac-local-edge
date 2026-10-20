@@ -14,6 +14,7 @@ local M = {}
 local FIELD = "ac_worker"
 local BASE_MODES = { coolClean = "cool", dryClean = "dry" }
 local reservation = caps["instantcommon43059.samsungAcLocalTimer"]
+local native_reservation = caps["instantcommon43059.samsungAcLocalNativeTimer"]
 local settings = caps["instantcommon43059.samsungAcLocalSettings"]
 local menu_caps = { caps["instantcommon43059.samsungAcLocalComfort"],
   caps["instantcommon43059.samsungAcLocalDeviceSettings"], caps["instantcommon43059.samsungAcLocalCare"],
@@ -172,6 +173,16 @@ local function publish(device, state, force)
     local timers = reservations.snapshot(device)
     for kind, attribute in pairs({ onTimer = "onDelay", offTimer = "offDelay" }) do
       local event = reservation[attribute](timers[kind] == 0 and "none" or tostring(timers[kind]))
+      event.state_change = true
+      emit(event)
+    end
+  end
+  -- 본체의 GET 결과만 발행합니다. 누락은 예약 없음과 구분하고 허브 예약 갱신에서는 건드리지 않습니다.
+  if next(state) and device:supports_capability(native_reservation) then
+    for kind, attribute in pairs({ onTimer = "onDelay", offTimer = "offDelay" }) do
+      local units = state[kind]
+      local value = units == nil and "unknown" or (units == 0 and "none" or string.format("%d", units))
+      local event = native_reservation[attribute](value)
       event.state_change = true
       emit(event)
     end

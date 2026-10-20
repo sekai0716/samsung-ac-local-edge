@@ -9,6 +9,7 @@ local FANS = { [0] = "auto", [1] = "low", [2] = "medium", [3] = "high", [4] = "t
 -- 본인 삼성 앱의 단계 선택과 로컬 GET을 대조한 값입니다. 다른 보드의 Light 반전 규칙은 적용하지 않습니다.
 local LIGHTS = { Off = "off", Small = "low", On = "medium", Huge = "high" }
 local VOICES = { ["33"] = "low", ["66"] = "medium", ["100"] = "high", Melody = "melody", Mute = "mute" }
+local NATIVE_TIMERS = { nativeOnTimer = "onTimer", nativeOffTimer = "offTimer" }
 
 local function contains(values, value)
   for _, entry in ipairs(values or {}) do if entry == value then return true end end
@@ -221,7 +222,7 @@ function M.summary(batch)
   if doors and doors >= 0 and doors <= 3 and doors % 1 == 0 then
     result.doorUpper, result.doorLower = (doors & 1) ~= 0, (doors & 2) ~= 0
   end
-  -- 본체의 예약 원시는 진단용으로만 읽습니다. 취소 직후 예상치 못한 전원 켜짐이 관측돼 쓰기는 금지합니다.
+  -- 본체에서 읽은 예약만 기록합니다. 허브 예약의 남은 시간으로 대체하지 않습니다.
   for _, kind in ipairs({ "onTimer", "offTimer" }) do
     local units = M.number(result[kind .. "Raw"])
     if units and units >= 0 and units <= 48 and units % 1 == 0 then result[kind] = units end
@@ -238,6 +239,10 @@ function M.validate(command)
   local kind, value = command.kind, command.value
   if contains({ "power", "windfree", "autoclean", "purify", "doorUpper", "doorLower", "speed", "quiet", "displayOff" }, kind) then
     assert(type(value) == "boolean", "switch value must be boolean")
+  elseif NATIVE_TIMERS[kind] then
+    -- 0 전송 직후 전원 켜짐이 관측됐습니다. 확인된 30분 단위의 양수 설정만 허용합니다.
+    assert(type(value) == "number" and value % 1 == 0 and value >= 1 and value <= 48,
+      "기기 예약은 30분~24시간만 설정할 수 있습니다. 취소는 본체나 리모컨에서 해 주세요")
   elseif kind == "lighting" or kind == "voice" then
     local known = false
     for _, setting in pairs(kind == "lighting" and LIGHTS or VOICES) do if setting == value then known = true end end
@@ -263,6 +268,7 @@ end
 
 function M.matches(command, state)
   local kind, value = command.kind, command.value
+  if NATIVE_TIMERS[kind] then return state[NATIVE_TIMERS[kind]] == value end
   if kind == "power" then return state.power == value end
   if kind == "mode" then
     if value == "aIComfort" then return state.ai == true end
@@ -286,7 +292,7 @@ function M.matches(command, state)
   return false
 end
 
--- 같은 상태는 전송하지 않습니다. 선택한 기능에 필요한 모드·AI 옵션만 POST하고 다른 설정은 보존합니다.
+-- 같은 상태는 전송하지 않습니다. 상대시간 예약은 재설정 의미가 있어 같은 값도 한 번 전송합니다.
 function M.plan(command, state)
   M.validate(command)
   local kind, value = command.kind, command.value
@@ -294,7 +300,16 @@ function M.plan(command, state)
   if state.ai and contains({ "setpoint", "fan", "windfree", "purify", "speed", "quiet", "preset" }, kind) then
     error("인공지능 쾌적에서는 스마트쾌적·냉방·제습으로 전환한 뒤 수동 설정해 주세요")
   end
-  if kind == "power" then
+  if NATIVE_TIMERS[kind] then
+    local timer = NATIVE_TIMERS[kind]
+    assert(state[timer] ~= nil, "기기의 예약 상태를 확인할 수 없어 설정하지 않았습니다")
+    local token = kind == "nativeOnTimer" and "OnTimer_" or "OffTimer_"
+    -- 시간 옵션 하나만 설정합니다. 전원·반대 예약·허브 예약을 취소하거나 함께 쓰지 않습니다.
+    -- 재설정을 동등 상태로 생략하면 이전 예약이 계속되므로 matches 검사를 건너뜁니다.
+    return { path = "/mode/vs/0", body = { [P .. "options"] = { token .. string.format("%d", value) } },
+      -- 같은 값의 GET만으로 시작 시각이 갱신됐는지는 알 수 없습니다.
+      readback_ambiguous = state[timer] == value }
+  elseif kind == "power" then
     assert(state.powerResourceAvailable, "vendor power resource unavailable")
     path, body = "/power/vs/0", { [P .. "power"] = value and "On" or "Off" }
   elseif kind == "mode" then
