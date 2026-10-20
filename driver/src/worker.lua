@@ -22,6 +22,38 @@ local menu_caps = { caps["instantcommon43059.samsungAcLocalComfort"],
   caps["instantcommon43059.samsungAcLocalAirFeatures"], caps["instantcommon43059.samsungAcLocalDisplay"],
   caps["instantcommon43059.samsungAcLocalPanel"], caps["instantcommon43059.samsungAcLocalOperating"] }
 
+-- 명령의 상태 속성만 다시 발행합니다. 전체 상태 강제 발행은 앱 응답을 지연시키고
+-- 센서 기록까지 중복 생성하므로, 표준·기존·현재 메뉴의 대응 속성을 명시합니다.
+local ACK_EVENTS = {
+  power = { "main:switch:switch" },
+  mode = { "main:airConditionerMode:airConditionerMode", "Operation:mode", "Operating:mode" },
+  fan = { "main:airConditionerFanMode:fanMode", "Operation:fan", "Operating:fan" },
+  setpoint = { "main:thermostatCoolingSetpoint:coolingSetpoint", "Operation:setpoint", "Temperature:setpoint" },
+  lighting = { "Settings:lighting", "DeviceSettings:lighting" },
+  voice = { "Settings:voice", "DeviceSettings:voice" },
+  outlet = { "Comfort:outlet" },
+  preset = { "Comfort:preset" },
+  windfree = { "windfree:switch:switch", "Comfort:windfree", "AirFeatures:windfree" },
+  purify = { "purify:switch:switch", "Comfort:purify", "AirFeatures:purify" },
+  autoclean = { "autoclean:switch:switch", "Care:autoclean" },
+  displayOff = { "displayoff:switch:switch", "DeviceSettings:display", "Display:display" },
+  panel = { "panel:doorControl:door", "Care:panel", "Panel:panel" },
+  doorUpper = { "doorupper:switch:switch", "Comfort:outlet" },
+  doorLower = { "doorlower:switch:switch", "Comfort:outlet" },
+  speed = { "speed:switch:switch", "Comfort:preset" },
+  quiet = { "quiet:switch:switch", "Comfort:preset" },
+  onTimer = { "Timer:onDelay" }, offTimer = { "Timer:offDelay" },
+  nativeOnTimer = { "NativeTimer:onDelay" }, nativeOffTimer = { "NativeTimer:offDelay" },
+}
+local function acknowledge(kind, keys)
+  keys = keys or {}
+  for _, target in ipairs(ACK_EVENTS[kind] or {}) do
+    if not target:match("^[^:]+:[^:]+:") then target = "main:instantcommon43059.samsungAcLocal" .. target end
+    keys[target] = true
+  end
+  return keys
+end
+
 local function manual_host(device)
   local value = device.preferences and device.preferences.targetIp
   if value and value ~= "" then
@@ -86,7 +118,7 @@ local function equal(left, right)
   return true
 end
 
-local function publish(device, state, force)
+local function publish(device, state, force, acknowledgements)
   local context = assert(device:get_field(FIELD), "query context unavailable")
   context.published = context.published or {}
   local emitted, available = 0, 0
@@ -95,7 +127,11 @@ local function publish(device, state, force)
     local key = (component or "main") .. ":" .. event.capability.ID .. ":" .. event.attribute.NAME
     local previous = context.published[key]
     local now = socket.gettime()
-    if not force and previous and equal(previous.value, event.value) and now - previous.at < 300 then return end
+    local reply = acknowledgements and acknowledgements[key]
+    if not force and not reply and previous and equal(previous.value, event.value) and now - previous.at < 300 then return end
+    -- 동일 값의 명령도 확인 GET의 상태를 앱에 돌려줘야 로딩이 끝납니다.
+    -- 본체 POST 생략과 앱 이벤트 생략은 별개이며, 요청 인자를 성공 상태로 만들지 않습니다.
+    if reply then event.state_change = true end
     -- 장비 이벤트 한도에 여유를 두고 최대 초당 4개로 보냅니다. 초기 전체 상태도 순서대로 전달합니다.
     local delay = context.last_event_at and 0.25 - (now - context.last_event_at) or 0
     if delay > 0 then socket.sleep(delay) end
@@ -234,14 +270,18 @@ local function schedule(driver, device)
       context.recovery = false
       local force_publish = not local_only and context.force_publish
       if not local_only then context.force_publish = false end
+      local acknowledgements = command and acknowledge(command.kind) or nil
+      if local_only then
+        acknowledgements, context.local_acknowledgements = context.local_acknowledgements, nil
+      end
       context.write_attempted, context.write_rejected, context.command_rejected, context.verified_state = false, false, false, nil
       local ok, failure = pcall(function()
         -- 예약 설정·취소는 LAN 조회 없이도 UI에 반영합니다. 센서 이벤트나 ONLINE 상태는 만들지 않습니다.
-        if local_only then publish(device, {}); return end
+        if local_only then publish(device, {}, false, acknowledgements); return end
         local state, identity, outcome = query(driver, device, context, command)
         if context.cancelled or device:get_field(FIELD) ~= context then return end
         if not device:get_field("ocf_identity") then device:set_field("ocf_identity", identity, { persist = true }) end
-        publish(device, state, force_publish)
+        publish(device, state, force_publish, acknowledgements)
         device:online()
         if command then
           log.info("AC_COMMAND_" .. string.upper(outcome) .. " " .. command.kind)
@@ -251,7 +291,7 @@ local function schedule(driver, device)
         if local_only then log.error("AC_EVENT_FAILED " .. tostring(failure))
         elseif command and (context.command_rejected or context.write_rejected) and context.verified_state then
           -- 지원 범위 또는 기기의 명시적 POST 거부는 통신 성공이므로 오프라인으로 바꾸지 않습니다.
-          local published, event_error = pcall(publish, device, context.verified_state)
+          local published, event_error = pcall(publish, device, context.verified_state, false, acknowledgements)
           if published then device:online() else log.error("AC_EVENT_FAILED " .. tostring(event_error)) end
           log.error("AC_COMMAND_REJECTED " .. tostring(failure))
         else
@@ -269,10 +309,11 @@ local function schedule(driver, device)
   end, "samsung-ac-local-worker")
 end
 
-local function reservation_changed(driver, device)
+local function reservation_changed(driver, device, kind)
   local context = device:get_field(FIELD)
   if not context or context.cancelled then return end
   context.local_refresh = true
+  context.local_acknowledgements = acknowledge(kind, context.local_acknowledgements)
   schedule(driver, device)
 end
 

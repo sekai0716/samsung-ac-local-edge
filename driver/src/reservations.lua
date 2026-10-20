@@ -28,7 +28,7 @@ local function arm(driver, device, context, kind, entry)
     if os.time() < entry.due then arm(driver, device, context, kind, entry); return end
     -- 명령 전 예약을 소모합니다. 통신 결과가 불확실해도 자동으로 전원 명령을 반복하지 않습니다.
     store(device, kind, nil)
-    context.changed(driver, device)
+    context.changed(driver, device, kind)
     local accepted = context.command(driver, device, { kind = "power", value = kind == "onTimer" })
     log.info(accepted and "AC_RESERVATION_DISPATCHED " .. kind or "AC_RESERVATION_FAILED " .. kind)
   end, "ac-reservation-" .. kind)
@@ -71,7 +71,7 @@ function M.set(driver, device, kind, units)
   cancel_handle(driver, context, kind)
   store(device, kind, entry)
   if entry then arm(driver, device, context, kind, entry) end
-  context.changed(driver, device)
+  context.changed(driver, device, kind)
   log.info("AC_RESERVATION_" .. (entry and "SET " or "CANCELLED ") .. kind)
 end
 

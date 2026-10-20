@@ -1,6 +1,6 @@
 # 에어컨 표시와 로컬 설정 구현
 
-갱신일: 2026-10-20, Asia/Seoul.
+갱신일: 2026-10-21, Asia/Seoul.
 
 읽기 단계에서 설정 가능한 Edge 드라이버로 확장했습니다. main은 `AirConditioner` 분류와 `oic.d.airconditioner` 메타데이터를 사용합니다. 운영 패키지 업로드·v3 허브 설치·자동 추가·허브 단독 GET과 실제 POST를 확인했습니다. 기능별 과거 설정·취소·복원 범위는 [제어 기록](observed-controls-v2.json), 현재 예약 배포와 읽기 검증은 [예약 배포 기록](observed-native-timer.json), 이후 본체 쓰기 시험은 [예약 실기 기록](observed-native-timer-trial.json)을 따릅니다. [이전 기능 기록](observed-features.json)은 당시 관측을 보존한 자료이며 Gear→AI와 자동 모드의 청정 해석은 이후 폐기했습니다.
 
@@ -10,7 +10,7 @@
 
 분리한 화면은 `samsungAcLocalOperating`, `samsungAcLocalTemperature`, `samsungAcLocalAirFeatures`, `samsungAcLocalDisplay`, `samsungAcLocalPanel`을 사용합니다. 기존 capability와 component 및 루틴 구성은 유지하고, 상세 화면에는 같은 조작부를 한 번만 배치합니다. 새 카드의 명령은 기존 검증·작업 큐로 전달하며 같은 관측값을 표시합니다. 활성 조건에 필요한 속성은 해당 카드를 소유한 capability에도 발행합니다. 기존 운전 정의에 추가한 속성이 허브에 반영되지 않아 이벤트 생성이 실패했던 것을 확인했으며, 기존 정의를 복구하고 새 운전 capability에 활성 조건을 두었습니다. 생성 원본은 `tools/build_menu_capabilities.py`이고 JSON 정의·표시·테스트 스키마를 함께 생성합니다.
 
-그룹 제목은 `capabilities/translations/`의 `*-ko.json`과 기본 언어용 `*-en.json`에 같은 한글 `label`로 관리합니다. 이 드라이버는 메뉴 문구를 한글로 제공하므로 앱이 언어를 지정하지 않아도 같은 제목을 사용합니다. `Samsung AC Local` 접두사를 빼고 ‘운전’, ‘희망 온도’, ‘바람 설정’, ‘무풍·청정’, ‘기기 예약’, ‘허브 예약’, ‘기기 설정’, ‘본체 화면’, ‘자동청소’, ‘청소용 패널’로 표시하며, 루틴 호환용 기존 설정 그룹은 ‘라이팅·음성’으로 구분합니다. 기존 등록용 capability `name`과 ID는 유지합니다. 번역 파일은 생성기와 별도로 관리하며, 대응하는 `*-presentation.json`의 ID에 `smartthings capabilities:translations:upsert <ID> --capability-version 1 --input <번역 파일>`로 등록합니다. 기존 해당 언어 번역에 다른 필드가 있으면 보존하고 `label`만 병합합니다. 방식은 [SmartThings Capability Translations 문서](https://developer.smartthings.com/docs/devices/capabilities/capability-translations)를 따릅니다.
+그룹 제목은 `capabilities/translations/`의 `*-ko.json`과 기본 언어용 `*-en.json`에 같은 한글 `label`로 관리합니다. 이 드라이버는 메뉴 문구를 한글로 제공하므로 앱이 언어를 지정하지 않아도 같은 제목을 사용합니다. `Samsung AC Local` 접두사를 빼고 ‘운전’, ‘희망 온도’, ‘바람 설정’, ‘무풍·청정’, ‘예약’, ‘기기 설정’, ‘본체 화면’, ‘자동청소’, ‘청소용 패널’로 표시하며, 루틴 호환용 기존 설정 그룹은 ‘라이팅·음성’으로 구분합니다. 기기 예약은 상세 화면에서 숨기고 허브 예약만 ‘예약’으로 표시합니다. 기존 등록용 capability `name`과 ID는 유지합니다. 번역 파일은 생성기와 별도로 관리하며, 대응하는 `*-presentation.json`의 ID에 `smartthings capabilities:translations:upsert <ID> --capability-version 1 --input <번역 파일>`로 등록합니다. 기존 해당 언어 번역에 다른 필드가 있으면 보존하고 `label`만 병합합니다. 방식은 [SmartThings Capability Translations 문서](https://developer.smartthings.com/docs/devices/capabilities/capability-translations)를 따릅니다.
 
 무풍·청정·본체 화면·자동청소의 상세 표시 형식은 `switch`입니다. 사용자 휴대폰에서 기존 `toggleSwitch`가 원형으로 나타난 것을 확인한 뒤 표시 형식을 변경했습니다. 명령명·On/Off 인자·상태 매핑은 유지하며, 변경 후 사용자가 휴대폰에서 자동청소 제목과 네 가지 길쭉한 On/Off 스위치가 정상임을 확인했습니다. 표시 정의가 이미 있으면 `smartthings capabilities:presentation:update`를 사용합니다. `create`는 아직 없는 표시 정의에만 사용하며, 표시 수정에는 capability 속성 정의 갱신이 필요하지 않습니다.
 
@@ -23,6 +23,16 @@
 한글 화면 지정 후 앱의 연결 오류를 조사했을 때, 허브는 인증 GET을 계속 성공했지만 기기의 `manufacturerName`이 비어 있었습니다. 해당 제조사 값으로 화면을 조회하면 HTTP 422가 반환됐고 생성 당시 제조사 `SmartThingsCommunity`로 조회하면 정상 응답했습니다. 이전 검증은 생성 결과의 제조사를 대신 사용해 이 누락을 놓쳤습니다. 프로필에 `mnmn`을 명시하고 실제 기기 정보의 두 값을 검증하도록 수정했습니다. 휴대폰 화면의 복구 여부는 이 API 검증과 별도로 확인합니다.
 
 바람문은 닫힘·상단만·하단만·상하단 중 하나를 선택해 `Blooming`을 한 번만 전송합니다. 운전 옵션은 일반·스피드·정음이며 무풍과 청정은 별도 On/Off 토글입니다. ‘일반’은 스피드·정음만 해제하고 이미 켠 무풍은 유지합니다. 본체 화면의 켜짐은 기존 화면 끄기 옵션의 해제(`Display_Off`)를 뜻합니다. 청소용 패널은 운전용 바람문과 구분합니다. 허브 예약 취소는 각 메뉴의 ‘예약 없음 (취소)’로 합치며 기존 취소 명령은 루틴에서 유지합니다. 본체 예약에는 취소 명령을 노출하지 않습니다.
+
+### 같은 값 재선택의 응답
+
+사용자가 같은 목록 값을 선택하면 로딩 후 네트워크·서버 오류가 나타난다고 보고했습니다. 기존 전송 계층은 새 GET에서 목표 상태와 같으면 POST를 생략하지만, 발행 계층도 최근 300초 안의 동일 값 이벤트를 생략했습니다. 새 회귀 검사는 기존 코드에서 실패하고 수정본에서 통과했습니다.
+
+명령 뒤에는 그 명령에 대응하는 상태 속성만 중복 억제에서 제외하고 `state_change=true`로 발행합니다. 표준 capability와 기존·현재 메뉴의 대응 속성을 모두 포함합니다. 값은 확인 GET에서 만들며 요청 인자를 성공 상태로 대신 발행하지 않습니다. 허브 예약은 본체 GET 없이 저장된 예약 상태를 같은 방식으로 응답합니다. 일반 주기 조회의 동일 값 억제와 초당 4개 전송 간격은 유지합니다. 관련 계약은 [공식 Edge 이벤트 문서](https://developer.smartthings.com/docs/edge-device-drivers/capabilities.html#state-change)에 있습니다.
+
+`2026-10-20T15:24:15.33648447`을 설치한 뒤 2026-10-21 00:25 KST에 음성선택 2회, 라이팅·모드·바람문·패널 각각 1회, 허브 켜짐·꺼짐 예약 없음 각각 1회를 호출했습니다. 8회 모두 서버의 같은 값 상태에 새 타임스탬프가 수신됐습니다. 허브 로그는 본체 설정 6회 모두 `AC_COMMAND_UNCHANGED`, 본체 POST 0회, 조회·이벤트·명령 오류 0회였습니다. 전원 Off·본체 및 허브 예약 없음·ONLINE을 유지했습니다. 휴대폰에서 로딩 종료가 보이는지는 이 서버·허브 검사와 구분합니다.
+
+이번 화면은 상세 행 23개, 메뉴 제목 9개이며 기기 예약 2개 행만 제외했습니다. 나머지 상세 행, 길쭉한 스위치 4개, 활성 조건 6개, 기존 대시보드와 루틴 구성은 이전 생성 결과와 같습니다. 실제 기기에 저장된 화면 ID·제조사 쌍으로 `ko`, `ko-KR`, `en`, 언어 미지정 조회를 수행해 ‘예약’ 제목을 확인했습니다. Lua 검사 96개·스키마 이벤트 491개·Python 검사 21개와 [실기 기록](observed-selection-ack.json)에 확인 범위를 보존합니다.
 
 | 앱 기능 | capability / component | 로컬 POST 경로와 필드 |
 |---|---|---|

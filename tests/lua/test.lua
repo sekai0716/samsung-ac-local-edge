@@ -803,10 +803,14 @@ test("Control verifies identity, sends one POST and returns observed state", fun
   end
 end)
 test("No-op and range rejection send no POST", function()
+  local state = ac.summary(observed)
+  for kind, value in pairs({power=false, mode=state.acMode, fan=state.fanMode, setpoint=state.desired,
+    lighting=state.lighting, voice=state.voice, outlet="closed", panel=state.panel}) do
+    local t = transport(false)
+    local _, _, outcome = t.control({ kind = kind, value = value })
+    assert(outcome == "unchanged" and #t.posts == 0 and #t.requests == 2)
+  end
   local t = transport(false)
-  local _, _, outcome = t.control({ kind = "power", value = false })
-  assert(outcome == "unchanged" and #t.posts == 0 and #t.requests == 2)
-  t = transport(false)
   fails(function() t.control({ kind = "setpoint", value = 31 }) end)
   assert(#t.posts == 0 and t.context.verified_state.desired == 24 and t.raw.closed)
 end)
@@ -1279,6 +1283,98 @@ test("Unchanged reads emit nothing, local reservations emit without LAN and resy
   assert(#events == initial * 2 + 1)
   counters.advance(301); worker.request(driver, device); tasks[5]()
   assert(#events == initial * 3 + 1 and counters.offline == 0)
+  package.loaded["network"] = network
+end)
+test("Selecting the current list value acknowledges its observed state without republishing sensors", function()
+  local prefix = "instantcommon43059.samsungAcLocal"
+  local state = ac.summary(observed)
+  local control_calls = 0
+  local worker, device, driver, tasks, events, counters = worker_fixture(function() return state, "appliance-a" end,
+    function(_, _, _, _, _, _, _, command)
+      control_calls = control_calls + 1
+      -- 실제 전송 계층의 unchanged 반환을 모사합니다. UI 응답은 명령 인자가 아닌 관측값입니다.
+      return state, "appliance-a", "unchanged"
+    end)
+  device.missing_capabilities = {}
+  worker.start(driver, device); tasks[1]()
+  local cases = {
+    { "mode", state.acMode, prefix .. "Operating", "mode" },
+    { "fan", state.fanMode, prefix .. "Operating", "fan" },
+    { "lighting", state.lighting, prefix .. "DeviceSettings", "lighting" },
+    { "voice", state.voice, prefix .. "DeviceSettings", "voice" },
+    { "outlet", "closed", prefix .. "Comfort", "outlet" },
+    { "panel", state.panel, prefix .. "Panel", "panel" },
+    { "preset", "normal", prefix .. "Comfort", "preset" },
+    { "setpoint", state.desired, prefix .. "Temperature", "setpoint" },
+    { "power", state.power, "switch", "switch" },
+  }
+  local function latest(capability, attribute)
+    for i = #events, 1, -1 do
+      local e = events[i]
+      if e.component == "main" and e.capability == capability and e.attribute == attribute then return e end
+    end
+  end
+  for _, case in ipairs(cases) do
+    local previous = latest(case[3], case[4])
+    assert(previous)
+    for repeat_selection = 1, 2 do
+      local before = #events
+      assert(worker.command(driver, device, {kind=case[1], value=case[2]}))
+      tasks[#tasks]()
+      local reply = latest(case[3], case[4])
+      assert(reply ~= previous and reply.state_change == true and reply.data.value == previous.data.value)
+      assert(#events > before and #events <= before + 3)
+      for i = before + 1, #events do
+        local e = events[i]
+        assert(e.state_change == true and e.capability ~= "temperatureMeasurement"
+          and e.capability ~= "relativeHumidityMeasurement" and e.capability ~= "dustSensor")
+      end
+      previous = reply
+    end
+  end
+  local before = #events
+  worker.request(driver, device); tasks[#tasks]()
+  assert(#events == before and control_calls == #cases * 2 and counters.offline == 0)
+  package.loaded["network"] = network
+end)
+test("Selecting no reservation repeatedly replies locally and never writes appliance power", function()
+  local reads, writes = 0, 0
+  local worker, device, driver, tasks, events = worker_fixture(function()
+    reads = reads + 1; return { power=false }, "appliance-a"
+  end, function() writes = writes + 1; error("unexpected appliance command") end)
+  worker.start(driver, device); tasks[1]()
+  for _, kind in ipairs({"onTimer", "offTimer"}) do
+    for repeat_selection = 1, 2 do
+      local before = #events
+      assert(worker.reservation(driver, device, kind, 0)); tasks[#tasks]()
+      assert(#events == before + 1)
+      local reply = events[#events]
+      assert(reply.capability == "instantcommon43059.samsungAcLocalTimer" and reply.data.value == "none")
+      assert(reply.attribute == (kind == "onTimer" and "onDelay" or "offDelay") and reply.state_change == true)
+    end
+  end
+  assert(reads == 1 and writes == 0)
+  -- 같은 남은 시간을 다시 선택하면 만료 시각을 재설정하되, 동일한 UI 값도 응답합니다.
+  assert(worker.reservation(driver, device, "offTimer", 1)); tasks[#tasks]()
+  local before = #events
+  assert(worker.reservation(driver, device, "offTimer", 1)); tasks[#tasks]()
+  assert(#events == before + 1 and events[#events].data.value == "1")
+  assert(reads == 1 and writes == 0)
+  package.loaded["network"] = network
+end)
+test("Unconfirmed commands report observed values instead of echoing requested list selections", function()
+  local state = ac.summary(observed)
+  local worker, device, driver, tasks, events = worker_fixture(function() return state, "appliance-a" end,
+    function() return state, "appliance-a", "unconfirmed" end)
+  device.missing_capabilities = {}
+  worker.start(driver, device); tasks[1]()
+  local before = #events
+  assert(state.voice ~= "mute")
+  assert(worker.command(driver, device, {kind="voice", value="mute"})); tasks[2]()
+  assert(#events == before + 2)
+  for i = before + 1, #events do
+    assert(events[i].attribute == "voice" and events[i].data.value == state.voice and events[i].state_change)
+  end
   package.loaded["network"] = network
 end)
 test("Removal during event pacing stops later events and leaves no online notification", function()

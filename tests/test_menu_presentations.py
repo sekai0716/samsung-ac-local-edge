@@ -16,8 +16,7 @@ CARDS = [
     ("Temperature", "ac-temperature", "희망 온도", "slider", 1),
     ("Comfort", "ac-comfort", "바람 설정", "list", 2),
     ("AirFeatures", "ac-air-features", "무풍·청정", "switch", 2),
-    ("NativeTimer", "ac-native-timer", "기기 예약", "list", 2),
-    ("Timer", "ac-reservation", "허브 예약", "list", 2),
+    ("Timer", "ac-reservation", "예약", "list", 2),
     ("DeviceSettings", "ac-device-settings", "기기 설정", "list", 2),
     ("Display", "ac-display", "본체 화면", "switch", 1),
     ("Care", "ac-care", "자동청소", "switch", 1),
@@ -129,7 +128,10 @@ class MenuPresentationTests(unittest.TestCase):
     def test_native_timer_cannot_offer_cancel_or_fabricate_an_unknown_as_none(self):
         definition = read_json("capabilities/ac-native-timer.json")
         self.assertEqual(set(definition["commands"]), {"setOnDelay", "setOffDelay"})
-        for row, key in zip(self.rows["NativeTimer"], ["onDelay", "offDelay"]):
+        self.assertNotIn(PREFIX + "NativeTimer", self.entries)
+        # 화면만 숨깁니다. 기존 capability/루틴의 양수 예약 계약과 0 차단은 유지합니다.
+        native_rows = read_json("capabilities/ac-native-timer-presentation.json")["detailView"]
+        for row, key in zip(native_rows, ["onDelay", "offDelay"]):
             command = definition["commands"]["set" + key[0].upper() + key[1:]]
             allowed = {str(value) for value in range(1, 49)}
             self.assertEqual(set(command["arguments"][0]["schema"]["enum"]), allowed)

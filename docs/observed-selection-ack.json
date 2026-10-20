@@ -1,0 +1,53 @@
+{
+  "observed_at": "2026-10-21T00:25:35+09:00",
+  "driver_version": "2026-10-20T15:24:15.33648447",
+  "exact_version_installed": true,
+  "same_value_commands": [
+    {"menu": "음성선택", "value": "melody", "attempts": 2},
+    {"menu": "라이팅", "value": "off", "attempts": 1},
+    {"menu": "운전 모드", "value": "cool", "attempts": 1},
+    {"menu": "바람문", "value": "closed", "attempts": 1},
+    {"menu": "청소용 패널", "value": "closed", "attempts": 1},
+    {"menu": "허브 켜짐 예약", "value": "none", "attempts": 1},
+    {"menu": "허브 꺼짐 예약", "value": "none", "attempts": 1}
+  ],
+  "status_timestamp_advanced_for_all_8_commands": true,
+  "hub_log": {
+    "duration_seconds": 55,
+    "unchanged_commands": ["voice", "voice", "lighting", "mode", "outlet", "panel"],
+    "appliance_post_phases": 0,
+    "successful_periodic_queries": 11,
+    "query_event_command_errors": 0
+  },
+  "after": {
+    "power": "off",
+    "native_on_timer": "none",
+    "native_off_timer": "none",
+    "hub_on_timer": "none",
+    "hub_off_timer": "none",
+    "health": "ONLINE"
+  },
+  "presentation": {
+    "actual_device_presentation_pair_verified": true,
+    "languages": ["ko", "ko-KR", "en", "default"],
+    "native_timer_detail_rows": 0,
+    "hub_timer_title": "예약",
+    "detail_rows": 23,
+    "custom_menu_titles": 9,
+    "sliding_switches": 4,
+    "visible_conditions": 6,
+    "other_detail_rows_preserved": true,
+    "automation_and_dashboard_preserved": true
+  },
+  "local_checks": {
+    "lua_tests": 96,
+    "schema_validated_events": 491,
+    "python_tests": 21,
+    "same_value_regression_fails_on_previous_worker": true
+  },
+  "limits": [
+    "휴대폰 앱에서 같은 값 선택 후 로딩 종료를 직접 관찰한 검사는 아님",
+    "실기에서는 전원이 꺼진 상태에서 선택할 수 있는 현재 값과 예약 없음을 확인함",
+    "센서 AirMonitoring Off 표시 방식은 이번 설치본에서 변경하지 않음"
+  ]
+}
