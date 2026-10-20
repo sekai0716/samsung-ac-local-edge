@@ -1,0 +1,71 @@
+{
+  "recorded_at": "2026-10-20T12:53:16.852966+00:00",
+  "scope": "One owned A20_FAC_BORA_18K appliance and V3 hub; no credentials or device identifiers",
+  "deployment": {
+    "driver_version": "2026-10-20T12:52:02.622985997",
+    "exact_version_installed": true,
+    "operational_key_reused_byte_for_byte": true,
+    "certificate_expires_on": "2126-09-25",
+    "health": "ONLINE"
+  },
+  "menu_verification": {
+    "actual_device_presentation_pair_verified": true,
+    "languages": ["ko", "ko-KR", "en", "default"],
+    "unique_card_titles": 10,
+    "detail_rows": 25,
+    "new_native_timer_rows": 2,
+    "existing_23_controls_preserved": true,
+    "existing_automations_dashboard_and_dpinfo_preserved": true,
+    "sliding_switches": 4,
+    "visible_conditions": 6,
+    "native_command_options": "1..48, positive half-hours only",
+    "native_state_only_values": ["none", "unknown"],
+    "native_cancel_command_exposed": false,
+    "phone_rendering_verified": false
+  },
+  "hub_readonly_observation": {
+    "log_capture_seconds": 28,
+    "successful_queries": 5,
+    "failed_queries": 0,
+    "event_errors": 0,
+    "command_log_entries": 0,
+    "reservation_dispatch_log_entries": 0,
+    "native_on_timer": 0,
+    "native_off_timer": 0,
+    "power": false
+  },
+  "smartthings_state": {
+    "power": "off",
+    "native_on_delay": "none",
+    "native_off_delay": "none",
+    "hub_on_delay": "none",
+    "hub_off_delay": "none",
+    "new_native_attributes_received_after_initial_pending_state": true
+  },
+  "automated_verification": {
+    "lua_tests": 93,
+    "python_tests": 21,
+    "capability_schema_events": 317,
+    "native_zero_input_rejected": true,
+    "native_setting_single_post_then_get": true,
+    "same_value_rearm_outcome": "accepted, not confirmed",
+    "lost_write_acknowledgement_not_retried": true,
+    "legacy_hub_reservation_state_and_handlers_preserved": true
+  },
+  "earlier_power_off": {
+    "hub_half_hour_off_delay_observed_at": "2026-10-20T21:09:46.363+09:00",
+    "power_off_observed_at": "2026-10-20T21:39:49.058+09:00",
+    "hub_off_delay_none_observed_at": "2026-10-20T21:39:49.338+09:00",
+    "interpretation": "High-confidence inference that the earlier hub reservation expired; historical dispatch log unavailable",
+    "new_driver_installed_at_that_time": false
+  },
+  "limits": {
+    "appliance_write_commands_sent_in_this_deployment_verification": false,
+    "native_setting_acceptance_on_appliance_tested_in_this_change": false,
+    "native_expiry_on_appliance_tested_in_this_change": false,
+    "complete_native_1_to_48_range_acceptance_verified": false,
+    "native_cancellation_supported": false,
+    "safe_cancellation_protocol_identified": false,
+    "existing_hub_reservations_migrated_to_appliance": false
+  }
+}
