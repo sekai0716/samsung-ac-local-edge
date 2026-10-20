@@ -98,6 +98,11 @@
       "values": [],
       "patch": [
         {
+          "op": "replace",
+          "path": "/0/label",
+          "value": "운전 모드"
+        },
+        {
           "op": "add",
           "path": "/1/visibleCondition",
           "value": {

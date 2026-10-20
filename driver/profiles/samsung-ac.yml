@@ -71,7 +71,7 @@ components:
 metadata:
   ocfDeviceType: oic.d.airconditioner
   # 화면 조회에는 ID와 제조사 쌍을 사용합니다. 구성·번역 변경 시 두 값을 함께 갱신합니다.
-  vid: 43c0ada9-66be-3bd7-9436-cf4969756365
+  vid: 5ccd48f3-6482-306a-87f6-eb7627058667
   mnmn: SmartThingsCommunity
 preferences:
   - name: targetIp
