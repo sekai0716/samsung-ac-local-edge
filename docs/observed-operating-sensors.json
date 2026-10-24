@@ -1,0 +1,54 @@
+{
+  "observed_at": "2026-10-24T19:37:01+09:00",
+  "driver_version": "2026-10-24T10:36:04.9507102",
+  "exact_version_installed": true,
+  "reviewed_source_matches_package": true,
+  "sensor_regression": {
+    "user_report": "운전 중에도 실내 환경 카드의 온습도 값이 계속 -로 표시됨",
+    "previous_gate": "AirMonitoring_On only",
+    "corrected_gate": "power == true OR AirMonitoring_On",
+    "card_and_numeric_capabilities_share_gate": true,
+    "operating_with_monitoring_off_test_failed_before_fix": true,
+    "operating_value_changes_and_same_value_resume_verified_in_tests": true,
+    "powered_off_monitoring_on_still_displays_values": true,
+    "powered_off_monitoring_off_still_displays_dashes": true,
+    "no_measurement_start_or_power_command_added": true
+  },
+  "local_checks": {
+    "lua_tests": 100,
+    "schema_validated_events": 741,
+    "python_tests": 22,
+    "profile_and_presentation_unchanged": true,
+    "same_value_acknowledgement_and_hub_reservation_tests_passed": true
+  },
+  "installed_readonly_check": {
+    "power": "off",
+    "air_monitoring": "Off",
+    "all_seven_sensor_card_values": "-",
+    "health": "ONLINE",
+    "native_and_hub_reservations": "none",
+    "hub_log_seconds": 35,
+    "successful_state_queries": 6,
+    "query_event_command_errors": 0,
+    "appliance_write_commands_sent_in_this_investigation": 0
+  },
+  "autoclean_investigation": {
+    "user_report": "전원 종료 직후 바람문이 닫히고 송풍이 멈춤. 마지막 자동청소는 사용자가 수동으로 켬",
+    "power_off_at": "2026-10-24T18:59:28+09:00",
+    "autoclean_on_at": "2026-10-24T18:59:34+09:00",
+    "autoclean_off_attribute_timestamp": "2026-10-24T19:09:35.323+09:00",
+    "on_record_proves_automatic_start": false,
+    "current_tokens": ["Autoclean_Off", "AutocleanProgress_1", "StopAutoClean_Idle"],
+    "separate_autoclean_resource_response": "4.04 Not Found",
+    "power_off_payload": {"x.com.samsung.da.power": "Off"},
+    "power_off_sends_autoclean_or_stop_tokens": false,
+    "persistent_setting_mapping_verified": false,
+    "root_cause_confirmed": false,
+    "autoclean_code_changed": false
+  },
+  "limits": [
+    "이번 수정본의 실제 운전 중 센서 이벤트와 휴대폰 표시 확인은 아직 수행하지 않음",
+    "자동청소 수동 작동과 종료 후 자동 작동의 설정 차이는 미확정",
+    "이번 조사에서 에어컨 전원 전환이나 자동건조 쓰기 시험은 하지 않음"
+  ]
+}

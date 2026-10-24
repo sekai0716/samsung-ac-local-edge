@@ -146,12 +146,13 @@ local function publish(device, state, force, acknowledgements)
     emitted = emitted + 1
   end
   if state.power ~= nil then emit(caps.switch.switch(state.power and "on" or "off")) end
-  local measuring = state.monitoringRaw == "On"
+  -- 카드와 표준 센서는 같은 가용 상태를 사용해 운전 중 값이 숨겨지는 차이를 막습니다.
+  local display = ac.sensor_state(state)
+  local measuring = display.monitoring == "on"
   local resumed = measuring and context.sensors_active ~= true
   -- Off는 먼저 카드를 비활성화하고 값을 지웁니다. On은 새 표시값을 채운 뒤 활성화합니다.
   -- 허브 예약만 바꾼 빈 상태는 측정 상태나 마지막 표시를 덮어쓰지 않습니다.
   if next(state) and device:supports_capability(sensors) then
-    local display = ac.sensor_state(state)
     local function display_event(attribute)
       local event = sensors[attribute](display[attribute])
       event.state_change = true

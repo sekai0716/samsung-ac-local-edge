@@ -643,13 +643,19 @@ test("Humidity bounds and power sentinel are not measurements", function()
     { href = "/energy/consumption/vs/0", rep = { [P .. "instantaneousPower"] = "65278" } } })
   assert(value.humidity == nil and value.instantaneousPowerRaw == nil)
 end)
-test("Sensor text is gated by AirMonitoring, preserves valid zero and clears missing values", function()
+test("Sensor text uses operating power or AirMonitoring, preserves zero and clears missing values", function()
   local state = {power=true, monitoringRaw="On", temperature=0, unit="C", humidity=0,
     pm10=0, pm25=0, pm1=0, gasLevel=1, airQualityConcern="good"}
   local shown = ac.sensor_state(state)
   assert(shown.monitoring == "on" and shown.temperature == "0.0 °C" and shown.humidity == "0 %")
   assert(shown.dustLevel == "0 μg/m³" and shown.fineDustLevel == "0 μg/m³" and shown.veryFineDustLevel == "0 μg/m³")
   assert(shown.gas == "1단계" and shown.airQuality == "좋음")
+  for _, token in ipairs({"Off", "Unexpected", false}) do
+    state.monitoringRaw = token or nil
+    shown = ac.sensor_state(state)
+    assert(shown.monitoring == "on" and shown.temperature == "0.0 °C" and shown.humidity == "0 %")
+  end
+  state.power = false
   for _, token in ipairs({"Off", "Unexpected", false}) do
     state.monitoringRaw = token or nil
     shown = ac.sensor_state(state)
@@ -1188,7 +1194,7 @@ test("Updated profile publishes grouped menus and reservations cannot overwrite 
   for i = before + 1, #events do assert(events[i].capability == "instantcommon43059.samsungAcLocalTimer") end
   package.loaded["network"] = network
 end)
-test("AirMonitoring transitions clear the sensor card and only resume real numeric samples when on", function()
+test("Stopped AirMonitoring transitions clear the sensor card and resume numeric samples when on", function()
   local id = "instantcommon43059.samsungAcLocalSensors"
   local numeric = { temperatureMeasurement=true, relativeHumidityMeasurement=true, dustSensor=true,
     veryFineDustSensor=true, odorSensor=true, airQualityHealthConcern=true }
@@ -1210,8 +1216,8 @@ test("AirMonitoring transitions clear the sensor card and only resume real numer
   assert(latest("monitoring") == "on" and latest("humidity") == "63 %" and latest("dustLevel") == "5 μg/m³")
   local before = #events
   state.monitoringRaw = "Off"
-  -- 운전 전원이 켜져도 AirMonitoring Off의 캐시 숫자는 현재 측정값으로 발행하지 않습니다.
-  state.power = true
+  -- 전원과 꺼진 상태의 공기 모니터링이 모두 Off일 때만 숫자를 비활성화합니다.
+  state.power = false
   worker.request(driver, device); tasks[#tasks]()
   assert(latest("monitoring") == "off" and sensor_events_since(before) == 0)
   for _, key in ipairs({"temperature", "humidity", "airQuality", "dustLevel", "fineDustLevel", "veryFineDustLevel", "gas"}) do
@@ -1244,6 +1250,47 @@ test("AirMonitoring transitions clear the sensor card and only resume real numer
   worker.request(driver, device); tasks[#tasks]()
   assert(latest("monitoring") == "unknown" and latest("temperature") == "-" and sensor_events_since(before) == 0)
   assert(counters.offline == 0)
+  package.loaded["network"] = network
+end)
+test("Operating with AirMonitoring off publishes live sensors and resumes after a stopped period", function()
+  local id = "instantcommon43059.samsungAcLocalSensors"
+  local numeric = { temperatureMeasurement=true, relativeHumidityMeasurement=true, dustSensor=true,
+    veryFineDustSensor=true, odorSensor=true, airQualityHealthConcern=true }
+  local state = ac.summary(observed)
+  state.power, state.monitoringRaw, state.temperature, state.humidity = true, "Off", 25, 48
+  local controls = 0
+  local worker, device, driver, tasks, events, counters = worker_fixture(function() return state, "appliance-a" end,
+    function() controls = controls + 1; error("sensor publication must not control the appliance") end)
+  device.missing_capabilities = {}
+  worker.start(driver, device); tasks[1]()
+  local function latest(capability, attribute)
+    for i=#events,1,-1 do
+      if events[i].capability == capability and events[i].attribute == attribute then return events[i].data.value end
+    end
+  end
+  assert(latest(id, "monitoring") == "on" and latest(id, "temperature") == "25.0 °C" and latest(id, "humidity") == "48 %")
+  assert(latest("temperatureMeasurement", "temperature") == 25 and latest("relativeHumidityMeasurement", "humidity") == 48)
+  -- 운전 중 바뀐 값은 공기 모니터링 Off에서도 카드와 표준 속성에 함께 반영합니다.
+  state.temperature, state.humidity = 24, 53
+  worker.request(driver, device); tasks[#tasks]()
+  assert(latest(id, "temperature") == "24.0 °C" and latest(id, "humidity") == "53 %")
+  assert(latest("temperatureMeasurement", "temperature") == 24 and latest("relativeHumidityMeasurement", "humidity") == 53)
+  state.power = false
+  worker.request(driver, device); tasks[#tasks]()
+  assert(latest(id, "monitoring") == "off" and latest(id, "temperature") == "-" and latest(id, "humidity") == "-")
+  local before = #events
+  state.power = true
+  worker.request(driver, device); tasks[#tasks]()
+  assert(latest(id, "monitoring") == "on" and latest(id, "humidity") == "53 %")
+  local count = 0
+  for i=before+1,#events do
+    if numeric[events[i].capability] then
+      count = count + 1
+      assert(events[i].state_change == true)
+    end
+  end
+  assert(count == 7 and counters.offline == 0)
+  assert(controls == 0)
   package.loaded["network"] = network
 end)
 test("Sensor card initializes off without numeric events and waits for an updated profile", function()

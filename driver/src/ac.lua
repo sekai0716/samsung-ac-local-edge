@@ -78,9 +78,9 @@ function M.menu_state(state)
 end
 
 -- 숫자 센서에 가짜 0이나 문자열을 넣지 않고 읽기 전용 카드의 표시값을 만듭니다.
--- 운전 전원과 별개로 AirMonitoring_On을 확인한 경우에만 현재 측정값을 표시합니다.
+-- AirMonitoring은 꺼진 상태의 공기 모니터링에도 쓰입니다. 운전 On이면 이 값이 Off여도 표시합니다.
 function M.sensor_state(state)
-  local monitoring = ({ On = "on", Off = "off" })[state.monitoringRaw] or "unknown"
+  local monitoring = state.power == true and "on" or ({ On = "on", Off = "off" })[state.monitoringRaw] or "unknown"
   local result = { monitoring = monitoring, temperature = "-", humidity = "-", airQuality = "-",
     dustLevel = "-", fineDustLevel = "-", veryFineDustLevel = "-", gas = "-" }
   if monitoring ~= "on" then return result end
