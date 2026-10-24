@@ -34,6 +34,12 @@
   },
   "autoclean_investigation": {
     "user_report": "전원 종료 직후 바람문이 닫히고 송풍이 멈춤. 마지막 자동청소는 사용자가 수동으로 켬",
+    "manual_start_source_confirmed_by_user": "Samsung AC Local의 자동청소 스위치",
+    "manual_start_command_mapping": {
+      "kind": "autoclean",
+      "path": "/mode/vs/0",
+      "payload": {"x.com.samsung.da.options": ["Autoclean_On"]}
+    },
     "power_off_at": "2026-10-24T18:59:28+09:00",
     "autoclean_on_at": "2026-10-24T18:59:34+09:00",
     "autoclean_off_attribute_timestamp": "2026-10-24T19:09:35.323+09:00",
@@ -44,7 +50,18 @@
     "power_off_sends_autoclean_or_stop_tokens": false,
     "persistent_setting_mapping_verified": false,
     "root_cause_confirmed": false,
-    "autoclean_code_changed": false
+    "autoclean_code_changed": false,
+    "reference_power_command_matches_current_driver": true,
+    "reference_commit": "363fbd5ec9d3b34982154e3ad1dca48ba0f82501",
+    "reference_limit": "구형 토큰을 사용 설정으로 설명하지만 이 본체의 지속 설정·자동 시작을 검증한 자료는 아님",
+    "reference_sources": [
+      "https://github.com/mbillow/localthings/blob/363fbd5ec9d3b34982154e3ad1dca48ba0f82501/custom_components/localthings/registry/capabilities/airconditioner.py",
+      "https://github.com/mbillow/localthings/pull/290",
+      "https://github.com/mbillow/localthings/pull/255"
+    ],
+    "followup_read_at": "2026-10-24T22:47:06.919927+09:00",
+    "followup_read": {"power": "Off", "autoclean": "Off", "on_timer": 0, "off_timer": 0},
+    "next_comparison": "운전 중 리모컨의 자동청소 사용 설정과 로컬 응답을 대조하고, 종료 후 자동 작동 여부를 구분"
   },
   "limits": [
     "이번 수정본의 실제 운전 중 센서 이벤트와 휴대폰 표시 확인은 아직 수행하지 않음",
