@@ -1,0 +1,70 @@
+{
+  "observed_at": "2026-10-25",
+  "driver_version": "2026-10-25T07:08:13.873313889",
+  "exact_version_installed": true,
+  "reviewed_source_matches_package": true,
+  "user_selected_behavior": "로컬 전원 종료 후 허브가 자동건조 시작",
+  "preference": {
+    "name": "autoDryAfterOff",
+    "title": "전원 종료 후 자동건조",
+    "default": true,
+    "installed_device_profile_verified": true,
+    "manual_autoclean_switch_preserved": true
+  },
+  "contract": {
+    "triggers": ["confirmed local power-off", "confirmed hub off-reservation power-off"],
+    "required_fresh_state": {"power": false, "autocleanRaw": "Off", "panel": "closed"},
+    "followup": {"path": "/mode/vs/0", "payload": {"x.com.samsung.da.options": ["Autoclean_On"]}},
+    "maximum_followup_post_attempts_per_confirmed_shutdown": 1,
+    "duplicate_off_preserves_first_pending_dry": true,
+    "pending_dry_cancelled_by": ["power on", "manual autoclean", "panel command", "preference disabled", "device removal", "driver restart"],
+    "no_trigger_on": ["polling", "startup", "already-off command", "unconfirmed shutdown", "observed remote-control shutdown"],
+    "fresh_get_before_followup_post": true,
+    "pending_followup_persisted": false,
+    "post_retried_after_response_loss": false,
+    "native_timer_commands_added": false,
+    "persistent_appliance_autoclean_setting_mapping_verified": false
+  },
+  "local_checks": {
+    "lua_tests": 109,
+    "schema_validated_events": 1161,
+    "python_tests": 22,
+    "source_syntax_and_package_build_passed": true,
+    "covered": [
+      "fresh GET and guard before any followup POST",
+      "power Off then exactly one Autoclean_On through real plan and CBOR with simulated TLS",
+      "duplicate shutdown and restart do not repeat drying",
+      "disabled preference preserves manual cleaning",
+      "hub off-reservation uses the same shutdown path",
+      "concurrent user command or removal cancels pending drying",
+      "already-started cleaning is not repeated",
+      "event publication failure does not drop drying after confirmed shutdown",
+      "missing or incompatible state does not start drying",
+      "lost response permits GET recovery but no POST retry"
+    ]
+  },
+  "installed_readonly_check": {
+    "power": "off",
+    "autoclean": "off",
+    "native_and_hub_reservations": "none",
+    "health": "ONLINE",
+    "presentation_unchanged": true,
+    "hub_log_seconds": 35,
+    "successful_state_queries": 6,
+    "query_event_auto_dry_errors": 0,
+    "automatic_dry_requests_queued_during_startup": 0,
+    "appliance_write_commands_sent": 0
+  },
+  "live_trial": {
+    "performed": false,
+    "plan": "전원 On·Off 각 1회 후 수동 청소 명령 없이 자동건조 시작 확인",
+    "automatic_start_verified": false,
+    "drying_completion_verified": false
+  },
+  "limits": [
+    "실제 기기의 전원 전환과 건조 시작 시험은 미수행",
+    "허브 후속 동작이며 본체의 지속 자동건조 설정을 재현한 것은 아님",
+    "종료와 후속 요청 사이 재시작·통신 실패가 있으면 건조가 생략될 수 있음",
+    "리모컨 또는 기존 삼성 앱에서 종료한 동작은 자동건조 시작 조건에 포함하지 않음"
+  ]
+}

@@ -241,6 +241,10 @@ local function run(socket_api, ssl_api, config, host, expected_identity, context
     local state = read_state()
     if not command then return state, endpoint.identity end
 
+    -- 자동 후속 작업은 GET 중 들어온 사용자 취소·새 전원 명령까지 확인한 뒤에만 씁니다.
+    -- guard는 드라이버 내부에서만 붙이며, 생략된 일반 수동 명령은 기존 경로를 따릅니다.
+    if command.guard and not command.guard(state) then return state, endpoint.identity, "skipped" end
+
     -- 매번 새 응답의 지원 목록과 범위로 검사합니다. 동일 상태는 POST 없이 종료합니다.
     local planned, plan = pcall(ac.plan, command, state)
     if not planned then context.command_rejected = true; error(plan, 0) end

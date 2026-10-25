@@ -277,6 +277,25 @@ local function publish(device, state, force, acknowledgements)
   log.info("AC_EVENTS_QUEUED " .. tostring(emitted))
 end
 
+-- 로컬 종료 명령 하나에 자동청소 요청 하나만 연결합니다. 주기 조회·시작 시점에는 만들지 않습니다.
+-- 후속 작업은 저장하지 않아 재시작 후 과거 종료를 근거로 뒤늦게 건조하지 않습니다.
+local function queue_auto_dry(device, context, command, state, outcome)
+  if command.kind ~= "power" or command.value ~= false or outcome ~= "confirmed" then return end
+  local generation = command.generation
+  local function allowed(current)
+    return device:get_field(FIELD) == context and not context.cancelled
+      and context.dry_generation == generation
+      and (device.preferences or {}).autoDryAfterOff ~= false
+      and current.power == false and current.autocleanRaw == "Off" and current.panel == "closed"
+  end
+  if not allowed(state) or #context.commands >= 32 then
+    log.info("AC_AUTO_DRY_SKIPPED before-queue")
+    return
+  end
+  context.commands[#context.commands + 1] = { kind = "autoclean", value = true, auto_dry = true, guard = allowed }
+  log.info("AC_AUTO_DRY_QUEUED")
+end
+
 -- 하나의 cosock 작업만 소켓을 소유합니다. POST 오류 뒤에는 GET만 예약하며 명령은 재전송하지 않습니다.
 local function schedule(driver, device)
   local context = device:get_field(FIELD)
@@ -305,6 +324,11 @@ local function schedule(driver, device)
         local state, identity, outcome = query(driver, device, context, command)
         if context.cancelled or device:get_field(FIELD) ~= context then return end
         if not device:get_field("ocf_identity") then device:set_field("ocf_identity", identity, { persist = true }) end
+        -- 본체 종료가 확인되면 후속 작업을 잡습니다. 앱 이벤트 전송 실패가 건조를 누락시키지 않습니다.
+        if command then
+          if command.auto_dry then log.info("AC_AUTO_DRY_" .. string.upper(outcome))
+          else queue_auto_dry(device, context, command, state, outcome) end
+        end
         publish(device, state, force_publish, acknowledgements)
         device:online()
         if command then
@@ -312,6 +336,7 @@ local function schedule(driver, device)
         else log.info("AC_QUERY_OK") end
       end)
       if not ok and not context.cancelled then
+        if command and command.auto_dry then log.error("AC_AUTO_DRY_FAILED " .. tostring(failure)) end
         if local_only then log.error("AC_EVENT_FAILED " .. tostring(failure))
         elseif command and (context.command_rejected or context.write_rejected) and context.verified_state then
           -- 지원 범위 또는 기기의 명시적 POST 거부는 통신 성공이므로 오프라인으로 바꾸지 않습니다.
@@ -362,7 +387,13 @@ function M.command(driver, device, command)
   if not context or context.cancelled then return false end
   -- 입력 폭주 때 메모리와 오래된 명령이 쌓이지 않도록 초과 요청을 명시적으로 거부합니다.
   if #context.commands >= 32 then log.error("AC_COMMAND_REJECTED command queue full"); return false end
-  context.commands[#context.commands + 1] = { kind = command.kind, value = command.value }
+  -- 새 켜짐·수동 청소·청소용 패널 명령은 아직 시작하지 않은 자동건조보다 우선합니다.
+  -- 큐에 넣는 즉시 세대를 바꿔, 이전 명령의 확인 GET 중에도 후속 작업을 취소합니다.
+  -- 같은 꺼짐 요청은 건조를 취소하지 않습니다. 첫 종료만 confirmed이며 뒤 요청은 unchanged입니다.
+  if (command.kind == "power" and command.value) or command.kind == "autoclean" or command.kind == "panel" then
+    context.dry_generation = context.dry_generation + 1
+  end
+  context.commands[#context.commands + 1] = { kind = command.kind, value = command.value, generation = context.dry_generation }
   schedule(driver, device)
   return true
 end
@@ -379,7 +410,7 @@ end
 
 function M.start(driver, device)
   M.stop(driver, device)
-  local context = { busy = false, cancelled = false, commands = {} }
+  local context = { busy = false, cancelled = false, commands = {}, dry_generation = 0 }
   device:set_field(FIELD, context)
   reservations.start(driver, device, M.command, reservation_changed)
   -- 탐색 당시의 OCF ID를 최초 설정부터 고정합니다. IP 변경으로 다른 에어컨을 제어하지 않습니다.

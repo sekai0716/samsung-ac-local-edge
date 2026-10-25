@@ -753,6 +753,20 @@ local function transport(handshake_failure, secure_identity, behavior)
     config = function() return tls_config end, handshakes = function() return handshakes end,
     break_connection = function() fail_next_send = true end }
 end
+test("A guarded follow-up checks fresh appliance state before any POST", function()
+  local t = transport(false)
+  local checks = 0
+  local state, _, outcome = t.control({kind="autoclean", value=true, guard=function(current)
+    checks = checks + 1
+    assert(current.power == false and current.autocleanRaw == "Off" and #t.requests == 2)
+    return false
+  end})
+  assert(outcome == "skipped" and checks == 1 and #t.posts == 0 and state.autoclean == false)
+  state, _, outcome = t.control({kind="autoclean", value=true, guard=function(current)
+    return current.power == false and current.autocleanRaw == "Off"
+  end})
+  assert(outcome == "confirmed" and state.autoclean and #t.posts == 1)
+end)
 test("TLS handshake failure closes every owned socket", function()
   local t = transport(true)
   fails(t.read)
@@ -1107,6 +1121,153 @@ local function worker_fixture(read, control, scan)
   }
   return worker, device, driver, tasks, events, counters
 end
+-- 실제 명령 계획·CBOR·확인 GET을 사용하는 모사 본체로 자동건조의 연속 명령을 검사합니다.
+local function auto_dry_fixture(hook)
+  local appliance = transport(false)
+  appliance.control({kind="power", value=true})
+  local worker, device, driver, tasks, events, counters
+  worker, device, driver, tasks, events, counters = worker_fixture(appliance.read,
+    function(_, _, _, _, _, context, _, command)
+      if hook then hook(command, worker, device, driver) end
+      local ok, state, identity, outcome = pcall(appliance.control, command)
+      if not ok then
+        for _, key in ipairs({"write_attempted", "write_rejected", "command_rejected", "verified_state"}) do
+          context[key] = appliance.context[key]
+        end
+        error(state)
+      end
+      return state, identity, outcome
+    end)
+  worker.start(driver, device); tasks[1]()
+  return worker, device, driver, tasks, events, counters, appliance
+end
+test("A confirmed local shutdown dries once, including duplicate off requests, but polling and restart never restart it", function()
+  local worker, device, driver, tasks, events, counters, appliance = auto_dry_fixture()
+  assert(worker.command(driver, device, {kind="power", value=false}))
+  assert(worker.command(driver, device, {kind="power", value=false}))
+  tasks[#tasks]()
+  assert(#appliance.posts == 3)
+  assert(appliance.posts[2].path == "/power/vs/0" and appliance.posts[2].body[P .. "power"] == "Off")
+  assert(appliance.posts[3].path == "/mode/vs/0" and appliance.posts[3].body[P .. "options"][1] == "Autoclean_On")
+  local state = appliance.read()
+  assert(state.power == false and state.autoclean and state.onTimer == 0 and state.offTimer == 0)
+  assert(worker.command(driver, device, {kind="autoclean", value=false})); tasks[#tasks]()
+  assert(#appliance.posts == 4 and appliance.read().autoclean == false)
+  worker.request(driver, device); tasks[#tasks]()
+  worker.start(driver, device); tasks[#tasks]()
+  assert(worker.command(driver, device, {kind="power", value=false})); tasks[#tasks]()
+  assert(#appliance.posts == 4 and counters.offline == 0)
+  package.loaded["network"] = network
+end)
+test("Auto-dry can be disabled without disabling the manual cleaning switch", function()
+  local worker, device, driver, tasks, _, counters, appliance = auto_dry_fixture()
+  device.preferences.autoDryAfterOff = false
+  assert(worker.command(driver, device, {kind="power", value=false})); tasks[#tasks]()
+  assert(#appliance.posts == 2 and appliance.read().autoclean == false)
+  assert(worker.command(driver, device, {kind="autoclean", value=true})); tasks[#tasks]()
+  assert(#appliance.posts == 3 and appliance.read().autoclean and counters.offline == 0)
+  package.loaded["network"] = network
+end)
+test("Hub off-reservation expiry follows the same single drying path and stale timer callbacks do nothing", function()
+  local worker, device, driver, tasks, _, counters, appliance = auto_dry_fixture()
+  local previous_time, clock = os.time, 1000000
+  os.time = function() return clock end
+  assert(worker.reservation(driver, device, "offTimer", 1)); tasks[#tasks]()
+  assert(#appliance.posts == 1)
+  clock = clock + 1800
+  local timer = counters.reservation_timers[1]
+  timer.callback(); tasks[#tasks](); timer.callback()
+  assert(#appliance.posts == 3 and appliance.read().autoclean and appliance.read().power == false)
+  assert((device:get_field("ac_reservations") or {}).offTimer == nil)
+  os.time = previous_time
+  package.loaded["network"] = network
+end)
+test("Re-enable, manual clean, panel access, preference changes and removal cancel a queued dry at its fresh GET", function()
+  for _, action in ipairs({"power", "autoclean", "panel", "preference", "remove"}) do
+    local worker, device, driver, tasks, _, _, appliance = auto_dry_fixture(function(command, w, d, dr)
+      if not command.auto_dry then return end
+      if action == "preference" then d.preferences.autoDryAfterOff = false
+      elseif action == "remove" then w.stop(dr, d)
+      else
+        assert(w.command(dr, d, {kind=action, value=action == "panel" and "open" or action == "power"}))
+      end
+    end)
+    assert(worker.command(driver, device, {kind="power", value=false})); tasks[#tasks]()
+    for _, post in ipairs(appliance.posts) do
+      for _, token in ipairs(post.body[P .. "options"] or {}) do assert(token ~= "Autoclean_On") end
+    end
+    assert(appliance.read().autoclean == false)
+    package.loaded["network"] = network
+  end
+end)
+test("Cleaning that starts between the off acknowledgement and follow-up GET is not restarted", function()
+  local worker, device, driver, tasks, _, counters, appliance
+  worker, device, driver, tasks, _, counters, appliance = auto_dry_fixture(function(command)
+    if command.auto_dry then appliance.control({kind="autoclean", value=true}) end
+  end)
+  assert(worker.command(driver, device, {kind="power", value=false})); tasks[#tasks]()
+  assert(#appliance.posts == 3 and appliance.read().autoclean and counters.offline == 0)
+  assert(table.concat(counters.logs, "\n"):find("AC_AUTO_DRY_SKIPPED", 1, true))
+  package.loaded["network"] = network
+end)
+test("An app event failure after confirmed shutdown does not lose its automatic drying follow-up", function()
+  local worker, device, driver, tasks, _, _, appliance = auto_dry_fixture()
+  local emit, failed = device.emit_component_event, false
+  device.emit_component_event = function(self, component, event)
+    if not failed and component.id == "main" and event.attribute.NAME == "switch" and event.value.value == "off" then
+      failed = true
+      return nil, "event delivery failed"
+    end
+    return emit(self, component, event)
+  end
+  assert(worker.command(driver, device, {kind="power", value=false})); tasks[#tasks]()
+  assert(failed and #appliance.posts == 3 and appliance.read().autoclean and appliance.read().power == false)
+  package.loaded["network"] = network
+end)
+test("Uncertain shutdowns, already running cleaning, missing observations and open panels do not start automatic drying", function()
+  for _, case in ipairs({
+    {outcome="unchanged"}, {outcome="unconfirmed"}, {outcome="accepted"},
+    {outcome="confirmed", clean="On"}, {outcome="confirmed", clean="unknown"},
+    {outcome="confirmed", panel="open"}, {outcome="confirmed", panel="unknown"},
+    {outcome="confirmed", power=true}, {fail=true},
+  }) do
+    local state = {power=true, autocleanRaw="Off", autoclean=false, panel="closed"}
+    local writes = 0
+    local worker, device, driver, tasks = worker_fixture(function() return state, "appliance-a" end,
+      function(_, _, _, _, _, context, _, command)
+        writes = writes + 1
+        assert(command.kind == "power")
+        state.power = case.power or false
+        state.autocleanRaw, state.panel = case.clean or "Off", case.panel or "closed"
+        if case.fail then context.write_attempted = true; error("lost shutdown response") end
+        return state, "appliance-a", case.outcome
+      end)
+    worker.start(driver, device); tasks[1]()
+    assert(worker.command(driver, device, {kind="power", value=false})); tasks[#tasks]()
+    worker.request(driver, device); tasks[#tasks]()
+    assert(writes == 1)
+    package.loaded["network"] = network
+  end
+end)
+test("A lost automatic-clean response only recovers by GET and never repeats either write", function()
+  local state = {power=true, autocleanRaw="Off", autoclean=false, panel="closed"}
+  local writes, reads = {}, 0
+  local worker, device, driver, tasks = worker_fixture(function() reads=reads+1; return state, "appliance-a" end,
+    function(_, _, _, _, _, context, _, command)
+      writes[#writes + 1] = command.kind
+      if command.kind == "power" then state.power=false; return state, "appliance-a", "confirmed" end
+      assert(command.auto_dry and command.guard(state))
+      context.write_attempted = true
+      state.autoclean, state.autocleanRaw = true, "On"
+      error("lost auto-clean response")
+    end)
+  worker.start(driver, device); tasks[1]()
+  assert(worker.command(driver, device, {kind="power", value=false})); tasks[#tasks]()
+  worker.request(driver, device); tasks[#tasks]()
+  assert(#writes == 2 and writes[1] == "power" and writes[2] == "autoclean" and reads >= 3)
+  assert(state.power == false and state.autoclean)
+  package.loaded["network"] = network
+end)
 test("Worker serializes in-flight refresh and defaults to one-shot", function()
   local worker, device, driver, tasks, events, counters
   local reads = 0
